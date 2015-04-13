@@ -249,7 +249,7 @@ namespace UGWProjCode
             DBGhostText = Content.Load<Texture2D>("DeadlyBlockGhost2");
 
             DBTest = new DeadlyBlock(new Rectangle(400, 400, 100, 100), DBTextureTest);
-            DBGTest = new DeadlyBlock(new Rectangle(600, 600, 100, 100), deadlyGhostObj);
+            DBGTest = new DeadlyBlock(new Rectangle(600, 300, 100, 100), deadlyGhostObj);
             testDeadly = new DeadlyBlock(new Rectangle(0, 0, 0, 0), deadlyObjs);
             physicalDeadly = new DeadlyBlock[3];
 
@@ -448,7 +448,7 @@ namespace UGWProjCode
             if (paulPlayer.ObjRect.Intersects(blockRec))
             {
                 //If on top, will reset has jumped
-                if (blockRec.Top - paulPlayer.ObjRect.Bottom >= -10 && blockRec.Top - paulPlayer.ObjRect.Bottom < 0)
+                if (blockRec.Top - paulPlayer.ObjRect.Bottom >= -10 && blockRec.Top - paulPlayer.ObjRect.Bottom < 0 && blockRec.Left + 10 <= paulPlayer.ObjRect.Right && blockRec.Right - 10 >= paulPlayer.ObjRect.X)
                 {
                     paulPlayer.ObjRect = new Rectangle((int)playerPos.X, blockRec.Top - paulPlayer.ObjRect.Height, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
                     playerPos += velocity;
@@ -457,26 +457,25 @@ namespace UGWProjCode
                     velocity.Y = 0f;
                 }
                 //Checks left side of block
-                if ((blockRec.Left - paulPlayer.ObjRect.Right) >= -10 && (blockRec.Left - paulPlayer.ObjRect.Right) < 0)
+                else if ((blockRec.Left - paulPlayer.ObjRect.Right) >= -10 && (blockRec.Left - paulPlayer.ObjRect.Right) < 0)
                 {
                     paulPlayer.ObjRect = new Rectangle(blockRec.Left - paulPlayer.ObjRect.Width, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
                     playerPos += velocity;
                     playerPos = new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y);
                 }
                 //Checks right side of block
-                if ((paulPlayer.ObjRect.Left - blockRec.Right) >= -10 && (paulPlayer.ObjRect.Left - blockRec.Right) < 0)
+                else if ((paulPlayer.ObjRect.Left - blockRec.Right) >= -10 && (paulPlayer.ObjRect.Left - blockRec.Right) < 0)
                 {
                     paulPlayer.ObjRect = new Rectangle(blockRec.Right, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
                     playerPos += velocity;
                     playerPos = new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y);
                 }
                 //Checks under side of block
-                if (paulPlayer.ObjRect.Top - blockRec.Bottom >= -10 && paulPlayer.ObjRect.Top - blockRec.Bottom < 0)
+                else if (paulPlayer.ObjRect.Top - blockRec.Bottom >= -10 && paulPlayer.ObjRect.Top - blockRec.Bottom < 0)
                 {
                     paulPlayer.ObjRect = new Rectangle((int)playerPos.X, blockRec.Bottom, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
                     playerPos += velocity;
                     playerPos = new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y);
-                    hasJumped = false;
                     velocity.Y = 0f;
                 }
                 return true;
