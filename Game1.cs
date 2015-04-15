@@ -305,13 +305,18 @@ namespace UGWProjCode
                 {
 
                     playerPos.X -= paulPlayer.MoveSpeed;
-                    paulPCurrent = PhysicalState.PaulFaceLeft;
+                    paulPCurrent = PhysicalState.PaulWalkLeft;
                 }
-                if (kboardstate.IsKeyUp(Keys.A) && prevKeyPressed.IsKeyDown(Keys.D))
+                if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.D))
+                {
+                    playerPos.X += paulPlayer.MoveSpeed;
+                    paulPCurrent = PhysicalState.PaulWalkRight;
+                }
+                if (kboardstate.IsKeyUp(Keys.A) && prevKeyPressed.IsKeyDown(Keys.A))
                 {
                     paulPCurrent = PhysicalState.PaulFaceLeft;
                 }
-                if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.A))
+                if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.D))
                 {
                     paulPCurrent = PhysicalState.PaulFaceRight;
                 }
@@ -321,11 +326,7 @@ namespace UGWProjCode
                     playerPos.X += paulPlayer.SpeedWithBlock;
                     paulPCurrent = PhysicalState.PaulPushRight;
                 }
-                if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.D))
-                {
-                    playerPos.X += paulPlayer.MoveSpeed;
-                    paulPCurrent = PhysicalState.PaulWalkRight;
-                }
+             
                 if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.A))
                 {
                     //pushing/pulling from the left side of the block
