@@ -301,33 +301,43 @@ namespace UGWProjCode
                 {
                     //pause menu
                 }
+                if (prevKeyPressed.IsKeyDown(Keys.A) && hasJumped == false)
+                {
+                    paulPCurrent = PhysicalState.PaulFaceLeft;
+                }
+                if (prevKeyPressed.IsKeyDown(Keys.D) && hasJumped == false)
+                {
+                    paulPCurrent = PhysicalState.PaulFaceRight;
+                }
                 if (kboardstate.IsKeyDown(Keys.A) && prevKeyPressed.IsKeyDown(Keys.A))//IF going left and last state was facing left
                 {
 
                     playerPos.X -= paulPlayer.MoveSpeed;
-                    paulPCurrent = PhysicalState.PaulWalkLeft;
+
                 }
                 if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.D))
                 {
                     playerPos.X += paulPlayer.MoveSpeed;
+
+                }
+                if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.D) && hasJumped == false)
+                {
                     paulPCurrent = PhysicalState.PaulWalkRight;
                 }
-                if (kboardstate.IsKeyUp(Keys.A) && prevKeyPressed.IsKeyDown(Keys.A))
+                if (kboardstate.IsKeyDown(Keys.A) && prevKeyPressed.IsKeyDown(Keys.A) && hasJumped == false)
                 {
-                    paulPCurrent = PhysicalState.PaulFaceLeft;
+                    paulPCurrent = PhysicalState.PaulWalkLeft;
                 }
-                if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.D))
-                {
-                    paulPCurrent = PhysicalState.PaulFaceRight;
-                }
-                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.D))
+
+
+                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.D) && hasJumped == false)
                 {
                     //pushing/pulling the block from the right side.
                     playerPos.X += paulPlayer.SpeedWithBlock;
                     paulPCurrent = PhysicalState.PaulPushRight;
                 }
-             
-                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.A))
+
+                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.A) && hasJumped == false)
                 {
                     //pushing/pulling from the left side of the block
                     playerPos.X -= paulPlayer.SpeedWithBlock;
@@ -349,6 +359,7 @@ namespace UGWProjCode
                     {
                         paulPCurrent = PhysicalState.PaulJumpRight;
                     }
+
                 }
                 if (hasJumped == true)
                 {
@@ -356,6 +367,7 @@ namespace UGWProjCode
                     float i = 1;
                     velocity.Y += 0.23f * i;
                     playerPos += velocity;
+
                 }
                 if (hasJumped == false)
                 {
@@ -369,7 +381,7 @@ namespace UGWProjCode
                     }
                     if (paulPCurrent == PhysicalState.PaulJumpLeft)
                     {
-                        paulPCurrent = PhysicalState.PaulPushLeft;
+                        paulPCurrent = PhysicalState.PaulFaceLeft;
                     }
 
                 }
@@ -591,28 +603,28 @@ namespace UGWProjCode
                     case PhysicalState.PaulJumpLeft:
                         paulyset = paulheight * 1;
                         spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
-                       
+
                         break;
                     case PhysicalState.PaulJumpRight:
                         paulyset = paulheight * 1;
                         spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
-                       
+
                         break;
                     case PhysicalState.PaulPushLeft:
                         paulyset = paulheight * 2;
                         spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
-                       
+
                         break;
                     case PhysicalState.PaulPushRight:
                         paulyset = paulheight * 2;
                         spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
-                       
+
                         break;
 
                     default:
 
-                       // paulyset = paulheight * 4;
-                       // spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                        // paulyset = paulheight * 4;
+                        // spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
                         break;
                 }
