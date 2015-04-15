@@ -39,6 +39,15 @@ namespace UGWProjCode
         int level;
         DeadlyBlock[] physicalDeadly;
         PhaseBlock[] phaseBlock;
+        int pauloffset = 0;
+        int paulyset = 0;
+        int paulwidth = 54;
+        int paulheight = 72;
+        GameTime gametime;
+        int frame;
+        double timePerFrame = 200;
+        int numFrames = 3;
+        int framesElapsed;
 
         private List<string> levels = new List<string>();
         private string[] lFiles;
@@ -51,6 +60,7 @@ namespace UGWProjCode
         //the textures for different enemies/objects/backgrounds will change
         //the paul and the memories will always stay no matter the change in level
         Texture2D paulPhysical;
+        Texture2D spritesheet;
         Texture2D paulGhost;
         Texture2D memorytexture;
         //the background will change
@@ -224,7 +234,7 @@ namespace UGWProjCode
 
             // TODO: use this.Content to load your game content here
 
-
+            spritesheet = Content.Load<Texture2D>("Paul_Spritesheet.png");
             paulPhysical = Content.Load<Texture2D>("paulstand1.png");
             floor = Content.Load<Texture2D>(textures[0]);
             sides = Content.Load<Texture2D>(textures[1]);
@@ -295,11 +305,15 @@ namespace UGWProjCode
                 {
 
                     playerPos.X -= paulPlayer.MoveSpeed;
-                    paulPCurrent = PhysicalState.PaulWalkLeft;
+                    paulPCurrent = PhysicalState.PaulFaceLeft;
                 }
                 if (kboardstate.IsKeyUp(Keys.A) && prevKeyPressed.IsKeyDown(Keys.D))
                 {
                     paulPCurrent = PhysicalState.PaulFaceLeft;
+                }
+                if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.A))
+                {
+                    paulPCurrent = PhysicalState.PaulFaceRight;
                 }
                 if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.D))
                 {
@@ -513,6 +527,8 @@ namespace UGWProjCode
             //there will also need to be a collision that changes the direction of the enemy hits an object
             //or is about to fall  off the edge.
             //the .memsAllCollected will be in here. It will constantly be checking to see if the player has collected all the memories
+            framesElapsed = (int)(gameTime.TotalGameTime.TotalMilliseconds / timePerFrame);
+            frame = framesElapsed % numFrames + 1;
 
             base.Update(gameTime);
         }
@@ -533,27 +549,74 @@ namespace UGWProjCode
             spriteBatch.Draw(sideL.GameTexture, sideL.ObjRect, Color.White);
             spriteBatch.Draw(sideR.GameTexture, sideR.ObjRect, Color.White);
             spriteBatch.Draw(ceiling.GameTexture, ceiling.ObjRect, Color.White);
-            spriteBatch.Draw(paulPlayer.GameTexture, paulPlayer.ObjRect, Color.White);
+
 
 
             LoadLevels();
 
 
-
+            pauloffset = (54 * frame);
             if (paulPlayer.IsDead == true)
             {
-                spriteBatch.Draw(paulGhost, paulPlayer.ObjRect, Color.White);
+
+                paulyset = paulheight * 3;
+                spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                 spriteBatch.Draw(DBGTest.GameTexture, DBGTest.ObjRect, Color.White);
             }
             else if (paulPlayer.IsDead == false)
             {
-                spriteBatch.Draw(paulPlayer.GameTexture, paulPlayer.ObjRect, Color.White);
+
+                switch (paulPCurrent)
+                {
+                    case PhysicalState.PaulWalkRight:
+
+                        paulyset = 0;
+                        spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                        break;
+                    case PhysicalState.PaulWalkLeft:
+
+                        paulyset = 0;
+                        spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                        break;
+
+                    case PhysicalState.PaulFaceLeft:
+                        paulyset = paulheight * 4;
+                        spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                        break;
+                    case PhysicalState.PaulFaceRight:
+                        paulyset = paulheight * 4;
+                        spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                        break;
+                    case PhysicalState.PaulJumpLeft:
+                        paulyset = paulheight * 1;
+                        spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                       
+                        break;
+                    case PhysicalState.PaulJumpRight:
+                        paulyset = paulheight * 1;
+                        spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                       
+                        break;
+                    case PhysicalState.PaulPushLeft:
+                        paulyset = paulheight * 2;
+                        spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                       
+                        break;
+                    case PhysicalState.PaulPushRight:
+                        paulyset = paulheight * 2;
+                        spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                       
+                        break;
+
+                    default:
+
+                       // paulyset = paulheight * 4;
+                       // spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+
+                        break;
+                }
 
             }
-
-
-
-
             spriteBatch.End();
             base.Draw(gameTime);
         }
