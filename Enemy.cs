@@ -21,6 +21,9 @@ namespace UGWProjCode
         private int enemyMoveSpd;//the moving speed of the enemy will change depending on what is up in 
         //some enemies will be faster than others
 
+        //lets the enemy speed up and charge correctly
+        private Vector2 velocity;
+        private Vector2 enemyPos;
 
         public int MovingDirection
         {
@@ -34,12 +37,19 @@ namespace UGWProjCode
             set { enemyMoveSpd = value; }
         }
 
+        public Vector2 EnemyPosition
+        {
+            get { return enemyPos; }
+            set { enemyPos = value; }
+        }
+
         //constructor
         public Enemy(Boolean deadstatus, Rectangle enemyrect, Texture2D enemytext, int moveDir, int enemySpd)
             : base(deadstatus, enemyrect, enemytext)
         {
             movingDirection = moveDir;
             enemyMoveSpd = enemySpd;
+            enemyPos = new Vector2(ObjRect.X, ObjRect.Y);
         }
 
         //kill method
@@ -61,24 +71,134 @@ namespace UGWProjCode
             }
         }
 
-        public void Move()
+        /// <summary>
+        /// The enemy moves. If dead, the enemy will move up and down or side to side (depending on what direction first starts out with)
+        /// if allive, the enemy can only move side to side
+        /// ONE enemy can charge. It pauses for a short amount of time before it speeds up.
+        /// //takes in the player character
+        /// </summary>
+        /// <param name="plyr"></param>
+        public void Move(Player plyr)
         {
-            if (movingDirection == 0)//down
+            if (isDead == true)//dead
             {
-                ObjRect = new Rectangle(ObjRect.X, ObjRect.Y + enemyMoveSpd, ObjRect.Width, ObjRect.Height);
+                ObjRect = new Rectangle((int)enemyPos.X, (int)enemyPos.Y, ObjRect.Width, ObjRect.Height);
+                if (movingDirection == 0)//down
+                {
+                    enemyPos.Y += enemyMoveSpd;
+                }
+                if (movingDirection == 1)//left
+                {
+                    enemyPos.X -= enemyMoveSpd;
+                }
+                if (movingDirection == 3)//right
+                {
+                    enemyPos.X += enemyMoveSpd;
+                }
+                if (movingDirection == 2)//up
+                {
+
+                    enemyPos.Y -= enemyMoveSpd;
+                }
+                ObjRect = new Rectangle((int)enemyPos.X, (int)enemyPos.Y, ObjRect.Width, ObjRect.Height);
             }
-            else if (movingDirection == 1)//left
+            else//alive
             {
-                ObjRect = new Rectangle(ObjRect.X - enemyMoveSpd, ObjRect.Y, ObjRect.Width, ObjRect.Height);
-            }
-            else if (movingDirection == 2)//right
-            {
-                ObjRect = new Rectangle(ObjRect.X + enemyMoveSpd, ObjRect.Y, ObjRect.Width, ObjRect.Height);
-            }
-            else if (movingDirection == 3)//up
-            {
-                ObjRect = new Rectangle(ObjRect.X, ObjRect.Y - enemyMoveSpd, ObjRect.Width, ObjRect.Height);
+
+                ObjRect = new Rectangle((int)enemyPos.X, (int)enemyPos.Y, ObjRect.Width, ObjRect.Height);
+                if (movingDirection == 1)
+                {
+                    //charging to the left
+                    if (enemyPos.X - plyr.ObjRect.X <= 250 && enemyPos.X - plyr.ObjRect.X > -2)
+                    {
+
+                        enemyPos.X += 1.2f;
+                        velocity.X += -1f;
+                        enemyPos += velocity;
+
+                    }
+                    //moving normally
+                    else
+                    {
+                        enemyPos.X -= enemyMoveSpd;
+                        velocity = Vector2.Zero;
+                    }
+                }
+                if (movingDirection == 3)
+                {    //charging to the right
+                    if (enemyPos.X - plyr.ObjRect.X < 2 && enemyPos.X - plyr.ObjRect.X >= -250)
+                    {
+
+                        enemyPos.X += -1.2f;
+                        velocity.X += 1f;
+                        enemyPos += velocity;
+
+                    }
+                    //moving normally
+                    else
+                    {
+                        enemyPos.X += enemyMoveSpd;
+                        velocity = Vector2.Zero;
+                    }
+                }
+                ObjRect = new Rectangle((int)enemyPos.X, (int)enemyPos.Y, ObjRect.Width, ObjRect.Height);
             }
         }
+
+
+        //test collision method
+        /// <summary>
+        /// takes in the rectangle of an object and if it is alive or dead
+        /// </summary>
+        /// <param name="otherRect">the rectangle of any object</param>
+        /// <param name="isDeadObj">if the object(same one the rectangle is) is alive or dead</param>
+        public void EnemyCollide(Rectangle otherRect, bool isDeadObj)
+        {
+            if (this.IsDead == true && isDeadObj == true)
+            {
+                //collision on for the enemy
+                //in the spooky zone
+                if ((otherRect.Left - this.ObjRect.Right) >= -10 && (otherRect.Left - this.ObjRect.Right) < 0 && movingDirection == 3)//left side of the block collision
+                {
+                    movingDirection = 1;
+                }
+                if ((this.ObjRect.Left - otherRect.Right) >= -10 && (this.ObjRect.Left - otherRect.Right) < 0 && movingDirection == 1)//right side of block
+                {
+                    movingDirection = 3;
+                }
+                if ((this.ObjRect.Top - otherRect.Bottom) >= -10 && (this.ObjRect.Top - otherRect.Bottom) < 0 && movingDirection == 2)//cloding with bottom of block
+                {
+                    movingDirection = 0;
+                }
+                if ((otherRect.Top - this.ObjRect.Bottom) >= -10 && (otherRect.Top - this.ObjRect.Bottom) < 0 && movingDirection == 0)//enemy collides with top of block
+                {
+                    movingDirection = 2;
+                }
+            }
+            else if (this.IsDead == false && isDeadObj == false)
+            {
+                //physical world only requires left and right moving
+                if ((otherRect.Left - this.ObjRect.Right) >= -10 && (otherRect.Left - this.ObjRect.Right) < 0 && movingDirection == 3)//left side of the block collision
+                {
+                    movingDirection = 1;
+                }
+                if ((this.ObjRect.Left - otherRect.Right) >= -10 && (this.ObjRect.Left - otherRect.Right) < 0 && movingDirection == 1)//right side of block
+                {
+                    movingDirection = 3;
+                }
+
+            }
+            else if (this.IsDead == false && isDeadObj == true)
+            {
+                //no collision
+            }
+            else if (this.IsDead == true && isDeadObj == false)
+            {
+                //also no collision
+            }
+        }
+
+
+
     }
 }

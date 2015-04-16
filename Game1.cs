@@ -37,8 +37,15 @@ namespace UGWProjCode
         Enemy enemy2ghost;
         Memories memory;
         int level;
+
         DeadlyBlock[] physicalDeadly;
+        DeadlyBlock[] ghostDeadly;
         PhaseBlock[] phaseBlock;
+        Enemy[] aliveEnemies;
+        Enemy[] deadEnemies;
+        Memories[] memories;
+        GeneralBlock[] genBlocks;
+
         int pauloffset = 0;
         int paulyset = 0;
         int paulwidth = 54;
@@ -263,6 +270,10 @@ namespace UGWProjCode
             testDeadly = new DeadlyBlock(new Rectangle(0, 0, 0, 0), deadlyObjs);
             physicalDeadly = new DeadlyBlock[3];
 
+            //testing AI
+            enemy1 = new Enemy(false, new Rectangle(800, 650, 50, 50), paulPhysical, 3, 3);
+            enemy1ghost = new Enemy(true, new Rectangle(800, 700, 50, 50), paulPhysical, 0, 3);
+
             for (int i = 0; i < physicalDeadly.Length; i++)
             {
                 physicalDeadly[i] = new DeadlyBlock(new Rectangle(0, 0, 0, 0), deadlyObjs);
@@ -463,9 +474,25 @@ namespace UGWProjCode
             }
             if (paulPlayer.IsDead)
             {
-                if (BlockCollison(DBGTest.ObjRect))
+                if (BlockCollison(DBGTest.ObjRect))//this will also need to loop through the (eventuall) array of blocks
                     DBGTest.Kill(paulPlayer);
             }
+            if (paulPlayer.IsDead)
+            {
+                if (BlockCollison(DBGTest.ObjRect)) //this will also need to loop through the (eventuall) array of blocks
+                    DBGTest.Kill(paulPlayer);
+            }
+
+            //will need to make a for loop eventually for checking for enemy collision
+            if (paulPlayer.IsDead == true && enemy1.IsDead == true)
+            {
+                //put detection for enemy collision and then the .kill();
+            }
+            if (paulPlayer.IsDead == false && enemy1.IsDead == false)
+            {
+                //put detection for enemy collision and then the .kill();
+            }
+
 
         }
 
@@ -536,7 +563,11 @@ namespace UGWProjCode
             // TODO: Add your update logic here
             ProcessInput();
             DetectCollison();
-            //the enemy classes .Move() method will go in here. 
+            enemy1.Move(paulPlayer);
+            enemy1.EnemyCollide(toprect, false);
+            enemy1.EnemyCollide(floorrect, false);
+            enemy1.EnemyCollide(siderectL, false);
+            enemy1.EnemyCollide(siderectR, false);
             //there will also need to be a collision that changes the direction of the enemy hits an object
             //or is about to fall  off the edge.
             //the .memsAllCollected will be in here. It will constantly be checking to see if the player has collected all the memories
@@ -578,7 +609,11 @@ namespace UGWProjCode
             }
             else if (paulPlayer.IsDead == false)
             {
+                //test enemy
+                spriteBatch.Draw(paulPlayer.GameTexture, enemy1.ObjRect, Color.White);
 
+
+                //Paul(player)'s sprite animation
                 switch (paulPCurrent)
                 {
                     case PhysicalState.PaulWalkRight:
