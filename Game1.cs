@@ -362,6 +362,14 @@ namespace UGWProjCode
                     velocity.Y += -5.1f;
                     hasJumped = true;
                     playerPos += velocity;
+                    if (paulPCurrent == PhysicalState.PaulFaceLeft)
+                    {
+                        paulPCurrent = PhysicalState.PaulJumpLeft;
+                    }
+                    if (paulPCurrent == PhysicalState.PaulFaceRight)
+                    {
+                        paulPCurrent = PhysicalState.PaulJumpRight;
+                    }
                     if (kboardstate.IsKeyDown(Keys.A))
                     {
                         paulPCurrent = PhysicalState.PaulJumpLeft;
@@ -617,50 +625,59 @@ namespace UGWProjCode
                 switch (paulPCurrent)
                 {
                     case PhysicalState.PaulWalkRight:
-
+                        numFrames = 4;
                         paulyset = 0;
+                        timePerFrame = 180;
                         spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                         break;
                     case PhysicalState.PaulWalkLeft:
-
+                        numFrames = 4;
                         paulyset = 0;
+                        timePerFrame = 180;
                         spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                         break;
 
                     case PhysicalState.PaulFaceLeft:
+                        numFrames = 3;
                         paulyset = paulheight * 4;
+                        timePerFrame = 200;
                         spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                         break;
                     case PhysicalState.PaulFaceRight:
+                        numFrames = 3;
                         paulyset = paulheight * 4;
+                        timePerFrame = 200;
                         spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                         break;
                     case PhysicalState.PaulJumpLeft:
                         paulyset = paulheight * 1;
+                        numFrames = 2;
+                        timePerFrame = 200;
                         spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
-
                         break;
                     case PhysicalState.PaulJumpRight:
                         paulyset = paulheight * 1;
+                        numFrames = 2;
+                        timePerFrame = 200;
                         spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
                         break;
                     case PhysicalState.PaulPushLeft:
+                        numFrames = 4;
                         paulyset = paulheight * 2;
+                        timePerFrame = 190;
                         spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
 
                         break;
                     case PhysicalState.PaulPushRight:
+                        numFrames = 4;
                         paulyset = paulheight * 2;
+                        timePerFrame = 190;
                         spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
                         break;
 
                     default:
-
-                        // paulyset = paulheight * 4;
-                        // spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
-
                         break;
                 }
 
