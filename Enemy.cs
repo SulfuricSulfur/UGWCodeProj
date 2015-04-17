@@ -25,6 +25,11 @@ namespace UGWProjCode
         private Vector2 velocity;
         private Vector2 enemyPos;
 
+        private bool canCharge;//determins if it is the enemy that can charge
+
+        private bool chargingState;//for the 1 charging enemy, it will determin if it is currently charging so
+        //there can be different animations depending on if the enemy is walking or running
+
         public int MovingDirection
         {
             get { return movingDirection; }
@@ -43,13 +48,24 @@ namespace UGWProjCode
             set { enemyPos = value; }
         }
 
+        public bool CanCharge
+        {
+            get { return canCharge; }
+        }
+
+        public bool ChargingState
+        {
+            get { return chargingState; }
+        }
+
         //constructor
-        public Enemy(Boolean deadstatus, Rectangle enemyrect, Texture2D enemytext, int moveDir, int enemySpd)
+        public Enemy(Boolean deadstatus, Rectangle enemyrect, Texture2D enemytext, int moveDir, int enemySpd, bool chargeable)
             : base(deadstatus, enemyrect, enemytext)
         {
             movingDirection = moveDir;
             enemyMoveSpd = enemySpd;
             enemyPos = new Vector2(ObjRect.X, ObjRect.Y);
+            canCharge = chargeable;
         }
 
         //kill method
@@ -96,17 +112,18 @@ namespace UGWProjCode
             }
         }
 
-
         /// <summary>
         /// The enemy moves. If dead, the enemy will move up and down or side to side (depending on what direction first starts out with)
         /// if allive, the enemy can only move side to side
         /// ONE enemy can charge. It pauses for a short amount of time before it speeds up.
-        /// //takes in the player character
+        /// //takes in the player character.
+        /// The enemies only move if the player is in the same state as them
+        /// we will NOT have enemies of different states on top of eachother
         /// </summary>
         /// <param name="plyr"></param>
         public void Move(Player plyr)
         {
-            if (isDead == true)//dead
+            if (isDead == true && plyr.IsDead == true)//dead
             {
                 ObjRect = new Rectangle((int)enemyPos.X, (int)enemyPos.Y, ObjRect.Width, ObjRect.Height);
                 if (movingDirection == 0)//down
@@ -117,28 +134,29 @@ namespace UGWProjCode
                 {
                     enemyPos.X -= enemyMoveSpd;
                 }
+                if (movingDirection == 2)//up
+                {
+                    enemyPos.Y -= enemyMoveSpd;
+                }
                 if (movingDirection == 3)//right
                 {
                     enemyPos.X += enemyMoveSpd;
                 }
-                if (movingDirection == 2)//up
-                {
 
-                    enemyPos.Y -= enemyMoveSpd;
-                }
                 ObjRect = new Rectangle((int)enemyPos.X, (int)enemyPos.Y, ObjRect.Width, ObjRect.Height);
             }
-            else//alive
+            else if (isDead == false && plyr.IsDead == false)//alive
             {
 
                 ObjRect = new Rectangle((int)enemyPos.X, (int)enemyPos.Y, ObjRect.Width, ObjRect.Height);
                 if (movingDirection == 1)
                 {
                     //charging to the left
-                    if (enemyPos.X - plyr.ObjRect.X <= 250 && enemyPos.X - plyr.ObjRect.X > -2)
+                    if (canCharge == true && enemyPos.X - plyr.ObjRect.X <= 250 && enemyPos.X - plyr.ObjRect.X > -2)//only 1 type of enemy can charge
                     {
                         velocity.X += -1.3f;
                         enemyPos += velocity;
+                        chargingState = true;
 
                     }
                     //moving normally
@@ -146,14 +164,17 @@ namespace UGWProjCode
                     {
                         enemyPos.X -= enemyMoveSpd;
                         velocity = Vector2.Zero;
+                        chargingState = false;
                     }
                 }
                 if (movingDirection == 3)
                 {    //charging to the right
-                    if (enemyPos.X - plyr.ObjRect.X < 2 && enemyPos.X - plyr.ObjRect.X >= -250)
+                    if (canCharge == true && enemyPos.X - plyr.ObjRect.X < 2 && enemyPos.X - plyr.ObjRect.X >= -250) //only 1 type of enemy can charge
                     {
+
                         velocity.X += 1.3f;
                         enemyPos += velocity;
+                        chargingState = true;
 
                     }
                     //moving normally
@@ -161,6 +182,7 @@ namespace UGWProjCode
                     {
                         enemyPos.X += enemyMoveSpd;
                         velocity = Vector2.Zero;
+                        chargingState = false;
                     }
                 }
                 ObjRect = new Rectangle((int)enemyPos.X, (int)enemyPos.Y, ObjRect.Width, ObjRect.Height);

@@ -268,8 +268,8 @@ namespace UGWProjCode
             physicalDeadly = new DeadlyBlock[3];
 
             //testing AI
-            enemy1 = new Enemy(false, new Rectangle(800, 650, 50, 50), paulPhysical, 3, 3);
-            enemy1ghost = new Enemy(true, new Rectangle(300, 500, 50, 50), paulPhysical, 0, 3);
+            enemy1 = new Enemy(false, new Rectangle(800, 650, 50, 50), paulPhysical, 3, 3, true);
+            enemy1ghost = new Enemy(true, new Rectangle(300, 500, 50, 50), paulPhysical, 0, 3, false);
 
             for (int i = 0; i < physicalDeadly.Length; i++)
             {
