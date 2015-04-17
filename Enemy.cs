@@ -61,15 +61,41 @@ namespace UGWProjCode
         public void Kill(Player player1)
         {
             //stub method. 
-            if (player1.RealWorld == false)
+            if (player1.IsDead == false)
             {
-                player1.RealWorld = true;
+                player1.IsDead = true;
             }
-            else if (player1.RealWorld == true)
+            else if (player1.IsDead == true)
             {
-                player1.RealWorld = false;
+                player1.IsDead = false;
             }
         }
+
+
+        /// <summary>
+        /// this will be called for every enemy in the enemy arrays to see if they are colliding with the player while in the same state
+        /// </summary>
+        /// <param name="plyr"></param>
+        public void KillingPlayer(Player plyr)
+        {
+            //if the player is dead and the enemy is dead
+            if (isDead == true && plyr.IsDead == true)
+            {
+                if (objRect.Intersects(plyr.ObjRect))
+                {
+                    Kill(plyr);
+                }
+            }
+            //if the player is alive and the enemy is alive
+            else if (isDead == false && plyr.IsDead == false)
+            {
+                if (objRect.Intersects(plyr.ObjRect))
+                {
+                    Kill(plyr);
+                }
+            }
+        }
+
 
         /// <summary>
         /// The enemy moves. If dead, the enemy will move up and down or side to side (depending on what direction first starts out with)

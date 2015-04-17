@@ -272,7 +272,7 @@ namespace UGWProjCode
 
             //testing AI
             enemy1 = new Enemy(false, new Rectangle(800, 650, 50, 50), paulPhysical, 3, 3);
-            enemy1ghost = new Enemy(true, new Rectangle(800, 700, 50, 50), paulPhysical, 0, 3);
+            enemy1ghost = new Enemy(true, new Rectangle(300, 500, 50, 50), paulPhysical, 0, 3);
 
             for (int i = 0; i < physicalDeadly.Length; i++)
             {
@@ -576,6 +576,16 @@ namespace UGWProjCode
             enemy1.EnemyCollide(floorrect, false);
             enemy1.EnemyCollide(siderectL, false);
             enemy1.EnemyCollide(siderectR, false);
+            enemy1.KillingPlayer(paulPlayer);
+
+            //ghost enemy test
+            enemy1ghost.Move(paulPlayer);
+            enemy1ghost.EnemyCollide(toprect, true);
+            enemy1ghost.EnemyCollide(floorrect, true);
+            enemy1ghost.EnemyCollide(siderectL, true);
+            enemy1ghost.EnemyCollide(siderectR, true);
+            enemy1ghost.KillingPlayer(paulPlayer);
+
             //there will also need to be a collision that changes the direction of the enemy hits an object
             //or is about to fall  off the edge.
             //the .memsAllCollected will be in here. It will constantly be checking to see if the player has collected all the memories
@@ -610,6 +620,8 @@ namespace UGWProjCode
             pauloffset = (54 * frame);
             if (paulPlayer.IsDead == true)
             {
+                //ghost enemy test
+                spriteBatch.Draw(paulPlayer.GameTexture, enemy1ghost.ObjRect, Color.White);
 
                 paulyset = paulheight * 3;
                 spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
