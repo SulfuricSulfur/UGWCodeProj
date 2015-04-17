@@ -137,9 +137,7 @@ namespace UGWProjCode
                     //charging to the left
                     if (enemyPos.X - plyr.ObjRect.X <= 250 && enemyPos.X - plyr.ObjRect.X > -2)
                     {
-
-                        enemyPos.X += 1.2f;
-                        velocity.X += -1f;
+                        velocity.X += -1.3f;
                         enemyPos += velocity;
 
                     }
@@ -154,9 +152,7 @@ namespace UGWProjCode
                 {    //charging to the right
                     if (enemyPos.X - plyr.ObjRect.X < 2 && enemyPos.X - plyr.ObjRect.X >= -250)
                     {
-
-                        enemyPos.X += -1.2f;
-                        velocity.X += 1f;
+                        velocity.X += 1.3f;
                         enemyPos += velocity;
 
                     }
@@ -180,47 +176,51 @@ namespace UGWProjCode
         /// <param name="isDeadObj">if the object(same one the rectangle is) is alive or dead</param>
         public void EnemyCollide(Rectangle otherRect, bool isDeadObj)
         {
-            if (this.IsDead == true && isDeadObj == true)
+            if (this.ObjRect.Intersects(otherRect))
             {
-                //collision on for the enemy
-                //in the spooky zone
-                if ((otherRect.Left - this.ObjRect.Right) >= -10 && (otherRect.Left - this.ObjRect.Right) < 0 && movingDirection == 3)//left side of the block collision
+                if (this.IsDead == true && isDeadObj == true)
                 {
-                    movingDirection = 1;
-                }
-                if ((this.ObjRect.Left - otherRect.Right) >= -10 && (this.ObjRect.Left - otherRect.Right) < 0 && movingDirection == 1)//right side of block
-                {
-                    movingDirection = 3;
-                }
-                if ((this.ObjRect.Top - otherRect.Bottom) >= -10 && (this.ObjRect.Top - otherRect.Bottom) < 0 && movingDirection == 2)//cloding with bottom of block
-                {
-                    movingDirection = 0;
-                }
-                if ((otherRect.Top - this.ObjRect.Bottom) >= -10 && (otherRect.Top - this.ObjRect.Bottom) < 0 && movingDirection == 0)//enemy collides with top of block
-                {
-                    movingDirection = 2;
-                }
-            }
-            else if (this.IsDead == false && isDeadObj == false)
-            {
-                //physical world only requires left and right moving
-                if ((otherRect.Left - this.ObjRect.Right) >= -10 && (otherRect.Left - this.ObjRect.Right) < 0 && movingDirection == 3)//left side of the block collision
-                {
-                    movingDirection = 1;
-                }
-                if ((this.ObjRect.Left - otherRect.Right) >= -10 && (this.ObjRect.Left - otherRect.Right) < 0 && movingDirection == 1)//right side of block
-                {
-                    movingDirection = 3;
-                }
+                    //collision on for the enemy
+                    //in the spooky zone
+                    if ((otherRect.Top - this.ObjRect.Bottom) >= -10 && (otherRect.Top - this.ObjRect.Bottom) < 0 && movingDirection == 0)//enemy collides with top of block
+                    {
+                        movingDirection = 2;
+                    }
+                    else if ((otherRect.Left - this.ObjRect.Right) >= -10 && (otherRect.Left - this.ObjRect.Right) < 0 && movingDirection == 3)//left side of the block collision
+                    {
+                        movingDirection = 1;
+                    }
+                    else if ((this.ObjRect.Left - otherRect.Right) >= -10 && (this.ObjRect.Left - otherRect.Right) < 0 && movingDirection == 1)//right side of block
+                    {
+                        movingDirection = 3;
+                    }
+                    else if ((this.ObjRect.Top - otherRect.Bottom) >= -10 && (this.ObjRect.Top - otherRect.Bottom) < 0 && movingDirection == 2)//cloding with bottom of block
+                    {
+                        movingDirection = 0;
+                    }
 
-            }
-            else if (this.IsDead == false && isDeadObj == true)
-            {
-                //no collision
-            }
-            else if (this.IsDead == true && isDeadObj == false)
-            {
-                //also no collision
+                }
+                else if (this.IsDead == false && isDeadObj == false)
+                {
+                    //physical world only requires left and right moving
+                    if ((otherRect.Left - this.ObjRect.Right) >= -10 && (otherRect.Left - this.ObjRect.Right) < 0 && movingDirection == 3)//left side of the block collision
+                    {
+                        movingDirection = 1;
+                    }
+                    if ((this.ObjRect.Left - otherRect.Right) >= -10 && (this.ObjRect.Left - otherRect.Right) < 0 && movingDirection == 1)//right side of block
+                    {
+                        movingDirection = 3;
+                    }
+
+                }
+                else if (this.IsDead == false && isDeadObj == true)
+                {
+                    //no collision
+                }
+                else if (this.IsDead == true && isDeadObj == false)
+                {
+                    //also no collision
+                }
             }
         }
 

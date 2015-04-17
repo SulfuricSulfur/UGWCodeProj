@@ -220,9 +220,6 @@ namespace UGWProjCode
             if (!paulPlayer.IsDead)
                 spriteBatch.Draw(physicalDeadly[2].GameTexture, new Rectangle(mapX, mapY, 50, 50), Color.White);
 
-            testDeadly.ObjRect = new Rectangle(mapX, mapY, 50, 50);
-            spriteBatch.Draw(testDeadly.GameTexture, testDeadly.ObjRect, Color.White);
-
         }
         //two deadly
         //one ghost
@@ -490,15 +487,27 @@ namespace UGWProjCode
                 if (BlockCollison(DBGTest.ObjRect)) //this will also need to loop through the (eventuall) array of blocks
                     DBGTest.Kill(paulPlayer);
             }
+            enemy1ghost.EnemyCollide(toprect, true);
+            enemy1ghost.EnemyCollide(floorrect, true);
+            enemy1ghost.EnemyCollide(siderectL, true);
+            enemy1ghost.EnemyCollide(siderectR, true);
+            enemy1ghost.KillingPlayer(paulPlayer);
+
+            enemy1.EnemyCollide(toprect, false);
+            enemy1.EnemyCollide(floorrect, false);
+            enemy1.EnemyCollide(siderectL, false);
+            enemy1.EnemyCollide(siderectR, false);
+            enemy1.KillingPlayer(paulPlayer);
 
             //will need to make a for loop eventually for checking for enemy collision
-            if (paulPlayer.IsDead == true && enemy1.IsDead == true)
+            //put detection for enemy collision and then the .kill();
+            enemy1ghost.EnemyCollide(DBGTest.ObjRect, true);
+
+
+            //put detection for enemy collision and then the .kill();
+            for (int i = 0; i < physicalDeadly.Length; i++)
             {
-                //put detection for enemy collision and then the .kill();
-            }
-            if (paulPlayer.IsDead == false && enemy1.IsDead == false)
-            {
-                //put detection for enemy collision and then the .kill();
+                enemy1.EnemyCollide(physicalDeadly[i].ObjRect, false);
             }
 
 
@@ -569,23 +578,16 @@ namespace UGWProjCode
             //Exit();
 
             // TODO: Add your update logic here
+            if (!paulPlayer.IsDead)
+            {
+                enemy1.Move(paulPlayer);
+            }
+            if (paulPlayer.IsDead)
+            {
+                enemy1ghost.Move(paulPlayer);
+            }
             ProcessInput();
             DetectCollison();
-            enemy1.Move(paulPlayer);
-            enemy1.EnemyCollide(toprect, false);
-            enemy1.EnemyCollide(floorrect, false);
-            enemy1.EnemyCollide(siderectL, false);
-            enemy1.EnemyCollide(siderectR, false);
-            enemy1.KillingPlayer(paulPlayer);
-
-            //ghost enemy test
-            enemy1ghost.Move(paulPlayer);
-            enemy1ghost.EnemyCollide(toprect, true);
-            enemy1ghost.EnemyCollide(floorrect, true);
-            enemy1ghost.EnemyCollide(siderectL, true);
-            enemy1ghost.EnemyCollide(siderectR, true);
-            enemy1ghost.KillingPlayer(paulPlayer);
-
             //there will also need to be a collision that changes the direction of the enemy hits an object
             //or is about to fall  off the edge.
             //the .memsAllCollected will be in here. It will constantly be checking to see if the player has collected all the memories
