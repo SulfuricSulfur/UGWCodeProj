@@ -31,10 +31,10 @@ namespace UGWProjCode
         }
 
         //constructor
-        public Memories(int numofmemories, Rectangle memorect, Texture2D memotexture)
+        public Memories( Rectangle memorect, Texture2D memotexture)
             : base(memorect, memotexture)
         {
-            totMem = numofmemories;
+            
         }
 
         /// <summary>
