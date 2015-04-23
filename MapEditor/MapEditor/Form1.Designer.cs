@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.mapBox = new System.Windows.Forms.TextBox();
             this.numBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -47,6 +48,7 @@
             this.mapBox.Name = "mapBox";
             this.mapBox.Size = new System.Drawing.Size(161, 195);
             this.mapBox.TabIndex = 0;
+            this.mapBox.Text = resources.GetString("mapBox.Text");
             // 
             // numBox
             // 
