@@ -158,7 +158,7 @@ namespace UGWProjCode
 
 
             reader.Close();
-
+            playerPos = new Vector2(300, 300);
 
             base.Initialize();
         }
