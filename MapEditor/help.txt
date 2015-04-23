@@ -5,19 +5,29 @@ Legend:
 
 //General//
 
+Note: Provided that each object is size 50x50, you should be able to fit 20 objects on one line, with 14 lines in general.
+
+
+Legend:
+
+//General//
+
 @ - Player
 m - Memories
 
 //Blocks//
 
-g - General block
+x - General  floor blocks
+f - general floating blocks
+
 ~ - Deadly block 1 (Ghost)
 ! - Deadly block 2(Ghost)
 d - Deadly block 1 (Physical)
 D - Deadly block 2 (Physical)
 p - Phase blocks
-//Enemies//
 
+
+//Enemies//
 ^ - Ghost enemy Up/Down (Starts Up)
 v - Ghost enemy Up/Down (Starts Down)
 < - Physical enemy (Starts left)
@@ -29,4 +39,4 @@ v - Ghost enemy Up/Down (Starts Down)
 
 
 //Other//
-n - Signals the reader to move to the next line
+n - Signals the reader to move to the next lineo move to the next line
