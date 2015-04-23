@@ -23,21 +23,15 @@ namespace UGWProjCode
         Texture2D floor;
         Texture2D sides;
         Texture2D top;
+        Rectangle floorrect;
+        Rectangle siderectL;
+        Rectangle siderectR;
+        Rectangle toprect;
 
         int level;
+        string lvl;
 
-
-        /*/
-        DeadlyBlock[] physicalDeadly;
-        DeadlyBlock[] ghostDeadly;
-        PhaseBlock[] phaseBlock;
-        Enemy[] aliveEnemies;
-        Enemy[] deadEnemies;
-        Memories[] memories;
-        GeneralBlock[] genBlocks;
-        */
-
-
+  
 
         private Dictionary<int, string> levels = new Dictionary<int, string>();
         private List<string> lFiles = new List<string>();
@@ -86,7 +80,8 @@ namespace UGWProjCode
         Texture2D deadlyGhostObj;
         Texture2D backGround;
         Texture2D moveBlockTexture;
-        Texture2D basicBlock;
+        Texture2D basicFloat;
+        Texture2D basicGround;
 
         //this clss will be changed as we get more things done
         //these are the objects
@@ -140,7 +135,7 @@ namespace UGWProjCode
 
             //each line represents each level
             //[0] floor, [1] side borders, [2] top border,  [3]  enemy1ghost, [4]  enemy 2ghost,[5] enemy1phys, [6] enemy2phys
-            //[7] float1, [8] float2, [9] moving block, [10] transblock ghost [11] transblock physical [12] enemy1ghost charge [13] enemy1phys charge
+            //[7] float1, [8] float2, [9] moving block, [10] transblock ghost [11] transblock physical
             if (level > 1)
             {
                 string[] lines = reader.ReadToEnd().Split(new char[] { '\n' });
@@ -158,7 +153,12 @@ namespace UGWProjCode
 
 
             reader.Close();
-            playerPos = new Vector2(300, 300);
+            //playerPos = new Vector2(300, 300);
+            toprect = new Rectangle(40, 0, 1000, 40);
+            siderectL = new Rectangle(0, 0, 50, 942);
+            siderectR = new Rectangle(1000, 0, 50, 942);
+            floorrect = new Rectangle(39, 740, 1000, 40);
+
 
             base.Initialize();
         }
@@ -182,14 +182,14 @@ namespace UGWProjCode
 
             foreach (string l in lFiles)
             {
-                int count = 0; //keep track of what level is where
+                int count = 1; //keep track of what level is where
 
                 lRead = new StreamReader(l);
 
-                string lvl = " "; //empty string
+                lvl = " "; //empty string
                 string lvlIn = " "; //String being read
                 //string lCheck = " "; Tells when reader should stop reading. So far have not seen use for it, but keep it just in case.
-                mapX = 42;
+                mapX = 0;
 
 
 
@@ -198,6 +198,10 @@ namespace UGWProjCode
                     lvl += lvlIn;
                 }
 
+                levels.Add(count, lvl);
+
+
+
 
                 //Check for characters
                 foreach (char c in lvl)//this is a temporay thing. Textures will change
@@ -205,42 +209,41 @@ namespace UGWProjCode
                     if (c == '@')
                     {
                         //make this 1 player object
-                        paulPlayer = new Player(new Rectangle(mapX, mapY, 64, 64), paulPlayer.GameTexture, playerPos, false);
+
+                        paulRect = new Rectangle(mapX, mapY, 50, 50);
+                        playerPos = new Vector2(paulRect.X, paulRect.Y);
+                        paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
 
                     }
 
 
                     if (c == 'f')
                     {
-                        //create floaty block at location
+                        genBlocks.Add(new GeneralBlock(new Rectangle(mapX, mapY, 50, 50), basicFloat));
                     }
 
                     if (c == 'm')
                     {
-                        memories.Add(new Memories(new Rectangle(mapX, mapY, 64, 64), memorytexture));
+                        memories.Add(new Memories(new Rectangle(mapX, mapY, 50, 50), memorytexture));
                         totalMemories++;
 
                     }
-                    if (c == 'g')
-                    {
-                        genBlocks.Add(new GeneralBlock(new Rectangle(mapX, mapY, 80, 80), basicBlock));
-                    }
                     if (c == 'x')
                     {
-                        //generalBlocks.Add(new GeneralBlock(new Rectangle(mapX,mapY,82,82),[Insert appropriate GeneralBlock Texture]));
+                        genBlocks.Add(new GeneralBlock(new Rectangle(mapX, mapY, 50, 50), basicGround));
                     }
 
 
 
                     if (c == '~')
                     {
-                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 82, 82), deadlyGhostObj));
+                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), deadlyGhostObj));
                     }
 
                     if (c == '!')
                     {
                         //spriteBatch.Draw(ghostEnemy2.GameTexture, new Rectangle(mapX, mapY, 50, 50), Color.White);
-                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 82, 82), deadlyGhostObj)); //will have a different texture
+                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), deadlyGhostObj)); //will have a different texture
                     }
 
 
@@ -248,13 +251,13 @@ namespace UGWProjCode
                     if (c == 'd')
                     {
 
-                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 82, 82), deadlyObjs));
+                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), deadlyObjs));
                     }
 
                     if (c == 'D')
                     {
 
-                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 82, 82), paulPlayer.GameTexture));//will have a different texture
+                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture));//will have a different texture
                     }
 
 
@@ -263,60 +266,60 @@ namespace UGWProjCode
                     {
                         rnd = new Random();
                         int speed = rnd.Next(1, 7);
-                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 64, 64), paulPlayer.GameTexture, 2, speed, false));//up and down ghost - starting up
+                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 2, speed, false));//up and down ghost - starting up
                     }
 
                     if (c == 'v')
                     {
                         rnd = new Random();
                         int speed = rnd.Next(1, 7);
-                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 64, 64), paulPlayer.GameTexture, 0, speed, false));//up and down ghost, starting down
+                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 0, speed, false));//up and down ghost, starting down
                     }
                     if (c == '<')
                     {
                         rnd = new Random();
                         int speed = rnd.Next(1, 7);
-                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 64, 64), paulPlayer.GameTexture, 1, speed, false));//physical deadly enemy (non chargable) starting off to the left
+                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, false));//physical deadly enemy (non chargable) starting off to the left
                     }
 
                     if (c == '>')
                     {
                         rnd = new Random();
                         int speed = rnd.Next(1, 7);
-                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 64, 64), paulPlayer.GameTexture, 3, speed, false));//physical deadly enemy (non chargable) starting off to the right
+                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, false));//physical deadly enemy (non chargable) starting off to the right
                     }
 
                     if (c == '{')
                     {
                         rnd = new Random();
                         int speed = rnd.Next(1, 7);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 64, 64), paulPlayer.GameTexture, 1, speed, false));//physical deadly enemy (non chargable) starting off to the left
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, false));//physical deadly enemy (non chargable) starting off to the left
                     }
 
                     if (c == '}')
                     {
                         rnd = new Random();
                         int speed = rnd.Next(1, 7);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 64, 64), paulPlayer.GameTexture, 3, speed, false));//physical deadly enemy (non chargable) starting off to the right
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, false));//physical deadly enemy (non chargable) starting off to the right
                     }
                     if (c == '[')
                     {
                         rnd = new Random();
                         int speed = rnd.Next(1, 7);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 64, 64), paulPlayer.GameTexture, 1, speed, true));//physical deadly enemy ( chargable) starting off to the left
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, true));//physical deadly enemy ( chargable) starting off to the left
                     }
 
                     if (c == ']')
                     {
                         rnd = new Random();
                         int speed = rnd.Next(1, 7);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 64, 64), paulPlayer.GameTexture, 3, speed, true));//physical deadly enemy ( chargable) starting off to the right
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, true));//physical deadly enemy ( chargable) starting off to the right
                     }
 
 
                     if (c == 'p')
                     {
-                        phaseBlocks.Add(new PhaseBlock(new Rectangle(mapX, mapY, 82, 82), phaseBlockTexture));
+                        phaseBlocks.Add(new PhaseBlock(new Rectangle(mapX, mapY, 50, 50), phaseBlockTexture));
                     }
 
 
@@ -325,11 +328,11 @@ namespace UGWProjCode
 
                     if (c == 'n')
                     {
-                        mapY += 55;
-                        mapX = 42;
+                        mapY += 50;
+                        mapX = 0;
                     }
                     //Window Dimensions: 1024 x 768
-                    mapX += 40;
+                    mapX += 50;
                     //
                 }
                 //levels.Add(count, lvl);
@@ -341,6 +344,7 @@ namespace UGWProjCode
         //one ghost
         //1-2 phase blocks
         //
+
 
 
         /// <summary>
@@ -367,12 +371,14 @@ namespace UGWProjCode
             deadlyObjs = Content.Load<Texture2D>("DeadlyBlockPhys.png");
             deadlyGhostObj = Content.Load<Texture2D>("DeadlyBlockGhost.png");
             paulGhost = Content.Load<Texture2D>("paulfloat.png");
-            basicBlock = Content.Load<Texture2D>("floatgrass.png");
+            basicFloat = Content.Load<Texture2D>("floatgrass.png");
+            basicGround = Content.Load<Texture2D>("connectivebottom.png");
+            memorytexture = Content.Load<Texture2D>("movableblockgrass.png");//temp texture
 
-            genBlocks.Add(new GeneralBlock(new Rectangle(40, 0, 943, 40), top));
-            genBlocks.Add(new GeneralBlock(new Rectangle(0, 0, 40, 942), sides));
-            genBlocks.Add(new GeneralBlock(new Rectangle(983, 0, 40, 942), sides));
-            genBlocks.Add(new GeneralBlock(new Rectangle(39, 730, 945, 40), floor));
+            genBlocks.Add(new GeneralBlock(toprect,top));
+            genBlocks.Add(new GeneralBlock(siderectR, sides));
+            genBlocks.Add(new GeneralBlock(siderectL, sides));
+            genBlocks.Add(new GeneralBlock(floorrect, floor));
 
 
 
@@ -728,30 +734,30 @@ namespace UGWProjCode
                     numFrames = 2;
                     if (enemyGhosts[i].MovingDirection == 1)
                     {
-                        paulyset = spriteboxheight * int.Parse(textures[3]);
+                       // paulyset = spriteboxheight * int.Parse(textures[3]);
                         spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                     }
                     if (enemyGhosts[i].MovingDirection == 3)
                     {
-                        paulyset = spriteboxheight * int.Parse(textures[3]);
+                       // paulyset = spriteboxheight * int.Parse(textures[3]);
                         spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                     }
                     if (enemyGhosts[i].CanCharge == true && enemyGhosts[i].ChargingState == true)
                     {
                         if (enemyGhosts[i].MovingDirection == 1)
                         {
-                            paulyset = spriteboxheight * int.Parse(textures[12]);
+                           // paulyset = spriteboxheight * int.Parse(textures[12]);
                             spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                         }
                         if (enemyGhosts[i].MovingDirection == 3)
                         {
-                            paulyset = spriteboxheight * int.Parse(textures[12]);
+                          //  paulyset = spriteboxheight * int.Parse(textures[12]);
                             spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                         }
                     }
                     if (enemyGhosts[i].MovingDirection == 0 || enemyGhosts[i].MovingDirection == 2) //south and north same animation
                     {
-                        paulyset = spriteboxheight * int.Parse(textures[4]);
+                        //paulyset = spriteboxheight * int.Parse(textures[4]);
                         spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                     }
 
@@ -776,31 +782,31 @@ namespace UGWProjCode
                     numFrames = 2;
                     if (enemyPhys[i].MovingDirection == 1)
                     {
-                        paulyset = spriteboxheight * int.Parse(textures[5]);
+                        //paulyset = spriteboxheight * int.Parse(textures[5]);
                         spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                     }
                     if (enemyPhys[i].MovingDirection == 3)
                     {
-                        paulyset = spriteboxheight * int.Parse(textures[5]);
+                        //paulyset = spriteboxheight * int.Parse(textures[5]);
                         spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                     }
                     if (enemyPhys[i].CanCharge == true && enemyPhys[i].ChargingState == true)
                     {
                         if (enemyPhys[i].MovingDirection == 1)
                         {
-                            paulyset = spriteboxheight * int.Parse(textures[13]);
+                            //paulyset = spriteboxheight * int.Parse(textures[13]);
                             spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                         }
                         if (enemyPhys[i].MovingDirection == 3)
                         {
-                            paulyset = spriteboxheight * int.Parse(textures[13]);
+                            //paulyset = spriteboxheight * int.Parse(textures[13]);
                             spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                         }
                     }
 
                     if (enemyPhys[i].MovingDirection == 0 || enemyPhys[i].MovingDirection == 2) //south and north same animation
                     {
-                        paulyset = spriteboxheight * int.Parse(textures[6]);
+                        //paulyset = spriteboxheight * int.Parse(textures[6]);
                         spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                     }
                 }

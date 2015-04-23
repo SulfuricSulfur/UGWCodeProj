@@ -40,7 +40,7 @@ namespace MapEditor
             {
                 string filename = "level" + numBox.Text + ".txt";
                 StreamWriter writer = new StreamWriter(filename, false);
-                Directory.Move(@"F:\Debug", @"F:\UGWCodeProj - Copy\bin\WindowsGL\Debug");
+               // Directory.Move("$(ProjectDir)","$(ProjectDir)bin/WindowsGL/Debug");
                 writer.WriteLine(mapBox.Text);
                 
                 writer.Close();
@@ -53,6 +53,16 @@ namespace MapEditor
                 MessageBox.Show("There are empty boxes. Please fill them out.");
                 return;
             }
+        }
+
+        private void help_Button_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
