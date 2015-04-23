@@ -152,7 +152,7 @@ namespace UGWProjCode
                 if (movingDirection == 1)
                 {
                     //charging to the left
-                    if (canCharge == true && enemyPos.X - plyr.ObjRect.X <= 250 && enemyPos.X - plyr.ObjRect.X > -2)//only 1 type of enemy can charge
+                    if (canCharge == true && enemyPos.X - plyr.ObjRect.X <= 250 && enemyPos.X - plyr.ObjRect.X > -2 && (enemyPos.Y - plyr.ObjRect.Y <= 80 && enemyPos.Y - plyr.ObjRect.Y >= -80))//only 1 type of enemy can charge
                     {
                         velocity.X += -1.3f;
                         enemyPos += velocity;
@@ -169,7 +169,7 @@ namespace UGWProjCode
                 }
                 if (movingDirection == 3)
                 {    //charging to the right
-                    if (canCharge == true && enemyPos.X - plyr.ObjRect.X < 2 && enemyPos.X - plyr.ObjRect.X >= -250) //only 1 type of enemy can charge
+                    if (canCharge == true && enemyPos.X - plyr.ObjRect.X < 2 && enemyPos.X - plyr.ObjRect.X >= -250 && (enemyPos.Y - plyr.ObjRect.Y <= 80 && enemyPos.Y - plyr.ObjRect.Y >= -80)) //only 1 type of enemy can charge
                     {
 
                         velocity.X += 1.3f;
