@@ -23,14 +23,6 @@ namespace UGWProjCode
         Texture2D floor;
         Texture2D sides;
         Texture2D top;
-        Rectangle floorrect;
-        Rectangle siderectL;
-        Rectangle siderectR;
-        Rectangle toprect;
-        GeneralBlock ceiling;
-        GeneralBlock sideL;
-        GeneralBlock sideR;
-        GeneralBlock ground;
 
         int level;
 
@@ -116,11 +108,6 @@ namespace UGWProjCode
         //sprite in the ghost state will only be one state, so there does not need to be an enum for it.
 
         //testing attributes
-        DeadlyBlock DBTest;
-        DeadlyBlock DBGTest;
-        DeadlyBlock testDeadly;
-        Texture2D DBTextureTest;
-        Texture2D DBGhostText;
 
         Random rnd;
 
@@ -171,11 +158,6 @@ namespace UGWProjCode
 
 
             reader.Close();
-            playerPos = new Vector2(300, 300);
-            toprect = new Rectangle(40, 0, 943, 40);
-            siderectL = new Rectangle(0, 0, 40, 942);
-            siderectR = new Rectangle(983, 0, 40, 942);
-            floorrect = new Rectangle(39, 730, 945, 40);
 
 
             base.Initialize();
@@ -252,13 +234,13 @@ namespace UGWProjCode
 
                     if (c == '~')
                     {
-                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 82, 82), DBGTest.GameTexture));
+                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 82, 82), deadlyGhostObj));
                     }
 
                     if (c == '!')
                     {
                         //spriteBatch.Draw(ghostEnemy2.GameTexture, new Rectangle(mapX, mapY, 50, 50), Color.White);
-                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 82, 82), DBGTest.GameTexture)); //will have a different texture
+                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 82, 82), deadlyGhostObj)); //will have a different texture
                     }
 
 
@@ -266,7 +248,7 @@ namespace UGWProjCode
                     if (c == 'd')
                     {
 
-                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 82, 82), testDeadly.GameTexture));
+                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 82, 82), deadlyObjs));
                     }
 
                     if (c == 'D')
@@ -382,22 +364,16 @@ namespace UGWProjCode
 
             paulRect = new Rectangle(300, 300, paulPhysical.Width, paulPhysical.Height);
             paulPlayer = new Player(paulRect, paulPhysical, playerPos, false);
-            ceiling = new GeneralBlock(toprect, top);
-            sideL = new GeneralBlock(siderectL, sides);
-            sideR = new GeneralBlock(siderectR, sides);
-            ground = new GeneralBlock(floorrect, floor);
             deadlyObjs = Content.Load<Texture2D>("DeadlyBlockPhys.png");
             deadlyGhostObj = Content.Load<Texture2D>("DeadlyBlockGhost.png");
             paulGhost = Content.Load<Texture2D>("paulfloat.png");
             basicBlock = Content.Load<Texture2D>("floatgrass.png");
 
-            DBTextureTest = Content.Load<Texture2D>("DeadlyBlockPhys");
-            DBGhostText = Content.Load<Texture2D>("DeadlyBlockGhost2");
+            genBlocks.Add(new GeneralBlock(new Rectangle(40, 0, 943, 40), top));
+            genBlocks.Add(new GeneralBlock(new Rectangle(0, 0, 40, 942), sides));
+            genBlocks.Add(new GeneralBlock(new Rectangle(983, 0, 40, 942), sides));
+            genBlocks.Add(new GeneralBlock(new Rectangle(39, 730, 945, 40), floor));
 
-            DBTest = new DeadlyBlock(new Rectangle(400, 400, 100, 100), DBTextureTest);
-            DBGTest = new DeadlyBlock(new Rectangle(600, 300, 100, 100), deadlyGhostObj);
-            testDeadly = new DeadlyBlock(new Rectangle(0, 0, 0, 0), deadlyObjs);
-            //physicalDeadly = new DeadlyBlock[3];
 
 
             LoadLevels();
@@ -559,26 +535,9 @@ namespace UGWProjCode
         /// </summary>
         protected void DetectCollison()
         {
-            if (paulPlayer.ObjRect.Bottom >= ground.ObjRect.Top)
+            for (int i = 0; i < genBlocks.Count; i++)
             {
-                hasJumped = false;
-                //need to make hasjumped = false in the collision method
-                paulPlayer.ObjRect = new Rectangle((int)playerPos.X, ground.ObjRect.Top - paulPlayer.ObjRect.Height, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
-                playerPos += velocity;
-                playerPos = new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y);
-                velocity.Y = 0f;
-            }
-            if (paulPlayer.ObjRect.Left <= sideL.ObjRect.Right)
-            {
-                paulPlayer.ObjRect = new Rectangle(sideL.ObjRect.Right, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
-                playerPos += velocity;
-                playerPos = new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y);
-            }
-            if (paulPlayer.ObjRect.Right >= sideR.ObjRect.Left)
-            {
-                paulPlayer.ObjRect = new Rectangle(sideR.ObjRect.Left - paulPlayer.ObjRect.Width, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
-                playerPos += velocity;
-                playerPos = new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y);
+                BlockCollison(genBlocks[i].ObjRect);
             }
 
             for (int i = 0; i < dbPhysical.Count; i++)
@@ -596,22 +555,20 @@ namespace UGWProjCode
                     BlockCollison(phaseBlocks[i].ObjRect);
                 }
             }
-            if (paulPlayer.IsDead)
+            for (int i = 0; i < dbGhost.Count; i++)
             {
-                if (BlockCollison(DBGTest.ObjRect))//this will also need to loop through the (eventuall) array of blocks
-                    DBGTest.Kill(paulPlayer);
-            }
-            if (paulPlayer.IsDead)
-            {
-                if (BlockCollison(DBGTest.ObjRect)) //this will also need to loop through the (eventuall) array of blocks
-                    DBGTest.Kill(paulPlayer);
+                if (paulPlayer.IsDead)
+                {
+                    if (BlockCollison(dbGhost[i].ObjRect))//this will also need to loop through the (eventuall) array of blocks
+                        dbGhost[i].Kill(paulPlayer);
+                }
             }
             for (int i = 0; i < enemyGhosts.Count; i++)
             {
-                enemyGhosts[i].EnemyCollide(toprect, true);
-                enemyGhosts[i].EnemyCollide(floorrect, true);
-                enemyGhosts[i].EnemyCollide(siderectL, true);
-                enemyGhosts[i].EnemyCollide(siderectR, true);
+                for (int j = 0; j < genBlocks.Count; j++)
+                {
+                    enemyGhosts[i].EnemyCollide(genBlocks[j].ObjRect, true);
+                }
                 enemyGhosts[i].KillingPlayer(paulPlayer);
                 for (int q = 0; q < dbGhost.Count; q++)
                 {
@@ -625,10 +582,10 @@ namespace UGWProjCode
 
             for (int i = 0; i < enemyPhys.Count; i++)
             {
-                enemyPhys[i].EnemyCollide(toprect, false);
-                enemyPhys[i].EnemyCollide(floorrect, false);
-                enemyPhys[i].EnemyCollide(siderectL, false);
-                enemyPhys[i].EnemyCollide(siderectR, false);
+                for (int j = 0; j < genBlocks.Count; j++)
+                {
+                    enemyPhys[i].EnemyCollide(genBlocks[j].ObjRect, false);
+                }
                 enemyPhys[i].KillingPlayer(paulPlayer);
                 //colliding with deadly blocks of the same state
                 for (int k = 0; k < phaseBlocks.Count; k++)
@@ -750,10 +707,10 @@ namespace UGWProjCode
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            spriteBatch.Draw(ground.GameTexture, ground.ObjRect, Color.White);
-            spriteBatch.Draw(sideL.GameTexture, sideL.ObjRect, Color.White);
-            spriteBatch.Draw(sideR.GameTexture, sideR.ObjRect, Color.White);
-            spriteBatch.Draw(ceiling.GameTexture, ceiling.ObjRect, Color.White);
+            for (int i = 0; i < genBlocks.Count; i++)
+            {
+                spriteBatch.Draw(genBlocks[i].GameTexture, genBlocks[i].ObjRect, Color.White);
+            }
 
             for (int i = 0; i < memories.Count; i++)
             {
