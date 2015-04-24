@@ -264,6 +264,7 @@ namespace UGWProjCode
             genBlocks.Add(new GeneralBlock(siderectR, sides));
             genBlocks.Add(new GeneralBlock(siderectL, sides));
             genBlocks.Add(new GeneralBlock(floorrect, floor));
+            Random rnd = new Random();
             //Check for characters
             foreach (char c in levelDisplay[lNum - 1].ToCharArray())//this is a temporay thing. Textures will change
             {
@@ -322,54 +323,54 @@ namespace UGWProjCode
                 //enemies
                 else if (c == '^')
                 {
-                    Random rnd = new Random();
+                    
                     int speed = rnd.Next(1, 7);
                     enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 2, speed, false));//up and down ghost - starting up
                 }
 
                 else if (c == 'v')
                 {
-                    Random rnd = new Random();
+                   
                     int speed = rnd.Next(1, 7);
                     enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 0, speed, false));//up and down ghost, starting down
                 }
                 else if (c == '<')
                 {
-                    Random rnd = new Random();
+                    
                     int speed = rnd.Next(1, 7);
                     enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, false));//physical deadly enemy (non chargable) starting off to the left
                 }
 
                 if (c == '>')
                 {
-                    Random rnd = new Random();
+                    
                     int speed = rnd.Next(1, 7);
                     enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, false));//physical deadly enemy (non chargable) starting off to the right
                 }
 
                 else if (c == '{')
                 {
-                    Random rnd = new Random();
+                   
                     int speed = rnd.Next(1, 7);
                     enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, false));//physical deadly enemy (non chargable) starting off to the left
                 }
 
                 else if (c == '}')
                 {
-                    Random rnd = new Random();
+                    
                     int speed = rnd.Next(1, 7);
                     enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, false));//physical deadly enemy (non chargable) starting off to the right
                 }
                 else if (c == '[')
                 {
-                    Random rnd = new Random();
+                    
                     int speed = rnd.Next(1, 7);
                     enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, true));//physical deadly enemy ( chargable) starting off to the left
                 }
 
                 else if (c == ']')
                 {
-                    Random rnd = new Random();
+                    
                     int speed = rnd.Next(1, 7);
                     enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, true));//physical deadly enemy ( chargable) starting off to the right
                 }
