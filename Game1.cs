@@ -260,6 +260,7 @@ namespace UGWProjCode
 
         public void DrawLevel(int lNum)
         {
+            mapY = 42;
             genBlocks.Add(new GeneralBlock(toprect, top));
             genBlocks.Add(new GeneralBlock(siderectR, sides));
             genBlocks.Add(new GeneralBlock(siderectL, sides));
