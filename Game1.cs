@@ -845,8 +845,8 @@ namespace UGWProjCode
                 totalMemories = 0;
                 memories.Clear();
                 paulPlayer.MemsColl = 0;
-                levelCurrent++;
                 DrawLevel(levelCurrent);
+                levelCurrent++;
             }
             framesElapsed = (int)(gameTime.TotalGameTime.TotalMilliseconds / timePerFrame);
             frame = framesElapsed % numFrames;
