@@ -298,3 +298,13 @@ D:\Users\zrm2647\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\pauseb
 D:\Users\zrm2647\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\playbutton.png
 D:\Users\zrm2647\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\quitbutton.png
 D:\Users\zrm2647\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\restartbutton.png
+D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\backbutton.png
+D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\creditsbg.png
+D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\creditsbutton.png
+D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\helpbg.png
+D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\helpbutton.png
+D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\mainbg.png
+D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\pausebg.png
+D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\playbutton.png
+D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\quitbutton.png
+D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\restartbutton.png

@@ -17,6 +17,7 @@ namespace UGWProjCode
         //attributes
         private int totMem; //the total memories in that level
         private bool advanceLevel;//if all the memories have been collected, this will be true and advance on
+        protected bool hasCollected;//if the player has already collected that memory
 
         //properties
         public int TotMem
@@ -30,11 +31,16 @@ namespace UGWProjCode
             get { return advanceLevel; }
         }
 
+        public bool HasCollected
+        {
+            get { return hasCollected; }
+            set { hasCollected = value; }
+        }
         //constructor
         public Memories( Rectangle memorect, Texture2D memotexture)
             : base(memorect, memotexture)
         {
-            
+            hasCollected = false;
         }
 
         /// <summary>

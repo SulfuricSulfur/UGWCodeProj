@@ -56,3 +56,12 @@ J:\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.csprojResolveAssemblyRefe
 J:\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.Form1.resources
 J:\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
 J:\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.exe
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\bin\Debug\MapEditor.exe
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.csprojResolveAssemblyReference.cache
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.Form1.resources
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache
