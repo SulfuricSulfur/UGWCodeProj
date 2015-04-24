@@ -56,6 +56,7 @@ namespace UGWProjCode
         public bool ChargingState
         {
             get { return chargingState; }
+            set { chargingState = value; }
         }
 
         //constructor
@@ -228,10 +229,18 @@ namespace UGWProjCode
                     if ((otherRect.Left - this.ObjRect.Right) >= -10 && (otherRect.Left - this.ObjRect.Right) < 0 && movingDirection == 3)//left side of the block collision
                     {
                         movingDirection = 1;
+                        if(chargingState == true)
+                        {
+                            movingDirection = 1;
+                        }
                     }
                     if ((this.ObjRect.Left - otherRect.Right) >= -10 && (this.ObjRect.Left - otherRect.Right) < 0 && movingDirection == 1)//right side of block
                     {
                         movingDirection = 3;
+                        if (chargingState == true)
+                        {
+                            movingDirection = 3;
+                        }
                     }
 
                 }

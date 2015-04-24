@@ -210,11 +210,8 @@ namespace UGWProjCode
             // pause stuff
             pauseMenu = Content.Load<Texture2D>("pausebg");
             pausedRect = new Rectangle(0, 0, pauseMenu.Width, pauseMenu.Height);
-
-
             base.Initialize();
         }
-
 
 
         public void LoadLevels()
@@ -223,9 +220,6 @@ namespace UGWProjCode
 
             lFiles.Add("level.txt");
             lFiles.Add("level666.txt");// = Directory.GetFiles(@".", "*level*");
-
-
-
 
             // if (lFiles.Length == 0)
             // {
@@ -243,8 +237,6 @@ namespace UGWProjCode
                 //string lCheck = " "; Tells when reader should stop reading. So far have not seen use for it, but keep it just in case.
                 mapX = 0;
 
-
-
                 while ((lvlIn = lRead.ReadLine()) != null)
                 {
 
@@ -254,7 +246,6 @@ namespace UGWProjCode
 
                 levelDisplay.Add(lvl);
                 lRead.Close();
-
             }
         }
 
@@ -376,10 +367,7 @@ namespace UGWProjCode
             //count++;
         }           
            
-    
-        
-
-
+   
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -413,26 +401,19 @@ namespace UGWProjCode
             genBlocks.Add(new GeneralBlock(siderectR, sides));
             genBlocks.Add(new GeneralBlock(siderectL, sides));
             genBlocks.Add(new GeneralBlock(floorrect, floor));
-
-
-
             LoadLevels();
         }
+
 
         /// <summary>
         /// Player.Move method has been added here to make it easier with the enum/state machine
         /// </summary>
         protected void ProcessInput()
         {
-            //Add the player.Move here!
-            //going to need a collision detection so that if the player is colliding with the ground then
-            // (player object).HasJumped = false so that it detects that player has landed on the ground and
+            //if player lands on ground .hasJumped = false so that the player
             //can jump again
             //the key controls change depending on if paul is dead or alive
             //control handling
-
-            //THIS STATE MACHINE IS WEIRD! NEED TO FIX IT!
-
             kboardstate = Keyboard.GetState();
             if (paulPlayer.IsDead == false)
             {
@@ -570,8 +551,9 @@ namespace UGWProjCode
             }
         }
 
+
         /// <summary>
-        /// detects collison of the blocks
+        /// detects collison of the blocks and the enemy and players colliding with said blocks
         /// </summary>
         protected void DetectCollison()
         {
@@ -899,24 +881,28 @@ namespace UGWProjCode
                                 numFrames = 2;
                                 if (enemyGhosts[i].MovingDirection == 1)
                                 {
-                                    paulyset = spriteboxheight * int.Parse(textures[3]);
-                                    spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                    if (enemyGhosts[i].CanCharge)
+                                    {
+                                        paulyset = spriteboxheight * int.Parse(textures[3]);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+
+                                    }
+                                    else
+                                    {
+                                        paulyset = spriteboxheight * int.Parse(textures[3]);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                    }
                                 }
                                 if (enemyGhosts[i].MovingDirection == 3)
                                 {
-                                    paulyset = spriteboxheight * int.Parse(textures[3]);
-                                    spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
-                                }
-                                if (enemyGhosts[i].CanCharge == true && enemyGhosts[i].ChargingState == true)
-                                {
-                                    if (enemyGhosts[i].MovingDirection == 1)
+                                    if (enemyGhosts[i].CanCharge)
                                     {
-                                        paulyset = spriteboxheight * int.Parse(textures[12]);
-                                        spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                        paulyset = spriteboxheight * int.Parse(textures[3]);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                     }
-                                    if (enemyGhosts[i].MovingDirection == 3)
+                                    else
                                     {
-                                        paulyset = spriteboxheight * int.Parse(textures[12]);
+                                        paulyset = spriteboxheight * int.Parse(textures[3]);
                                         spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                     }
                                 }
@@ -955,24 +941,29 @@ namespace UGWProjCode
                                 pauloffset = (54 * frame);
                                 if (enemyPhys[i].MovingDirection == 1)
                                 {
-                                    paulyset = spriteboxheight * int.Parse(textures[6]);
-                                    spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
-                                }
-                                if (enemyPhys[i].MovingDirection == 3)
-                                {
-                                    paulyset = spriteboxheight * int.Parse(textures[6]);
-                                    spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
-                                }
-                                if (enemyPhys[i].CanCharge == true && enemyPhys[i].ChargingState == true)
-                                {
-                                    if (enemyPhys[i].MovingDirection == 1)
+                                    if (enemyPhys[i].CanCharge)
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[12]);
                                         spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+
                                     }
-                                    if (enemyPhys[i].MovingDirection == 3)
+                                    else
+                                    {
+                                        paulyset = spriteboxheight * int.Parse(textures[6]);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                    }
+                                }
+                                if (enemyPhys[i].MovingDirection == 3)
+                                {
+                                    if (enemyPhys[i].CanCharge)
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[12]);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+
+                                    }
+                                    else
+                                    {
+                                        paulyset = spriteboxheight * int.Parse(textures[6]);
                                         spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                     }
                                 }
