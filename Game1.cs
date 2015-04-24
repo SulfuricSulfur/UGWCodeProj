@@ -966,6 +966,11 @@ namespace UGWProjCode
                             for (int i = 0; i < enemyPhys.Count; i++)
                             {
                                 numFrames = 2;
+                                if (frame > 1)
+                                {
+                                    frame = 0;
+                                }
+                                pauloffset = (54 * frame);
                                 if (enemyPhys[i].MovingDirection == 1)
                                 {
                                     paulyset = spriteboxheight * int.Parse(textures[6]);
