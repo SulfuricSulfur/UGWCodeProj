@@ -39,4 +39,4 @@ v - Ghost enemy Up/Down (Starts Down)
 
 
 //Other//
-n - Signals the reader to move to the next lineo move to the next line
+n - Signals the reader to move to the next line
