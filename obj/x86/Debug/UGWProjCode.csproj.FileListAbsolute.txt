@@ -318,3 +318,13 @@ D:\Users\rxs2833\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\pauseb
 D:\Users\rxs2833\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\playbutton.png
 D:\Users\rxs2833\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\quitbutton.png
 D:\Users\rxs2833\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\restartbutton.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\backbutton.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\creditsbg.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\creditsbutton.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\helpbg.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\helpbutton.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\mainbg.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\pausebg.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\playbutton.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\quitbutton.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\restartbutton.png

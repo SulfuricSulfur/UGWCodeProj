@@ -165,7 +165,7 @@ namespace UGWProjCode
 
             //each line represents each level
             //[0] floor, [1] side borders, [2] top border,  [3]  enemy1ghost, [4]  enemy 2ghost,[5] enemy1phys, [6] enemy2phys
-            //[7] float1, [8] float2, [9] moving block, [10] transblock ghost [11] transblock physical
+            //[7] float1, [8] float2, [9] moving block, [10] transblock ghost [11] transblock physical [12] enemychargephys [13] enemychargeghost
             if (level > 1)
             {
                 string[] lines = reader.ReadToEnd().Split(new char[] { '\n' });
@@ -917,30 +917,30 @@ namespace UGWProjCode
                                 numFrames = 2;
                                 if (enemyGhosts[i].MovingDirection == 1)
                                 {
-                                    // paulyset = spriteboxheight * int.Parse(textures[3]);
+                                    paulyset = spriteboxheight * int.Parse(textures[3]);
                                     spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                                 }
                                 if (enemyGhosts[i].MovingDirection == 3)
                                 {
-                                    // paulyset = spriteboxheight * int.Parse(textures[3]);
+                                    paulyset = spriteboxheight * int.Parse(textures[3]);
                                     spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                 }
                                 if (enemyGhosts[i].CanCharge == true && enemyGhosts[i].ChargingState == true)
                                 {
                                     if (enemyGhosts[i].MovingDirection == 1)
                                     {
-                                        // paulyset = spriteboxheight * int.Parse(textures[12]);
+                                        paulyset = spriteboxheight * int.Parse(textures[12]);
                                         spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                                     }
                                     if (enemyGhosts[i].MovingDirection == 3)
                                     {
-                                        //  paulyset = spriteboxheight * int.Parse(textures[12]);
+                                        paulyset = spriteboxheight * int.Parse(textures[12]);
                                         spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                     }
                                 }
                                 if (enemyGhosts[i].MovingDirection == 0 || enemyGhosts[i].MovingDirection == 2) //south and north same animation
                                 {
-                                    //paulyset = spriteboxheight * int.Parse(textures[4]);
+                                    paulyset = spriteboxheight * int.Parse(textures[4]);
                                     spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                                 }
 
@@ -968,32 +968,26 @@ namespace UGWProjCode
                                 numFrames = 2;
                                 if (enemyPhys[i].MovingDirection == 1)
                                 {
-                                    //paulyset = spriteboxheight * int.Parse(textures[5]);
+                                    paulyset = spriteboxheight * int.Parse(textures[6]);
                                     spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                                 }
                                 if (enemyPhys[i].MovingDirection == 3)
                                 {
-                                    //paulyset = spriteboxheight * int.Parse(textures[5]);
+                                    paulyset = spriteboxheight * int.Parse(textures[6]);
                                     spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                 }
                                 if (enemyPhys[i].CanCharge == true && enemyPhys[i].ChargingState == true)
                                 {
                                     if (enemyPhys[i].MovingDirection == 1)
                                     {
-                                        //paulyset = spriteboxheight * int.Parse(textures[13]);
+                                        paulyset = spriteboxheight * int.Parse(textures[12]);
                                         spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                                     }
                                     if (enemyPhys[i].MovingDirection == 3)
                                     {
-                                        //paulyset = spriteboxheight * int.Parse(textures[13]);
+                                        paulyset = spriteboxheight * int.Parse(textures[12]);
                                         spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                     }
-                                }
-
-                                if (enemyPhys[i].MovingDirection == 0 || enemyPhys[i].MovingDirection == 2) //south and north same animation
-                                {
-                                    //paulyset = spriteboxheight * int.Parse(textures[6]);
-                                    spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                                 }
                             }
                          
