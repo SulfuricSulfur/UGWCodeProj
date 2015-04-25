@@ -32,7 +32,6 @@ namespace UGWProjCode
         string lvl;
 
   
-
         private Dictionary<int, string> levels = new Dictionary<int, string>();
         private List<string> lFiles = new List<string>();
         private List<GamePiece> gamePieces = new List<GamePiece>();
@@ -57,7 +56,7 @@ namespace UGWProjCode
         int numFrames = 3;
         int framesElapsed;
         int numberLevel = 0;
-        int levelCurrent = 1;//The current level the player is on
+        int levelCurrent = 0;//The current level the player is on(in terms of the list)
 
 
         //private List<string> levels = new List<string>();
@@ -124,6 +123,8 @@ namespace UGWProjCode
         Button btnBack;
         Button btnBackPause;
         Button btnRestart;
+        Button btnResume;
+        Button btnMain;
 
         // pause menu attributes
         bool paused = false;
@@ -145,7 +146,6 @@ namespace UGWProjCode
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
             Content.RootDirectory = "Content";
-            level = 1;
             reader = new StreamReader("Textures.txt");
 
 
@@ -189,14 +189,15 @@ namespace UGWProjCode
             siderectR = new Rectangle(1000, 0, 50, 942);
             floorrect = new Rectangle(39, 740, 1000, 40);
 
-            // initialized objects
+            // initialized menu objects
             btnPlay = new Button(Content.Load<Texture2D>("playbutton"), graphics.GraphicsDevice);
             btnHelp = new Button(Content.Load<Texture2D>("helpbutton"), graphics.GraphicsDevice);
             btnCredit = new Button(Content.Load<Texture2D>("creditsbutton"), graphics.GraphicsDevice);
             btnQuit = new Button(Content.Load<Texture2D>("quitbutton"), graphics.GraphicsDevice);
             btnBack = new Button(Content.Load<Texture2D>("backbutton"), graphics.GraphicsDevice);
-            btnBackPause = new Button(Content.Load<Texture2D>("backbutton"), graphics.GraphicsDevice);
+            btnBackPause = new Button(Content.Load<Texture2D>("mainbutton"), graphics.GraphicsDevice);
             btnRestart = new Button(Content.Load<Texture2D>("restartbutton"), graphics.GraphicsDevice);
+            btnResume = new Button(Content.Load<Texture2D>("resumebutton"), graphics.GraphicsDevice);
 
             // button positions
             btnPlay.setPosition(new Vector2(448, 300));
@@ -205,7 +206,8 @@ namespace UGWProjCode
             btnQuit.setPosition(new Vector2(448, 600));
             btnBack.setPosition(new Vector2(148, 600));
             btnBackPause.setPosition(new Vector2(148, 500));
-            btnRestart.setPosition(new Vector2(448, 400));
+            btnRestart.setPosition(new Vector2(448, 450));
+            btnResume.setPosition(new Vector2(448, 350));
 
             // pause stuff
             pauseMenu = Content.Load<Texture2D>("pausebg");
@@ -213,13 +215,20 @@ namespace UGWProjCode
             base.Initialize();
         }
 
-
+        /// <summary>
+        /// Levels are added into a list. The text file for each level is read in level by level
+        /// and then stored in a list which contains the strings of each level 
+        /// starting from 0 in the list (level 1) onwards
+        /// levelcurrent keeps track of what level the player is currently on
+        /// which will be used for reading the next level in the list.
+        /// </summary>
         public void LoadLevels()
         {
             StreamReader lRead;
-
-            lFiles.Add("level.txt");
-            lFiles.Add("level666.txt");// = Directory.GetFiles(@".", "*level*");
+            //level names go here(RENAME)
+            lFiles.Add("level101.txt");
+            lFiles.Add("level72.txt");
+            lFiles.Add("level2.txt");
 
             // if (lFiles.Length == 0)
             // {
@@ -228,8 +237,6 @@ namespace UGWProjCode
 
             foreach (string l in lFiles)
             {
-                numberLevel++; //keep track of what level is where
-
                 lRead = new StreamReader(l);
 
                 lvl = " "; //empty string
@@ -249,122 +256,139 @@ namespace UGWProjCode
             }
         }
 
+
+        /// <summary>
+        /// Reads in each string in the list of levels (depending on what level the player is currently in)
+        /// and loops through and puts each item based on character in a list based on its type
+        /// </summary>
+        /// <param name="lNum"></param>
         public void DrawLevel(int lNum)
         {
-            mapY = 42;
-            genBlocks.Add(new GeneralBlock(toprect, top));
-            genBlocks.Add(new GeneralBlock(siderectR, sides));
-            genBlocks.Add(new GeneralBlock(siderectL, sides));
-            genBlocks.Add(new GeneralBlock(floorrect, floor));
-            Random rnd = new Random();
-            //Check for characters
-            //Check for characters
-            foreach (char c in levelDisplay[lNum-1].ToCharArray())//this is a temporay thing. Textures will change
+            //temporary code for handling if the player finishes all the levels
+            //until there is a win gamestate
+            if (lNum >= lFiles.Count)
             {
-                //make this 1 player object
-                if (c == '@')
+                CurrentGameState = GameState.MainMenu;
+                levelCurrent = 0;
+
+            }
+            else
+            {
+                mapY = 42;
+                genBlocks.Add(new GeneralBlock(toprect, top));
+                genBlocks.Add(new GeneralBlock(siderectR, sides));
+                genBlocks.Add(new GeneralBlock(siderectL, sides));
+                genBlocks.Add(new GeneralBlock(floorrect, floor));
+                Random rnd = new Random();
+                //Check for characters
+                //Check for characters
+                foreach (char c in levelDisplay[lNum].ToCharArray())//this is a temporay thing. Textures will change
                 {
-                    paulRect = new Rectangle(mapX, mapY, 48, 48);
-                    playerPos = new Vector2(paulRect.X, paulRect.Y);
-                    paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
-                }
+                    //make this 1 player object
+                    if (c == '@')
+                    {
+                        paulRect = new Rectangle(mapX, mapY, 48, 48);
+                        playerPos = new Vector2(paulRect.X, paulRect.Y);
+                        paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
+                    }
 
-                else if (c == 'f')
-                    genBlocks.Add(new GeneralBlock(new Rectangle(mapX, mapY, 50, 50), basicFloat));
+                    else if (c == 'f')//floating grass blocks
+                        genBlocks.Add(new GeneralBlock(new Rectangle(mapX, mapY, 50, 50), basicFloat));
 
-                else if (c == 'm')
-                {
-                    memories.Add(new Memories(new Rectangle(mapX, mapY, 50, 50), memorytexture));
-                    totalMemories++;
-                }
+                    else if (c == 'm')//memories(collect to pass to next level)
+                    {
+                        memories.Add(new Memories(new Rectangle(mapX, mapY, 50, 50), memorytexture));
+                        totalMemories++;
+                    }
 
-                else if (c == 'x')
-                    genBlocks.Add(new GeneralBlock(new Rectangle(mapX, mapY, 50, 50), basicGround));
+                    else if (c == 'x')//ground solid blocks
+                        genBlocks.Add(new GeneralBlock(new Rectangle(mapX, mapY, 50, 50), basicGround));
 
-                else if (c == '~')
-                    dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), deadlyGhostObj));
+                        //Deadly blocks
+                    else if (c == '~')
+                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), deadlyGhostObj));
 
-                else if (c == '!')
-                    dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), deadlyGhostObj)); //will have a different texture
+                    else if (c == '!')
+                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), deadlyGhostObj)); //will have a different texture
 
-                else if (c == 'd')
-                    dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), deadlyObjs));
+                    else if (c == 'd')
+                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), deadlyObjs));
 
-                else if (c == 'D')
-                    dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture));//will have a different texture
+                    else if (c == 'D')
+                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture));//will have a different texture
 
-                //Enemies
+                    //Enemies
 
-                    //up and down ghost - starting up
-                else if (c == '^')
-                {
-                    int speed = rnd.Next(1, 7);
-                    enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 2, speed, false));
-                }
+                        //up and down ghost - starting up
+                    else if (c == '^')
+                    {
+                        int speed = rnd.Next(1, 6);
+                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 2, speed, false));
+                    }
 
-                    //up and down ghost, starting down
-                else if (c == 'v')
-                {
-                    int speed = rnd.Next(1, 7);
-                    enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 0, speed, false));
-                }
+                        //up and down ghost, starting down
+                    else if (c == 'v')
+                    {
+                        int speed = rnd.Next(1, 6);
+                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 0, speed, false));
+                    }
 
-                    //physical deadly enemy (non chargable) starting off to the left
-                else if (c == '<')
-                {
-                    int speed = rnd.Next(1, 7);
-                    enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, false));
-                }
-
-                //physical deadly enemy (non chargable) starting off to the right
-                if (c == '>')
-                {
-                    int speed = rnd.Next(1, 7);
-                    enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, false));
-                }
-
-                    //physical deadly enemy (non chargable) starting off to the left
-                else if (c == '{')
-                {
-                    int speed = rnd.Next(1, 7);
-                    enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, false));
-                }
+                        //physical deadly enemy (non chargable) starting off to the left
+                    else if (c == '<')
+                    {
+                        int speed = rnd.Next(1, 6);
+                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, false));
+                    }
 
                     //physical deadly enemy (non chargable) starting off to the right
-                else if (c == '}')
-                {
-                    int speed = rnd.Next(1, 7);
-                    enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, false));
-                }
+                    if (c == '>')
+                    {
+                        int speed = rnd.Next(1, 6);
+                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, false));
+                    }
 
-                    //physical deadly enemy (chargable) starting off to the left
-                else if (c == '[')
-                {
-                    int speed = rnd.Next(1, 7);
-                    enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, true));
-                }
+                        //physical deadly enemy (non chargable) starting off to the left
+                    else if (c == '{')
+                    {
+                        int speed = rnd.Next(1, 6);
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, false));
+                    }
 
-                    //physical deadly enemy (chargable) starting off to the right
-                else if (c == ']')
-                {
-                    int speed = rnd.Next(1, 7);
-                    enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, true));
-                }
+                        //physical deadly enemy (non chargable) starting off to the right
+                    else if (c == '}')
+                    {
+                        int speed = rnd.Next(1, 6);
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, false));
+                    }
 
-                else if (c == 'p')
-                    phaseBlocks.Add(new PhaseBlock(new Rectangle(mapX, mapY, 50, 50), phaseBlockTexture));
+                        //physical deadly enemy (chargable) starting off to the left
+                    else if (c == '[')
+                    {
+                        int speed = rnd.Next(1, 6);
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, true));
+                    }
 
-                else if (c == 'n')
-                {
-                    mapY += 50;
-                    mapX = 0;
+                        //physical deadly enemy (chargable) starting off to the right
+                    else if (c == ']')
+                    {
+                        int speed = rnd.Next(1, 6);
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, true));
+                    }
+
+                    else if (c == 'p')
+                        phaseBlocks.Add(new PhaseBlock(new Rectangle(mapX, mapY, 50, 50), phaseBlockTexture));
+
+                    else if (c == 'n')
+                    {
+                        mapY += 50;
+                        mapX = 0;
+                    }
+                    //Window Dimensions: 1024 x 768
+                    mapX += 50;
+                    //
                 }
-                //Window Dimensions: 1024 x 768
-                mapX += 50;
-                //
             }
-            //levels.Add(count, lvl);
-            //count++;
+
         }           
            
    
@@ -395,7 +419,7 @@ namespace UGWProjCode
             paulGhost = Content.Load<Texture2D>("paulfloat.png");
             basicFloat = Content.Load<Texture2D>("floatgrass.png");
             basicGround = Content.Load<Texture2D>("connectivebottom.png");
-            memorytexture = Content.Load<Texture2D>("movableblockgrass.png");//temp texture
+            memorytexture = Content.Load<Texture2D>("movableblockgrass.png");
 
             genBlocks.Add(new GeneralBlock(toprect,top));
             genBlocks.Add(new GeneralBlock(siderectR, sides));
@@ -711,12 +735,6 @@ namespace UGWProjCode
             switch (CurrentGameState)
             {
                 case GameState.MainMenu:
-                    if (btnPlay.isClicked == true)
-                    {
-                        playerPos = new Vector2(paulRect.X, paulRect.Y);
-                        paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
-                        CurrentGameState = GameState.Playing; 
-                    }
                     if (btnHelp.isClicked == true) CurrentGameState = GameState.Help;
                     if (btnCredit.isClicked == true) CurrentGameState = GameState.Credits;
                     if (btnQuit.isClicked == true) Environment.Exit(1);
@@ -725,14 +743,44 @@ namespace UGWProjCode
                     btnCredit.Update(mouse);
                     btnQuit.Update(mouse);
                     IsMouseVisible = true;
+                    if (btnPlay.isClicked == true)
+                    {
+                        btnPlay.isClicked = false;
+                        levelCurrent = 0;
+                        playerPos = new Vector2(paulRect.X, paulRect.Y);
+                        paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
+                        DrawLevel(levelCurrent);
+                        CurrentGameState = GameState.Playing;
+                        
+                    }
+                    
                     break;
 
                 case GameState.Playing:
                     if (paused == false)
                     {
+                        //if the player has collected all the memories
+                        if (paulPlayer.MemsColl == memories.Count)
+                        {
+                            dbGhost.Clear();
+                            paulPlayer.ObjRect = new Rectangle(400, 400, 50, 50);
+                            dbPhysical.Clear();
+                            genBlocks.Clear();
+                            phaseBlocks.Clear();
+                            dbPhysical.Clear();
+                            enemyGhosts.Clear();
+                            enemyPhys.Clear();
+                            totalMemories = 0;
+                            memories.Clear();
+                            paulPlayer.MemsColl = 0;
+                            levelCurrent++;
+                            DrawLevel(levelCurrent);
+                            
+                        }
                         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                         {
                             paused = true;
+                            btnResume.isClicked = false;
                             btnPlay.isClicked = false;
                             btnBackPause.isClicked = false;
                             btnRestart.isClicked = false;
@@ -752,10 +800,34 @@ namespace UGWProjCode
                                 enemyGhosts[i].Move(paulPlayer);
                             }
                         }
+                        //if player has finnished all levels in list
+                        //if(levelCurrent -1 == levelDisplay.Count)
+                        //{
+                        //    if (btnBackPause.isClicked == true)
+                        //    {
+                        //        paused = false;
+                        //        //if the player goes back to the main menu, they will go back to level 1.
+                        //        levelCurrent = 1;
+                        //        dbGhost.Clear();
+                        //        paulPlayer.ObjRect = new Rectangle(400, 400, 50, 50);
+                        //        dbPhysical.Clear();
+                        //        genBlocks.Clear();
+                        //        phaseBlocks.Clear();
+                        //        dbPhysical.Clear();
+                        //        enemyGhosts.Clear();
+                        //        enemyPhys.Clear();
+                        //        totalMemories = 0;
+                        //        memories.Clear();
+                        //        paulPlayer.MemsColl = 0;
+                        //        DrawLevel(levelCurrent);
+
+                        //        CurrentGameState = GameState.MainMenu;
+                        //    }
+                        //}
                     }
                     else
                     {
-                        if (btnPlay.isClicked == true)
+                        if (btnResume.isClicked == true)
                         {
                             paused = false;
                             IsMouseVisible = false;
@@ -763,17 +835,45 @@ namespace UGWProjCode
                         if (btnBackPause.isClicked == true)
                         {
                             paused = false;
+                            //if the player goes back to the main menu, they will go back to level 1.
+                            levelCurrent = 0;
+                            dbGhost.Clear();
+                            paulPlayer.ObjRect = new Rectangle(400, 400, 50, 50);
+                            dbPhysical.Clear();
+                            genBlocks.Clear();
+                            phaseBlocks.Clear();
+                            dbPhysical.Clear();
+                            enemyGhosts.Clear();
+                            enemyPhys.Clear();
+                            totalMemories = 0;
+                            memories.Clear();
+                            paulPlayer.MemsColl = 0;
                             CurrentGameState = GameState.MainMenu;
                         }
+                        //the player restarts the stage, everything on the level is reset back to the position they are on
+                        //the text file
                         if (btnRestart.isClicked == true)
                         {
                             paused = false;
                             playerPos = new Vector2(paulRect.X, paulRect.Y);
                             paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
+                            dbGhost.Clear();
+                            paulPlayer.ObjRect = new Rectangle(400, 400, 50, 50);
+                            dbPhysical.Clear();
+                            genBlocks.Clear();
+                            phaseBlocks.Clear();
+                            dbPhysical.Clear();
+                            enemyGhosts.Clear();
+                            enemyPhys.Clear();
+                            totalMemories = 0;
+                            memories.Clear();
+                            paulPlayer.MemsColl = 0;
+                            DrawLevel(levelCurrent);
                             CurrentGameState = GameState.Playing;
                         }
 
                         btnPlay.Update(mouse);
+                        btnResume.Update(mouse);
                         btnBackPause.Update(mouse);
                         btnRestart.Update(mouse);
                     }
@@ -790,28 +890,28 @@ namespace UGWProjCode
                     btnBack.Update(mouse);
                     IsMouseVisible = true;
                     break;
+
             }
             ProcessInput();
             DetectCollison();
-            //moving on to the next level (BUGGY!)
-            if (paulPlayer.MemsColl == memories.Count)
-            {
+            //moving on to the next level
+            //if (paulPlayer.MemsColl == memories.Count)
+            //{
+            //    dbGhost.Clear();
+            //    paulPlayer.ObjRect = new Rectangle(400, 400, 50, 50);
+            //    dbPhysical.Clear();
+            //    genBlocks.Clear();
+            //    phaseBlocks.Clear();
+            //    dbPhysical.Clear();
+            //    enemyGhosts.Clear();
+            //    enemyPhys.Clear();
+            //    totalMemories = 0;
+            //    memories.Clear();
+            //    paulPlayer.MemsColl = 0;
+            //    DrawLevel(levelCurrent);
+            //    levelCurrent++;
+            //}
 
-
-                dbGhost.Clear();
-                paulPlayer.ObjRect = new Rectangle(400, 400, 50, 50);
-                dbPhysical.Clear();
-                genBlocks.Clear();
-                phaseBlocks.Clear();
-                dbPhysical.Clear();
-                enemyGhosts.Clear();
-                enemyPhys.Clear();
-                totalMemories = 0;
-                memories.Clear();
-                paulPlayer.MemsColl = 0;
-                DrawLevel(levelCurrent);
-                levelCurrent++;
-            }
             framesElapsed = (int)(gameTime.TotalGameTime.TotalMilliseconds / timePerFrame);
             frame = framesElapsed % numFrames;
 
@@ -844,7 +944,7 @@ namespace UGWProjCode
                     if (paused == true)
                     {
                         spriteBatch.Draw(pauseMenu, pausedRect, Color.White);
-                        btnPlay.Draw(spriteBatch);
+                        btnResume.Draw(spriteBatch);
                         btnRestart.Draw(spriteBatch);
                         btnBackPause.Draw(spriteBatch);
                     }
@@ -853,26 +953,28 @@ namespace UGWProjCode
                         for (int i = 0; i < genBlocks.Count; i++)
                         {
                             spriteBatch.Draw(genBlocks[i].GameTexture, genBlocks[i].ObjRect, Color.White);
+
                         }
                         pauloffset = (54 * frame);
                         if (paulPlayer.IsDead == true)
-                        {
+                        {    
+                            //deadly blocks
+ 
+                            for (int i = 0; i < genBlocks.Count; i++)
+                            {
+                                spriteBatch.Draw(genBlocks[i].GameTexture, genBlocks[i].ObjRect, Color.Red);
+                            }
                             paulyset = spriteboxheight * 3;
                             numFrames = 4;
                             spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
-                            
-                            //deadly blocks
-                               for (int i = 0; i < dbGhost.Count; i++)
+           
+                            for (int i = 0; i < dbGhost.Count; i++)
                             {
                                 spriteBatch.Draw(dbGhost[i].GameTexture, dbGhost[i].ObjRect, Color.White);
                             }
                             for (int i = 0; i < phaseBlocks.Count; i++)
                             {
                                 spriteBatch.Draw(phaseBlocks[i].GameTexture, phaseBlocks[i].ObjRect, Color.White);//this will be transparent one
-                            }
-                            for (int i = 0; i < genBlocks.Count; i++)
-                            {
-                                spriteBatch.Draw(genBlocks[i].GameTexture, genBlocks[i].ObjRect, Color.Red);
                             }
                             //ghost enemies
                             for (int i = 0; i < enemyGhosts.Count; i++)
@@ -1030,7 +1132,15 @@ namespace UGWProjCode
                                 spriteBatch.Draw(memories[i].GameTexture, memories[i].ObjRect, Color.White);
                             }
                         }
+
+
                     }
+
+                    //if(levelCurrent -1 == levelDisplay.Count )
+                    //{
+                    //    spriteBatch.Draw(Content.Load<Texture2D>("winscreen"), new Rectangle(0, 0, 1024, 768), Color.White);
+                    //    btnBackPause.Draw(spriteBatch);
+                    //}
                     break;
 
                 case GameState.Help:

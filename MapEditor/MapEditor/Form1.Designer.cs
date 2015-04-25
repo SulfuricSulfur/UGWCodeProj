@@ -113,7 +113,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(109, 13);
             this.label4.TabIndex = 8;
-            this.label4.Text = "20 characters per line";
+            this.label4.Text = "19 characters per line";
             // 
             // label3
             // 

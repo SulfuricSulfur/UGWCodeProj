@@ -44,7 +44,14 @@ namespace UGWProjCode
                 if (down) color.A += 3;
                 else color.A -= 3;
                 // clicked button
-                if (mouse.LeftButton == ButtonState.Pressed) isClicked = true;
+                if (mouse.LeftButton == ButtonState.Pressed)
+                {
+                    isClicked = true;
+                }
+                else
+                {
+                    isClicked = false;
+                }
             }
             else if (color.A < 255)
             {

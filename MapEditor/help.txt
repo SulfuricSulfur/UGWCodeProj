@@ -30,8 +30,8 @@ p - Phase blocks
 //Enemies//
 ^ - Ghost enemy Up/Down (Starts Up)
 v - Ghost enemy Up/Down (Starts Down)
-< - Physical enemy (Starts left)
-> - Physical enemy (Starts right)
+< - ghost enemy (Starts left)
+> - ghost enemy (Starts right)
 { - Physical enemy 2 (Starts left)
 } - Physical Enemy 2 (Starts right)
 ] - Charging Physical Enemy (Starts right)

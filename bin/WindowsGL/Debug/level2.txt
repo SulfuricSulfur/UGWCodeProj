@@ -1,0 +1,15 @@
+---!----!!---------n
+m--!----!!p--------n
+ppp!---p!!--p------n
+---p---p!!--ppd---!n
+ffffffff!!-dfffffffn
+-------pppppp------n
+--------pppp--~----n
+---------fffffff---n
+d------------------n
+f-fff-----ffff-----n
+-----f-------f---ffn
+-------fff-----v-ffn
+-@---pp-----fffpfppn
+xxxxxxx---xpd-----mn
+
