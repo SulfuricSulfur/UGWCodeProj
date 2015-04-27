@@ -17,7 +17,6 @@ namespace UGWProjCode
     /// </summary>
     public class Game1 : Game
     {
-
         StreamReader reader;
         string[] textures;
         Texture2D floor;
@@ -32,7 +31,9 @@ namespace UGWProjCode
         string lvl;
 
   
-        private Dictionary<int, string> levels = new Dictionary<int, string>();
+        //The lists for the levels. Include all the instanses of objects being read in from the textfile
+        //a list containing the names of the textfiles being read in sequentially
+        //and a list containing a strain of the level data to be read in
         private List<string> lFiles = new List<string>();
         private List<GamePiece> gamePieces = new List<GamePiece>();
         private List<Enemy> enemyPhys = new List<Enemy>();
@@ -53,9 +54,9 @@ namespace UGWProjCode
         GameTime gametime;
         int frame;
         const double timePerFrame = 200;
+        const int SIZES = 50;//will be used for the sizes of enemies+objects
         int numFrames = 3;
         int framesElapsed;
-        int numberLevel = 0;
         int levelCurrent = 0;//The current level the player is on(in terms of the list)
 
 
@@ -293,29 +294,29 @@ namespace UGWProjCode
                     }
 
                     else if (c == 'f')//floating grass blocks
-                        genBlocks.Add(new GeneralBlock(new Rectangle(mapX, mapY, 50, 50), basicFloat));
+                        genBlocks.Add(new GeneralBlock(new Rectangle(mapX, mapY, SIZES, SIZES), basicFloat));
 
                     else if (c == 'm')//memories(collect to pass to next level)
                     {
-                        memories.Add(new Memories(new Rectangle(mapX, mapY, 50, 50), memorytexture));
+                        memories.Add(new Memories(new Rectangle(mapX, mapY, SIZES, SIZES), memorytexture));
                         totalMemories++;
                     }
 
                     else if (c == 'x')//ground solid blocks
-                        genBlocks.Add(new GeneralBlock(new Rectangle(mapX, mapY, 50, 50), basicGround));
+                        genBlocks.Add(new GeneralBlock(new Rectangle(mapX, mapY, SIZES, SIZES), basicGround));
 
                         //Deadly blocks
                     else if (c == '~')
-                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), deadlyGhostObj));
+                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, SIZES, SIZES), deadlyGhostObj));
 
                     else if (c == '!')
-                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), deadlyGhostObj)); //will have a different texture
+                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, SIZES, SIZES), deadlyGhostObj)); //will have a different texture
 
                     else if (c == 'd')
-                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), deadlyObjs));
+                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, SIZES, SIZES), deadlyObjs));
 
                     else if (c == 'D')
-                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture));//will have a different texture
+                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture));//will have a different texture
 
                     //Enemies
 
@@ -323,60 +324,60 @@ namespace UGWProjCode
                     else if (c == '^')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 2, speed, false));
+                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 2, speed, false));
                     }
 
                         //up and down ghost, starting down
                     else if (c == 'v')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 0, speed, false));
+                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 0, speed, false));
                     }
 
                         //physical deadly enemy (non chargable) starting off to the left
                     else if (c == '<')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, false));
+                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 1, speed, false));
                     }
 
                     //physical deadly enemy (non chargable) starting off to the right
                     if (c == '>')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, false));
+                        enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 3, speed, false));
                     }
 
                         //physical deadly enemy (non chargable) starting off to the left
                     else if (c == '{')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, false));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 1, speed, false));
                     }
 
                         //physical deadly enemy (non chargable) starting off to the right
                     else if (c == '}')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, false));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 3, speed, false));
                     }
 
                         //physical deadly enemy (chargable) starting off to the left
                     else if (c == '[')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 1, speed, true));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 1, speed, true));
                     }
 
                         //physical deadly enemy (chargable) starting off to the right
                     else if (c == ']')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, 50, 50), paulPlayer.GameTexture, 3, speed, true));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 3, speed, true));
                     }
 
                     else if (c == 'p')
-                        phaseBlocks.Add(new PhaseBlock(new Rectangle(mapX, mapY, 50, 50), phaseBlockTexture));
+                        phaseBlocks.Add(new PhaseBlock(new Rectangle(mapX, mapY, SIZES, SIZES), phaseBlockTexture));
 
                     else if (c == 'n')
                     {
@@ -663,7 +664,13 @@ namespace UGWProjCode
         }
 
 
-
+        /// <summary>
+        /// Checks to see if the top, bottom, or side collides with the player
+        /// takes in the rectangle of a block object(general,phase,deadly)
+        /// and returns a bool if the player is intersecting 
+        /// </summary>
+        /// <param name="blockRec"></param>
+        /// <returns></returns>
         protected bool BlockCollison(Rectangle blockRec)
         {
             //First checks for intersection with player
@@ -710,6 +717,30 @@ namespace UGWProjCode
         }
 
         /// <summary>
+        /// This method will be called whenever we intend to clean the screen/restart
+        /// instead of constantly writing all this code out.
+        /// Clears the lists, memories, and player position 
+        /// </summary>
+        public void ClearingScreen()
+        {
+            paulPlayer.ObjRect = new Rectangle(400, 400, 50, 50);
+            playerPos = new Vector2(paulRect.X, paulRect.Y);
+            paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
+            dbGhost.Clear();
+            dbPhysical.Clear();
+            genBlocks.Clear();
+            phaseBlocks.Clear();
+            dbPhysical.Clear();
+            enemyGhosts.Clear();
+            enemyPhys.Clear();
+            totalMemories = 0;
+            memories.Clear();
+            paulPlayer.MemsColl = 0;
+        }
+
+
+
+        /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
         /// </summary>
@@ -750,32 +781,20 @@ namespace UGWProjCode
                         playerPos = new Vector2(paulRect.X, paulRect.Y);
                         paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
                         DrawLevel(levelCurrent);
-                        CurrentGameState = GameState.Playing;
-                        
-                    }
-                    
+                        CurrentGameState = GameState.Playing;                       
+                    }                 
                     break;
 
+                    //the levels and the code for the game itself
                 case GameState.Playing:
                     if (paused == false)
                     {
                         //if the player has collected all the memories
                         if (paulPlayer.MemsColl == memories.Count)
                         {
-                            dbGhost.Clear();
-                            paulPlayer.ObjRect = new Rectangle(400, 400, 50, 50);
-                            dbPhysical.Clear();
-                            genBlocks.Clear();
-                            phaseBlocks.Clear();
-                            dbPhysical.Clear();
-                            enemyGhosts.Clear();
-                            enemyPhys.Clear();
-                            totalMemories = 0;
-                            memories.Clear();
-                            paulPlayer.MemsColl = 0;
+                            ClearingScreen();
                             levelCurrent++;
-                            DrawLevel(levelCurrent);
-                            
+                            DrawLevel(levelCurrent);                           
                         }
                         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                         {
@@ -800,30 +819,6 @@ namespace UGWProjCode
                                 enemyGhosts[i].Move(paulPlayer);
                             }
                         }
-                        //if player has finnished all levels in list
-                        //if(levelCurrent -1 == levelDisplay.Count)
-                        //{
-                        //    if (btnBackPause.isClicked == true)
-                        //    {
-                        //        paused = false;
-                        //        //if the player goes back to the main menu, they will go back to level 1.
-                        //        levelCurrent = 1;
-                        //        dbGhost.Clear();
-                        //        paulPlayer.ObjRect = new Rectangle(400, 400, 50, 50);
-                        //        dbPhysical.Clear();
-                        //        genBlocks.Clear();
-                        //        phaseBlocks.Clear();
-                        //        dbPhysical.Clear();
-                        //        enemyGhosts.Clear();
-                        //        enemyPhys.Clear();
-                        //        totalMemories = 0;
-                        //        memories.Clear();
-                        //        paulPlayer.MemsColl = 0;
-                        //        DrawLevel(levelCurrent);
-
-                        //        CurrentGameState = GameState.MainMenu;
-                        //    }
-                        //}
                     }
                     else
                     {
@@ -837,17 +832,7 @@ namespace UGWProjCode
                             paused = false;
                             //if the player goes back to the main menu, they will go back to level 1.
                             levelCurrent = 0;
-                            dbGhost.Clear();
-                            paulPlayer.ObjRect = new Rectangle(400, 400, 50, 50);
-                            dbPhysical.Clear();
-                            genBlocks.Clear();
-                            phaseBlocks.Clear();
-                            dbPhysical.Clear();
-                            enemyGhosts.Clear();
-                            enemyPhys.Clear();
-                            totalMemories = 0;
-                            memories.Clear();
-                            paulPlayer.MemsColl = 0;
+                            ClearingScreen();
                             CurrentGameState = GameState.MainMenu;
                         }
                         //the player restarts the stage, everything on the level is reset back to the position they are on
@@ -855,19 +840,7 @@ namespace UGWProjCode
                         if (btnRestart.isClicked == true)
                         {
                             paused = false;
-                            playerPos = new Vector2(paulRect.X, paulRect.Y);
-                            paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
-                            dbGhost.Clear();
-                            paulPlayer.ObjRect = new Rectangle(400, 400, 50, 50);
-                            dbPhysical.Clear();
-                            genBlocks.Clear();
-                            phaseBlocks.Clear();
-                            dbPhysical.Clear();
-                            enemyGhosts.Clear();
-                            enemyPhys.Clear();
-                            totalMemories = 0;
-                            memories.Clear();
-                            paulPlayer.MemsColl = 0;
+                            ClearingScreen();
                             DrawLevel(levelCurrent);
                             CurrentGameState = GameState.Playing;
                         }
@@ -890,33 +863,16 @@ namespace UGWProjCode
                     btnBack.Update(mouse);
                     IsMouseVisible = true;
                     break;
-
             }
+
             ProcessInput();
             DetectCollison();
-            //moving on to the next level
-            //if (paulPlayer.MemsColl == memories.Count)
-            //{
-            //    dbGhost.Clear();
-            //    paulPlayer.ObjRect = new Rectangle(400, 400, 50, 50);
-            //    dbPhysical.Clear();
-            //    genBlocks.Clear();
-            //    phaseBlocks.Clear();
-            //    dbPhysical.Clear();
-            //    enemyGhosts.Clear();
-            //    enemyPhys.Clear();
-            //    totalMemories = 0;
-            //    memories.Clear();
-            //    paulPlayer.MemsColl = 0;
-            //    DrawLevel(levelCurrent);
-            //    levelCurrent++;
-            //}
-
             framesElapsed = (int)(gameTime.TotalGameTime.TotalMilliseconds / timePerFrame);
             frame = framesElapsed % numFrames;
 
             base.Update(gameTime);
         }
+
 
         /// <summary>
         /// This is called when the game should draw itself.

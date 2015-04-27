@@ -23,6 +23,8 @@ namespace UGWProjCode
         private int xPosV;
         private int yPosV;
 
+        Random plyRand = new Random();
+
 
 
         //properties
@@ -52,7 +54,7 @@ namespace UGWProjCode
         {
             hasJumped = false; //default, no jump
             playerPos = new Vector2(this.ObjRect.X, this.ObjRect.Y);//setting the position equal to the vector
-            moveSpd = 5;
+            moveSpd = plyRand.Next(4, 8);//will give a random player speed from 4-7
             spdWithBlock = 2;
 
         }

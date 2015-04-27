@@ -9,6 +9,9 @@ namespace UGWProjCode
 #if WINDOWS || LINUX
     /// <summary>
     /// The main class.
+    /// Unlimited Game Works 
+    /// 5/13/15
+    /// //Bierre
     /// </summary>
     public static class Program
     {
