@@ -97,6 +97,9 @@
     <Content Include="Content\DeadlyBlockPhys2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\endscreen.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\floatgrass.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

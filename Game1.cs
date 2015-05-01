@@ -111,7 +111,8 @@ namespace UGWProjCode
             MainMenu,
             Playing,
             Help,
-            Credits
+            Credits,
+            EndScreen
         }
 
         // gamestate begins in main menu
@@ -269,7 +270,7 @@ namespace UGWProjCode
             //until there is a win gamestate
             if (lNum >= lFiles.Count)
             {
-                CurrentGameState = GameState.MainMenu;
+                CurrentGameState = GameState.EndScreen;
                 levelCurrent = 0;
 
             }
@@ -865,6 +866,12 @@ namespace UGWProjCode
                     btnBack.Update(mouse);
                     IsMouseVisible = true;
                     break;
+
+                case GameState.EndScreen:
+                    if (btnBackPause.isClicked == true) CurrentGameState = GameState.MainMenu;
+                    btnBackPause.Update(mouse);
+                    IsMouseVisible = true;
+                    break;
             }
 
             ProcessInput();
@@ -1109,6 +1116,11 @@ namespace UGWProjCode
                 case GameState.Credits:
                     spriteBatch.Draw(Content.Load<Texture2D>("creditsbg"), new Rectangle(0, 0, 1024, 768), Color.White);
                     btnBack.Draw(spriteBatch);
+                    break;
+
+                case GameState.EndScreen:
+                    spriteBatch.Draw(Content.Load<Texture2D>("endscreen"), new Rectangle(0, 0, 1024, 768), Color.White);
+                    btnBackPause.Draw(spriteBatch);
                     break;
             }
 
