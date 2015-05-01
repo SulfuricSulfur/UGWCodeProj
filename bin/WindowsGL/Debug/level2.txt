@@ -10,6 +10,6 @@ d------------------n
 f-fff-----ffff-----n
 -----f-------f---ffn
 -------fff-----v-ffn
--@---pp-----fffpfppn
+-@----------fffpfppn
 xxxxxxx---xpd-----mn
 
