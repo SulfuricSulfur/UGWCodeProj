@@ -417,10 +417,12 @@ namespace UGWProjCode
             paulPlayer = new Player(paulRect, paulPhysical, playerPos, false);
             deadlyObjs = Content.Load<Texture2D>("DeadlyBlockPhys.png");
             deadlyGhostObj = Content.Load<Texture2D>("DeadlyBlockGhost.png");
+            
             paulGhost = Content.Load<Texture2D>("paulfloat.png");
             basicFloat = Content.Load<Texture2D>("floatgrass.png");
             basicGround = Content.Load<Texture2D>("connectivebottom.png");
             memorytexture = Content.Load<Texture2D>("movableblockgrass.png");
+            
 
             genBlocks.Add(new GeneralBlock(toprect,top));
             genBlocks.Add(new GeneralBlock(siderectR, sides));

@@ -103,6 +103,9 @@
     <Content Include="Content\floatgrass2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\gdb1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\grassfloor.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
