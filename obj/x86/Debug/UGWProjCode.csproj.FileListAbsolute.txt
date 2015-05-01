@@ -425,3 +425,8 @@ D:\Users\zrm2647\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\gdb1.p
 D:\Users\zrm2647\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\mainbutton.png
 D:\Users\zrm2647\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\resumebutton.png
 D:\Users\zrm2647\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\winscreen.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\endscreen.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\gdb1.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\mainbutton.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\resumebutton.png
+D:\Users\jew3873\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\winscreen.png

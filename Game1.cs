@@ -46,7 +46,9 @@ namespace UGWProjCode
         List<string> levelDisplay = new List<string>();
 
 
-
+        int pauloffset2 = 0;
+        int frame2;
+        int numFrames2 = 2;
         int pauloffset = 0;
         int paulyset = 0;
         int spriteboxwidth = 54;
@@ -104,7 +106,8 @@ namespace UGWProjCode
         //enumerator
         enum PhysicalState { PaulFaceRight, PaulFaceLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft, PaulPushLeft, PaulPushRight };
         PhysicalState paulPCurrent = PhysicalState.PaulFaceRight;//default
-
+        enum GhostState { FloatRight, FloatLeft };
+        GhostState ghoststate = GhostState.FloatRight;
         // GameState enumerator
         enum GameState
         {
@@ -558,11 +561,12 @@ namespace UGWProjCode
                 }
                 if (kboardstate.IsKeyDown(Keys.A))
                 {
-
+                    ghoststate = GhostState.FloatLeft;
                     playerPos.X -= paulPlayer.MoveSpeed;
                 }
                 if (kboardstate.IsKeyDown(Keys.D))
                 {
+                    ghoststate = GhostState.FloatRight;
                     playerPos.X += paulPlayer.MoveSpeed;
                 }
                 if (kboardstate.IsKeyDown(Keys.W))
@@ -878,6 +882,7 @@ namespace UGWProjCode
             DetectCollison();
             framesElapsed = (int)(gameTime.TotalGameTime.TotalMilliseconds / timePerFrame);
             frame = framesElapsed % numFrames;
+            frame2 = framesElapsed % numFrames2;
 
             base.Update(gameTime);
         }
@@ -1000,24 +1005,24 @@ namespace UGWProjCode
                             //enemy
                             for (int i = 0; i < enemyPhys.Count; i++)
                             {
-                                numFrames = 2;
-                                if (frame > 1)
+                                numFrames2 = 2;
+                                if (frame2 > 1)
                                 {
-                                    frame = 0;
+                                    frame2 = 0;
                                 }
-                                pauloffset = (54 * frame);
+                                pauloffset2 = (54 * frame2);
                                 if (enemyPhys[i].MovingDirection == 1)
                                 {
                                     if (enemyPhys[i].CanCharge)
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[12]);
-                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset2 + frame2, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
                                     }
                                     else
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[6]);
-                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset2 + frame2, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                                     }
                                 }
                                 if (enemyPhys[i].MovingDirection == 3)
@@ -1025,13 +1030,13 @@ namespace UGWProjCode
                                     if (enemyPhys[i].CanCharge)
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[12]);
-                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset2 + frame2, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
 
                                     }
                                     else
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[6]);
-                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset2 + frame2, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                     }
                                 }
                             }
