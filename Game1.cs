@@ -17,6 +17,7 @@ namespace UGWProjCode
     /// </summary>
     public class Game1 : Game
     {
+        // various rectangles and textures
         StreamReader reader;
         string[] textures;
         Texture2D floor;
@@ -27,6 +28,7 @@ namespace UGWProjCode
         Rectangle siderectR;
         Rectangle toprect;
 
+        // level attributes
         int level;
         string lvl;
 
@@ -45,7 +47,7 @@ namespace UGWProjCode
         List<Memories> memories = new List<Memories>();
         List<string> levelDisplay = new List<string>();
 
-
+        // attributes for sprites
         int pauloffset2 = 0;
         int frame2;
         int numFrames2 = 2;
@@ -103,11 +105,13 @@ namespace UGWProjCode
         private bool hasJumped; //will set it so that the player can not constantly jump
         private Vector2 velocity;//the velcotiy of the player jumping/falling
         protected Vector2 playerPos; //the position in relation to the rectangle so it can jump;
-        //enumerator
+
+        // animation enumerators
         enum PhysicalState { PaulFaceRight, PaulFaceLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft, PaulPushLeft, PaulPushRight };
         PhysicalState paulPCurrent = PhysicalState.PaulFaceRight;//default
         enum GhostState { FloatRight, FloatLeft };
         GhostState ghoststate = GhostState.FloatRight;
+
         // GameState enumerator
         enum GameState
         {
@@ -120,6 +124,7 @@ namespace UGWProjCode
 
         // gamestate begins in main menu
         GameState CurrentGameState = GameState.MainMenu;
+
         // button objects
         Button btnPlay;
         Button btnHelp;
@@ -139,22 +144,20 @@ namespace UGWProjCode
         //sprite in the ghost state will only be one state, so there does not need to be an enum for it.
 
         //testing attributes
-
+        // random object
         Random rnd;
 
         int totalMemories; //the total amount of memories
         public Game1()
             : base()
         {
+            // game window related stuff
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
             Content.RootDirectory = "Content";
             reader = new StreamReader("Textures.txt");
-
-
-
         }
 
         /// <summary>
@@ -165,9 +168,6 @@ namespace UGWProjCode
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
-
             //each line represents each level
             //[0] floor, [1] side borders, [2] top border,  [3]  enemy1ghost, [4]  enemy 2ghost,[5] enemy1phys, [6] enemy2phys
             //[7] float1, [8] float2, [9] moving block, [10] transblock ghost [11] transblock physical [12] enemychargephys [13] enemychargeghost
@@ -186,15 +186,16 @@ namespace UGWProjCode
                 textures = reader.ReadLine().Split(',');
             }
 
-
             reader.Close();
+
+            // initialize rectangles
             //playerPos = new Vector2(300, 300);
             toprect = new Rectangle(40, 0, 1000, 40);
             siderectL = new Rectangle(0, 0, 50, 942);
             siderectR = new Rectangle(1000, 0, 50, 942);
             floorrect = new Rectangle(39, 740, 1000, 40);
 
-            // initialized menu objects
+            // initialized menu buttons
             btnPlay = new Button(Content.Load<Texture2D>("playbutton"), graphics.GraphicsDevice);
             btnHelp = new Button(Content.Load<Texture2D>("helpbutton"), graphics.GraphicsDevice);
             btnCredit = new Button(Content.Load<Texture2D>("creditsbutton"), graphics.GraphicsDevice);
@@ -204,7 +205,7 @@ namespace UGWProjCode
             btnRestart = new Button(Content.Load<Texture2D>("restartbutton"), graphics.GraphicsDevice);
             btnResume = new Button(Content.Load<Texture2D>("resumebutton"), graphics.GraphicsDevice);
 
-            // button positions
+            // setting button positions
             btnPlay.setPosition(new Vector2(448, 300));
             btnHelp.setPosition(new Vector2(448, 400));
             btnCredit.setPosition(new Vector2(448, 500));
@@ -214,9 +215,10 @@ namespace UGWProjCode
             btnRestart.setPosition(new Vector2(448, 450));
             btnResume.setPosition(new Vector2(448, 350));
 
-            // pause stuff
+            // pause menu
             pauseMenu = Content.Load<Texture2D>("pausebg");
             pausedRect = new Rectangle(0, 0, pauseMenu.Width, pauseMenu.Height);
+
             base.Initialize();
         }
 
@@ -229,6 +231,7 @@ namespace UGWProjCode
         /// </summary>
         public void LoadLevels()
         {
+            // streamreader for read in levels
             StreamReader lRead;
             //level names go here(RENAME)
             lFiles.Add("level101.txt");
@@ -240,6 +243,7 @@ namespace UGWProjCode
             //      Write "no levels found" somewhere
             // }
 
+            // loop each line into game
             foreach (string l in lFiles)
             {
                 lRead = new StreamReader(l);
@@ -269,8 +273,7 @@ namespace UGWProjCode
         /// <param name="lNum"></param>
         public void DrawLevel(int lNum)
         {
-            //temporary code for handling if the player finishes all the levels
-            //until there is a win gamestate
+            // when you beat all levels currently in files, game ends and win screen appears
             if (lNum >= lFiles.Count)
             {
                 CurrentGameState = GameState.EndScreen;
@@ -407,8 +410,7 @@ namespace UGWProjCode
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-
+            // loading in spritesheets + textures
             spritesheet = Content.Load<Texture2D>("Paul_Spritesheet.png");
             paulPhysical = Content.Load<Texture2D>("paulstand1.png");
             floor = Content.Load<Texture2D>(textures[0]);
@@ -417,21 +419,21 @@ namespace UGWProjCode
             phaseBlockTexture = Content.Load<Texture2D>(textures[10]);
             moveBlockTexture = Content.Load<Texture2D>(textures[9]);
 
+            // loading player and interactable objects to player
             paulRect = new Rectangle(300, 300, paulPhysical.Width, paulPhysical.Height);
             paulPlayer = new Player(paulRect, paulPhysical, playerPos, false);
             deadlyObjs = Content.Load<Texture2D>("DeadlyBlockPhys.png");
             deadlyGhostObj = Content.Load<Texture2D>("DeadlyBlockGhost.png");
-            
             paulGhost = Content.Load<Texture2D>("paulfloat.png");
             basicFloat = Content.Load<Texture2D>("floatgrass.png");
             basicGround = Content.Load<Texture2D>("connectivebottom.png");
             memorytexture = Content.Load<Texture2D>("movableblockgrass.png");
-            
-
             genBlocks.Add(new GeneralBlock(toprect,top));
             genBlocks.Add(new GeneralBlock(siderectR, sides));
             genBlocks.Add(new GeneralBlock(siderectL, sides));
             genBlocks.Add(new GeneralBlock(floorrect, floor));
+
+            // load levels
             LoadLevels();
         }
 
@@ -448,14 +450,9 @@ namespace UGWProjCode
             kboardstate = Keyboard.GetState();
             if (paulPlayer.IsDead == false)
             {
-
                 playerPos += velocity;
                 paulPlayer.ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
-                //this.ObjRect = new Rectangle( ) 
-                if (kboardstate.IsKeyDown(Keys.Escape))
-                {
-                    //pause menu
-                }
+                //this.ObjRect = new Rectangle( )
                 if (prevKeyPressed.IsKeyDown(Keys.A) && hasJumped == false)
                 {
                     paulPCurrent = PhysicalState.PaulFaceLeft;
@@ -466,14 +463,11 @@ namespace UGWProjCode
                 }
                 if (kboardstate.IsKeyDown(Keys.A) && prevKeyPressed.IsKeyDown(Keys.A))//IF going left and last state was facing left
                 {
-
                     playerPos.X -= paulPlayer.MoveSpeed;
-
                 }
                 if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.D))
                 {
                     playerPos.X += paulPlayer.MoveSpeed;
-
                 }
                 if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.D) && hasJumped == false)
                 {
@@ -483,15 +477,12 @@ namespace UGWProjCode
                 {
                     paulPCurrent = PhysicalState.PaulWalkLeft;
                 }
-
-
                 if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.D) && hasJumped == false)
                 {
                     //pushing/pulling the block from the right side.
                     playerPos.X += paulPlayer.SpeedWithBlock;
                     paulPCurrent = PhysicalState.PaulPushRight;
                 }
-
                 if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.A) && hasJumped == false)
                 {
                     //pushing/pulling from the left side of the block
@@ -506,6 +497,7 @@ namespace UGWProjCode
                     velocity.Y += -5.1f;
                     hasJumped = true;
                     playerPos += velocity;
+                    // jumping animations
                     if (paulPCurrent == PhysicalState.PaulFaceLeft)
                     {
                         paulPCurrent = PhysicalState.PaulJumpLeft;
@@ -552,13 +544,10 @@ namespace UGWProjCode
 
                 prevKeyPressed = kboardstate;
             }
+            // animations for ghost player
             else if (paulPlayer.IsDead == true)
             {
                 paulPlayer.ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
-                if (kboardstate.IsKeyDown(Keys.Escape))
-                {
-                    //pause menu
-                }
                 if (kboardstate.IsKeyDown(Keys.A))
                 {
                     ghoststate = GhostState.FloatLeft;
@@ -744,9 +733,7 @@ namespace UGWProjCode
             memories.Clear();
             paulPlayer.MemsColl = 0;
         }
-
-
-
+        
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
@@ -763,24 +750,27 @@ namespace UGWProjCode
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            //Exit();
-
-            // TODO: Add your update logic here
+            // mouse state, used for menus
             MouseState mouse = Mouse.GetState();
 
-            // TODO: Add your update logic here
+            // menu gamestates
             switch (CurrentGameState)
             {
+                // main menu
                 case GameState.MainMenu:
+                    // changing gamestates by clicking a button
                     if (btnHelp.isClicked == true) CurrentGameState = GameState.Help;
                     if (btnCredit.isClicked == true) CurrentGameState = GameState.Credits;
                     if (btnQuit.isClicked == true) Environment.Exit(1);
+                    
+                    // button reacts when mouse is hovering over it
                     btnPlay.Update(mouse);
                     btnHelp.Update(mouse);
                     btnCredit.Update(mouse);
                     btnQuit.Update(mouse);
                     IsMouseVisible = true;
+
+                    // starting the game
                     if (btnPlay.isClicked == true)
                     {
                         btnPlay.isClicked = false;
@@ -792,8 +782,10 @@ namespace UGWProjCode
                     }                 
                     break;
 
-                    //the levels and the code for the game itself
+                //the levels and the code for the game itself
                 case GameState.Playing:
+
+                    // when game is not paused
                     if (paused == false)
                     {
                         //if the player has collected all the memories
@@ -803,6 +795,8 @@ namespace UGWProjCode
                             levelCurrent++;
                             DrawLevel(levelCurrent);                           
                         }
+
+                        // entering pause menu
                         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                         {
                             paused = true;
@@ -812,6 +806,8 @@ namespace UGWProjCode
                             btnRestart.isClicked = false;
                             IsMouseVisible = true;
                         }
+
+                        // is player alive or dead?
                         if (!paulPlayer.IsDead)
                         {
                             for (int i = 0; i < enemyPhys.Count; i++)
@@ -827,13 +823,17 @@ namespace UGWProjCode
                             }
                         }
                     }
+
+                    // game is paused
                     else
                     {
+                        // unpause game
                         if (btnResume.isClicked == true)
                         {
                             paused = false;
                             IsMouseVisible = false;
                         }
+                        // back to main menu
                         if (btnBackPause.isClicked == true)
                         {
                             paused = false;
@@ -852,6 +852,7 @@ namespace UGWProjCode
                             CurrentGameState = GameState.Playing;
                         }
 
+                        // buttons react to mouse hovering
                         btnPlay.Update(mouse);
                         btnResume.Update(mouse);
                         btnBackPause.Update(mouse);
@@ -859,18 +860,21 @@ namespace UGWProjCode
                     }
                     break;
 
+                    // help screen
                 case GameState.Help:
                     if (btnBack.isClicked == true) CurrentGameState = GameState.MainMenu;
                     btnBack.Update(mouse);
                     IsMouseVisible = true;
                     break;
 
+                    // credits screen
                 case GameState.Credits:
                     if (btnBack.isClicked == true) CurrentGameState = GameState.MainMenu;
                     btnBack.Update(mouse);
                     IsMouseVisible = true;
                     break;
 
+                    // win screen
                 case GameState.EndScreen:
                     if (btnBackPause.isClicked == true) CurrentGameState = GameState.MainMenu;
                     btnBackPause.Update(mouse);
@@ -878,6 +882,7 @@ namespace UGWProjCode
                     break;
             }
 
+            // call other methods into update
             ProcessInput();
             DetectCollison();
             framesElapsed = (int)(gameTime.TotalGameTime.TotalMilliseconds / timePerFrame);
