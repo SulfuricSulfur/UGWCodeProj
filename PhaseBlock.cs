@@ -13,8 +13,6 @@ namespace UGWProjCode
 {
     class PhaseBlock : Block
     {
-        //attributes
-
         //constructor
         public PhaseBlock(Rectangle phaserect, Texture2D phasetext)
             : base(phaserect, phasetext)

@@ -18,7 +18,5 @@ namespace UGWProjCode
         //each stage
 
         //in here will be arrays/lists of enemies, blocks, and interactables
-
-
     }
 }

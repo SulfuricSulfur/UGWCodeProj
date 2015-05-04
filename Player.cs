@@ -18,15 +18,13 @@ namespace UGWProjCode
         private int moveSpd;//player speed default;
         private int spdWithBlock;//the speed of the player while moving the block
 
-
         //the x and y to parse float to int and use for x and y in rectangle
         private int xPosV;
         private int yPosV;
 
+        // random objecy
         Random plyRand = new Random();
-
-
-
+        
         //properties
         public int MemsColl
         {
@@ -46,8 +44,6 @@ namespace UGWProjCode
             set { spdWithBlock = value; }
         }
 
-
-
         //constructor
         public Player(Rectangle playrect, Texture2D playtext, Vector2 playerPos, bool hasJumped)
             : base(false, playrect, playtext)
@@ -56,10 +52,6 @@ namespace UGWProjCode
             playerPos = new Vector2(this.ObjRect.X, this.ObjRect.Y);//setting the position equal to the vector
             moveSpd = plyRand.Next(4, 8);//will give a random player speed from 4-7
             spdWithBlock = 2;
-
         }
-
-
-
     }
 }

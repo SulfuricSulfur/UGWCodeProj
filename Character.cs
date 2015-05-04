@@ -13,11 +13,10 @@ namespace UGWProjCode
 {
     abstract class Character : GamePiece
     {
-        //test
-        //
         //attributes that will be used for both enemies and the player
         protected bool isDead;
 
+        // property for isdead
         public bool IsDead
         {
             get { return isDead; }
@@ -30,11 +29,5 @@ namespace UGWProjCode
         {
             isDead = deadstatus;
         }
-
-        //move method 
-        // abstract public void Move()
-        // {
-
-        // }  
     }
 }

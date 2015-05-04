@@ -13,7 +13,7 @@ namespace UGWProjCode
 {
     class GeneralBlock : Block
     {
-
+        // constructor
         public GeneralBlock(Rectangle generalRect, Texture2D generalBTexture)
             : base(generalRect, generalBTexture)
         {

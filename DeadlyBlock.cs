@@ -13,9 +13,6 @@ namespace UGWProjCode
 {
     class DeadlyBlock : Block
     {
-        //attributes
-
-
         //constructor
         public DeadlyBlock(Rectangle blockRectangle, Texture2D deadlyBTexture)
             : base(blockRectangle, deadlyBTexture)
@@ -31,7 +28,6 @@ namespace UGWProjCode
         /// <param name="player1"> the player object passed in</param> 
         public void Kill(Player player1)
         {
-            //stub method. 
             if (player1.IsDead == false)
             {
                 player1.IsDead = true;

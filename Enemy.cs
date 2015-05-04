@@ -13,23 +13,24 @@ namespace UGWProjCode
 {
     class Enemy : Character
     {
-        //test
         //attributes
-        private int movingDirection;//this is what direction the enemy is moving
+        private int movingDirection; //this is what direction the enemy is moving
         //and what the opposite direction will be if they collide with something or reach the edge of something
         //0 is down(south, S) 1 is left(west, A) 2 is up(north, W) and 3 is right(east, D)
-        private int enemyMoveSpd;//the moving speed of the enemy will change depending on what is up in 
+
+        private int enemyMoveSpd; //the moving speed of the enemy will change depending on what is up in 
         //some enemies will be faster than others
 
         //lets the enemy speed up and charge correctly
         private Vector2 velocity;
         private Vector2 enemyPos;
 
-        private bool canCharge;//determins if it is the enemy that can charge
+        private bool canCharge; //determines if it is the enemy that can charge
 
-        private bool chargingState;//for the 1 charging enemy, it will determin if it is currently charging so
+        private bool chargingState; //for the 1 charging enemy, it will determin if it is currently charging so
         //there can be different animations depending on if the enemy is walking or running
 
+        // properties
         public int MovingDirection
         {
             get { return movingDirection; }
@@ -77,7 +78,6 @@ namespace UGWProjCode
         /// <param name="player1"> the player object passed in</param> 
         public void Kill(Player player1)
         {
-            //stub method. 
             if (player1.IsDead == false)
             {
                 player1.IsDead = true;
@@ -87,7 +87,6 @@ namespace UGWProjCode
                 player1.IsDead = false;
             }
         }
-
 
         /// <summary>
         /// this will be called for every enemy in the enemy arrays to see if they are colliding with the player while in the same state
@@ -103,6 +102,7 @@ namespace UGWProjCode
                     Kill(plyr);
                 }
             }
+
             //if the player is alive and the enemy is alive
             else if (isDead == false && plyr.IsDead == false)
             {
@@ -189,8 +189,7 @@ namespace UGWProjCode
                 ObjRect = new Rectangle((int)enemyPos.X, (int)enemyPos.Y, ObjRect.Width, ObjRect.Height);
             }
         }
-
-
+        
         //test collision method
         /// <summary>
         /// takes in the rectangle of an object and if it is alive or dead
@@ -242,20 +241,8 @@ namespace UGWProjCode
                             movingDirection = 3;
                         }
                     }
-
-                }
-                else if (this.IsDead == false && isDeadObj == true)
-                {
-                    //no collision
-                }
-                else if (this.IsDead == true && isDeadObj == false)
-                {
-                    //also no collision
                 }
             }
         }
-
-
-
     }
 }

@@ -13,7 +13,6 @@ namespace UGWProjCode
 {
     class Memories:GamePiece
     {
-
         //attributes
         private int totMem; //the total memories in that level
         private bool advanceLevel;//if all the memories have been collected, this will be true and advance on
@@ -36,6 +35,7 @@ namespace UGWProjCode
             get { return hasCollected; }
             set { hasCollected = value; }
         }
+
         //constructor
         public Memories( Rectangle memorect, Texture2D memotexture)
             : base(memorect, memotexture)
@@ -53,6 +53,7 @@ namespace UGWProjCode
             playr.MemsColl++;
         }
 
+        // if the player collects all the memories in a level
         public void memsAllCollected(Player plr)
         {
             if (plr.MemsColl == totMem)
