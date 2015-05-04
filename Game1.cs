@@ -219,6 +219,8 @@ namespace UGWProjCode
             lFiles.Add("level101.txt");
             lFiles.Add("level72.txt");
             lFiles.Add("level2.txt");
+            lFiles.Add("level3.txt");
+            lFiles.Add("level4.txt");
 
             // if (lFiles.Length == 0)
             // {
