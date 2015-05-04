@@ -31,7 +31,6 @@ namespace UGWProjCode
         // level attributes
         int level;
         string lvl;
-
   
         //The lists for the levels. Include all the instanses of objects being read in from the textfile
         //a list containing the names of the textfiles being read in sequentially
@@ -53,19 +52,14 @@ namespace UGWProjCode
         int numFrames2 = 2;
         int pauloffset = 0;
         int paulyset = 0;
-        int spriteboxwidth = 54;
         int spriteboxheight = 72;
-        GameTime gametime;
         int frame;
         const double timePerFrame = 200;
         const int SIZES = 50;//will be used for the sizes of enemies+objects
         int numFrames = 3;
         int framesElapsed;
         int levelCurrent = 0;//The current level the player is on(in terms of the list)
-
-
-        //private List<string> levels = new List<string>();
-        //private string[] lFiles;
+        int totalMemories; //the total amount of memories
         protected int mapX = 42;
         protected int mapY = 42;
 
@@ -79,14 +73,9 @@ namespace UGWProjCode
         Texture2D paulGhost;
         Texture2D memorytexture;
         //the background will change
-        Texture2D enemyPhysical1;
-        Texture2D enemyPhysical2;
-        Texture2D enemyGhost1;
-        Texture2D enemyGhost2;
         Texture2D phaseBlockTexture;
         Texture2D deadlyObjs;
         Texture2D deadlyGhostObj;
-        Texture2D backGround;
         Texture2D moveBlockTexture;
         Texture2D basicFloat;
         Texture2D basicGround;
@@ -106,6 +95,7 @@ namespace UGWProjCode
         private Vector2 velocity;//the velcotiy of the player jumping/falling
         protected Vector2 playerPos; //the position in relation to the rectangle so it can jump;
 
+        //sprite in the ghost state will only be one state, so there does not need to be an enum for it.
         // animation enumerators
         enum PhysicalState { PaulFaceRight, PaulFaceLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft, PaulPushLeft, PaulPushRight };
         PhysicalState paulPCurrent = PhysicalState.PaulFaceRight;//default
@@ -134,20 +124,12 @@ namespace UGWProjCode
         Button btnBackPause;
         Button btnRestart;
         Button btnResume;
-        Button btnMain;
 
         // pause menu attributes
         bool paused = false;
         Texture2D pauseMenu;
         Rectangle pausedRect;
 
-        //sprite in the ghost state will only be one state, so there does not need to be an enum for it.
-
-        //testing attributes
-        // random object
-        Random rnd;
-
-        int totalMemories; //the total amount of memories
         public Game1()
             : base()
         {
@@ -892,22 +874,22 @@ namespace UGWProjCode
             base.Update(gameTime);
         }
 
-
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            // default color
             GraphicsDevice.Clear(Color.DarkMagenta);
-
-
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
 
+            // gamestates
             switch (CurrentGameState)
             {
+                // main menu
                 case GameState.MainMenu:
+                    // draw buttons and menu background
                     spriteBatch.Draw(Content.Load<Texture2D>("mainbg"), new Rectangle(0, 0, 1024, 768), Color.White);
                     btnPlay.Draw(spriteBatch);
                     btnHelp.Draw(spriteBatch);
@@ -915,7 +897,10 @@ namespace UGWProjCode
                     btnQuit.Draw(spriteBatch);
                     break;
 
+                // the game
                 case GameState.Playing:
+
+                    // pause menu
                     if (paused == true)
                     {
                         spriteBatch.Draw(pauseMenu, pausedRect, Color.White);
@@ -923,18 +908,21 @@ namespace UGWProjCode
                         btnRestart.Draw(spriteBatch);
                         btnBackPause.Draw(spriteBatch);
                     }
+
+                    // not paused menu
                     else
                     {
+                        // loop loads in blocks
                         for (int i = 0; i < genBlocks.Count; i++)
                         {
                             spriteBatch.Draw(genBlocks[i].GameTexture, genBlocks[i].ObjRect, Color.White);
-
                         }
                         pauloffset = (54 * frame);
+                        
+                        // draw when paul is dead
                         if (paulPlayer.IsDead == true)
                         {    
                             //deadly blocks
- 
                             for (int i = 0; i < genBlocks.Count; i++)
                             {
                                 spriteBatch.Draw(genBlocks[i].GameTexture, genBlocks[i].ObjRect, Color.Red);
@@ -951,6 +939,7 @@ namespace UGWProjCode
                             {
                                 spriteBatch.Draw(phaseBlocks[i].GameTexture, phaseBlocks[i].ObjRect, Color.White);//this will be transparent one
                             }
+
                             //ghost enemies
                             for (int i = 0; i < enemyGhosts.Count; i++)
                             {
@@ -992,6 +981,8 @@ namespace UGWProjCode
                             }
                          
                         }
+
+                        // draw if paul is alive
                         else if (paulPlayer.IsDead == false)
                         {
                             for (int i = 0; i < dbPhysical.Count; i++)
@@ -1045,9 +1036,8 @@ namespace UGWProjCode
                                     }
                                 }
                             }
-                         
-
-                            //Paul(player)'s sprite animation
+                            
+                            //player's sprite animation
                             switch (paulPCurrent)
                             {
                                 case PhysicalState.PaulWalkRight:
@@ -1100,6 +1090,8 @@ namespace UGWProjCode
                             }
 
                         }
+                        
+                        // memories
                         for (int i = 0; i < memories.Count; i++)
                         {
                             if (memories[i].HasCollected == false)
@@ -1107,27 +1099,22 @@ namespace UGWProjCode
                                 spriteBatch.Draw(memories[i].GameTexture, memories[i].ObjRect, Color.White);
                             }
                         }
-
-
                     }
-
-                    //if(levelCurrent -1 == levelDisplay.Count )
-                    //{
-                    //    spriteBatch.Draw(Content.Load<Texture2D>("winscreen"), new Rectangle(0, 0, 1024, 768), Color.White);
-                    //    btnBackPause.Draw(spriteBatch);
-                    //}
                     break;
 
+                    // help screen
                 case GameState.Help:
                     spriteBatch.Draw(Content.Load<Texture2D>("helpbg"), new Rectangle(0, 0, 1024, 768), Color.White);
                     btnBack.Draw(spriteBatch);
                     break;
 
+                    // credits screen
                 case GameState.Credits:
                     spriteBatch.Draw(Content.Load<Texture2D>("creditsbg"), new Rectangle(0, 0, 1024, 768), Color.White);
                     btnBack.Draw(spriteBatch);
                     break;
 
+                    // win screen
                 case GameState.EndScreen:
                     spriteBatch.Draw(Content.Load<Texture2D>("endscreen"), new Rectangle(0, 0, 1024, 768), Color.White);
                     btnBackPause.Draw(spriteBatch);

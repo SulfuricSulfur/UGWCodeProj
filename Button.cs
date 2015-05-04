@@ -31,6 +31,7 @@ namespace UGWProjCode
         bool down;
         public bool isClicked;
 
+        // update the buttons
         public void Update(MouseState mouse)
         {
             rectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
@@ -43,6 +44,7 @@ namespace UGWProjCode
                 if (color.A == 0) down = true;
                 if (down) color.A += 3;
                 else color.A -= 3;
+
                 // clicked button
                 if (mouse.LeftButton == ButtonState.Pressed)
                 {
