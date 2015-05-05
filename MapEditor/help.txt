@@ -19,6 +19,7 @@ m - Memories
 
 x - General  floor blocks
 f - general floating blocks
+B - movable blocks
 
 ~ - Deadly block 1 (Ghost)
 ! - Deadly block 2(Ghost)

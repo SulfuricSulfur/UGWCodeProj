@@ -45,6 +45,7 @@ namespace UGWProjCode
         private List<GeneralBlock> genBlocks = new List<GeneralBlock>();
         List<Memories> memories = new List<Memories>();
         List<string> levelDisplay = new List<string>();
+        List<MoveBlock> moveableBlock = new List<MoveBlock>();
 
         // attributes for sprites
         int pauloffset2 = 0;
@@ -60,6 +61,7 @@ namespace UGWProjCode
         int framesElapsed;
         int levelCurrent = 0;//The current level the player is on(in terms of the list)
         int totalMemories; //the total amount of memories
+        int playerSpd; //keeping track of the current speed of the player
         protected int mapX = 42;
         protected int mapY = 42;
 
@@ -71,11 +73,15 @@ namespace UGWProjCode
         Texture2D paulPhysical;
         Texture2D spritesheet;
         Texture2D paulGhost;
+        //block textures
         Texture2D memorytexture;
-        //the background will change
         Texture2D phaseBlockTexture;
-        Texture2D deadlyObjs;
+            //deadly block textures
+        Texture2D physdeadlyObjs;
+        Texture2D physDeadlyObj2;
         Texture2D deadlyGhostObj;
+        Texture2D deadlyGhostObject2;
+            //other blocks
         Texture2D moveBlockTexture;
         Texture2D basicFloat;
         Texture2D basicGround;
@@ -97,7 +103,7 @@ namespace UGWProjCode
 
         //sprite in the ghost state will only be one state, so there does not need to be an enum for it.
         // animation enumerators
-        enum PhysicalState { PaulFaceRight, PaulFaceLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft, PaulPushLeft, PaulPushRight };
+        enum PhysicalState { PaulFaceRight, PaulFaceLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft};
         PhysicalState paulPCurrent = PhysicalState.PaulFaceRight;//default
         enum GhostState { FloatRight, FloatLeft };
         GhostState ghoststate = GhostState.FloatRight;
@@ -282,6 +288,7 @@ namespace UGWProjCode
                         paulRect = new Rectangle(mapX, mapY, 48, 48);
                         playerPos = new Vector2(paulRect.X, paulRect.Y);
                         paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
+                        playerSpd = paulPlayer.MoveSpeed;
                     }
 
                     else if (c == 'f')//floating grass blocks
@@ -291,6 +298,10 @@ namespace UGWProjCode
                     {
                         memories.Add(new Memories(new Rectangle(mapX, mapY, SIZES, SIZES), memorytexture));
                         totalMemories++;
+                    }
+                    else if (c == 'B')
+                    {
+                        moveableBlock.Add(new MoveBlock(new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture));//teporary game texture
                     }
 
                     else if (c == 'x')//ground solid blocks
@@ -304,10 +315,10 @@ namespace UGWProjCode
                         dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, SIZES, SIZES), deadlyGhostObj)); //will have a different texture
 
                     else if (c == 'd')
-                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, SIZES, SIZES), deadlyObjs));
+                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, SIZES, SIZES), physdeadlyObjs));
 
                     else if (c == 'D')
-                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture));//will have a different texture
+                        dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, SIZES, SIZES), physDeadlyObj2));//will have a different texture
 
                     //Enemies
 
@@ -372,11 +383,11 @@ namespace UGWProjCode
 
                     else if (c == 'n')
                     {
-                        mapY += 50;
+                        mapY += SIZES;
                         mapX = 0;
                     }
                     //Window Dimensions: 1024 x 768
-                    mapX += 50;
+                    mapX += SIZES;
                     //
                 }
             }
@@ -406,7 +417,8 @@ namespace UGWProjCode
             // loading player and interactable objects to player
             paulRect = new Rectangle(300, 300, paulPhysical.Width, paulPhysical.Height);
             paulPlayer = new Player(paulRect, paulPhysical, playerPos, false);
-            deadlyObjs = Content.Load<Texture2D>("DeadlyBlockPhys.png");
+            physdeadlyObjs = Content.Load<Texture2D>("DeadlyBlockPhys.png");
+            physDeadlyObj2 = Content.Load<Texture2D>("DeadlyBlockPhys2.png");
             deadlyGhostObj = Content.Load<Texture2D>("DeadlyBlockGhost.png");
             paulGhost = Content.Load<Texture2D>("paulfloat.png");
             basicFloat = Content.Load<Texture2D>("floatgrass.png");
@@ -435,6 +447,7 @@ namespace UGWProjCode
             if (paulPlayer.IsDead == false)
             {
                 playerPos += velocity;
+                paulPlayer.MoveSpeed = playerSpd;
                 paulPlayer.ObjRect = new Rectangle((int)playerPos.X, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
                 //this.ObjRect = new Rectangle( )
                 if (prevKeyPressed.IsKeyDown(Keys.A) && hasJumped == false)
@@ -461,17 +474,30 @@ namespace UGWProjCode
                 {
                     paulPCurrent = PhysicalState.PaulWalkLeft;
                 }
-                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.D) && hasJumped == false)
+                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.D))//&& (paulPCurrent == PhysicalState.PaulFaceLeft || paulPCurrent == PhysicalState.PaulWalkLeft)
                 {
-                    //pushing/pulling the block from the right side.
-                    playerPos.X += paulPlayer.SpeedWithBlock;
-                    paulPCurrent = PhysicalState.PaulPushRight;
+                    for (int i = 0; i < moveableBlock.Count; i++)
+                    {
+                        if ((paulPlayer.ObjRect.X - moveableBlock[i].ObjRect.X >= -50) && (paulPlayer.ObjRect.X - moveableBlock[i].ObjRect.X <= 50) && ((moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y >= -50) && (moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y <= 50)))
+                        {
+                            moveableBlock[i].PushingPulling(3, paulPlayer);
+                            paulPlayer.MoveSpeed = paulPlayer.SpeedWithBlock;
+                            ///moveableBlock[i].ObjRect = new Rectangle(moveableBlock[i].ObjRect.X - 10, moveableBlock[i].ObjRect.Y, moveableBlock[i].ObjRect.Width, moveableBlock[i].ObjRect.Height);
+                        }
+
+                    }
                 }
-                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.A) && hasJumped == false)
+                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.A))//&& (paulPCurrent == PhysicalState.PaulFaceRight || paulPCurrent == PhysicalState.PaulWalkRight
                 {
-                    //pushing/pulling from the left side of the block
-                    playerPos.X -= paulPlayer.SpeedWithBlock;
-                    paulPCurrent = PhysicalState.PaulPushLeft;
+                    for (int i = 0; i < moveableBlock.Count; i++)
+                    {
+                        if ((moveableBlock[i].ObjRect.X - paulPlayer.ObjRect.X >= -50) && (moveableBlock[i].ObjRect.X - paulPlayer.ObjRect.X <= 50) && ((moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y >= -50) && (moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y <= 50)))
+                        {
+                            moveableBlock[i].PushingPulling(1, paulPlayer);
+                            paulPlayer.MoveSpeed = paulPlayer.SpeedWithBlock;
+                        }
+
+                    }
                 }
                 //Gravity and jumping v
                 if (kboardstate.IsKeyDown(Keys.Space) && hasJumped == false)
@@ -569,6 +595,10 @@ namespace UGWProjCode
             }
             for (int k = 0; k < memories.Count; k++)
             {
+                for (int b = 0; b < moveableBlock.Count; b++)
+                {
+                    moveableBlock[b].CollidingWith(memories[k].ObjRect);
+                }
                 if (paulPlayer.ObjRect.Intersects(memories[k].ObjRect) && memories[k].HasCollected == false)
                 {
                     paulPlayer.MemsColl++;
@@ -578,10 +608,25 @@ namespace UGWProjCode
             for (int i = 0; i < genBlocks.Count; i++)
             {
                 BlockCollison(genBlocks[i].ObjRect);
+                for (int b = 0; b < moveableBlock.Count; b++)
+                {
+                    moveableBlock[b].CollidingWith(genBlocks[i].ObjRect);
+                }
             }
-
+            for (int b = 0; b < moveableBlock.Count; b++)
+            {
+                BlockCollison(moveableBlock[b].ObjRect);
+                for (int g = 0; g < moveableBlock.Count; g++)
+                {
+                    moveableBlock[g].CollidingWith(memories[b].ObjRect);
+                }
+            }
             for (int i = 0; i < dbPhysical.Count; i++)
             {
+                for (int b = 0; b < moveableBlock.Count; b++)
+                {
+                    moveableBlock[b].CollidingWith(dbPhysical[i].ObjRect);
+                }
                 if (!paulPlayer.IsDead)
                 {
                     if (BlockCollison(dbPhysical[i].ObjRect))
@@ -590,6 +635,10 @@ namespace UGWProjCode
             }
             for (int i = 0; i < phaseBlocks.Count; i++)
             {
+                for (int b = 0; b < moveableBlock.Count; b++)
+                {
+                    moveableBlock[b].CollidingWith(phaseBlocks[i].ObjRect);
+                }
                 if (!paulPlayer.IsDead)
                 {
                     BlockCollison(phaseBlocks[i].ObjRect);
@@ -639,6 +688,10 @@ namespace UGWProjCode
                 for (int r = 0; r < genBlocks.Count; r++)
                 {
                     enemyPhys[i].EnemyCollide(genBlocks[r].ObjRect, false);
+                }
+                for (int b = 0; b < moveableBlock.Count; b++)
+                {
+                    enemyPhys[i].EnemyCollide(moveableBlock[b].ObjRect, false);
                 }
             }
         }
@@ -1074,19 +1127,6 @@ namespace UGWProjCode
                                     spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
                                     break;
-                                case PhysicalState.PaulPushLeft:
-                                    numFrames = 4;
-                                    paulyset = spriteboxheight * 2; ;
-                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
-
-                                    break;
-                                case PhysicalState.PaulPushRight:
-                                    numFrames = 4;
-                                    paulyset = spriteboxheight * 2;
-                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
-
-                                    break;
-
                                 default:
                                     break;
                             }
@@ -1100,6 +1140,10 @@ namespace UGWProjCode
                             {
                                 spriteBatch.Draw(memories[i].GameTexture, memories[i].ObjRect, Color.White);
                             }
+                        }
+                        for (int b = 0; b < moveableBlock.Count; b++)
+                        {
+                            spriteBatch.Draw(moveableBlock[b].GameTexture, moveableBlock[b].ObjRect, Color.White);
                         }
                     }
                     break;
