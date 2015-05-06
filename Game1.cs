@@ -236,22 +236,28 @@ namespace UGWProjCode
             // loop each line into game
             foreach (string l in lFiles)
             {
-                lRead = new StreamReader(l);
-
-                lvl = " "; //empty string
-                string lvlIn = " "; //String being read
-                //string lCheck = " "; Tells when reader should stop reading. So far have not seen use for it, but keep it just in case.
-                mapX = 0;
-
-                while ((lvlIn = lRead.ReadLine()) != null)
+                try
                 {
+                    lRead = new StreamReader(l);
+                    lvl = " "; //empty string
+                    string lvlIn = " "; //String being read
+                    //string lCheck = " "; Tells when reader should stop reading. So far have not seen use for it, but keep it just in case.
+                    mapX = 0;
 
-                    //lvlIn = lRead.ReadLine();
-                    lvl += lvlIn;
+                    while ((lvlIn = lRead.ReadLine()) != null)
+                    {
+
+                        //lvlIn = lRead.ReadLine();
+                        lvl += lvlIn;
+                    }
+
+                    levelDisplay.Add(lvl);
+                    lRead.Close();
                 }
-
-                levelDisplay.Add(lvl);
-                lRead.Close();
+                catch (IOException)
+                {
+                    Console.WriteLine(l + " was not found");
+                }
             }
         }
 
@@ -285,7 +291,7 @@ namespace UGWProjCode
                     //make this 1 player object
                     if (c == '@')
                     {
-                        paulRect = new Rectangle(mapX, mapY, 48, 48);
+                        paulRect = new Rectangle(mapX, mapY, 48, 60);
                         playerPos = new Vector2(paulRect.X, paulRect.Y);
                         paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
                         playerSpd = paulPlayer.MoveSpeed;
@@ -354,28 +360,28 @@ namespace UGWProjCode
                     else if (c == '{')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 1, speed, false));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY - 10, SIZES, SIZES + 10), paulPlayer.GameTexture, 1, speed, false));
                     }
 
-                        //physical deadly enemy (non chargable) starting off to the right
+                         //physical deadly enemy (non chargable) starting off to the right
                     else if (c == '}')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 3, speed, false));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY - 10, SIZES, SIZES + 10), paulPlayer.GameTexture, 3, speed, false));
                     }
 
                         //physical deadly enemy (chargable) starting off to the left
                     else if (c == '[')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 1, speed, true));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY - 10, SIZES, SIZES + 10), paulPlayer.GameTexture, 1, speed, true));
                     }
 
                         //physical deadly enemy (chargable) starting off to the right
                     else if (c == ']')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 3, speed, true));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY - 10, SIZES, SIZES + 10), paulPlayer.GameTexture, 3, speed, true));
                     }
 
                     else if (c == 'p')
