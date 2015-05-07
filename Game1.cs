@@ -1076,7 +1076,15 @@ namespace UGWProjCode
                             }
                             paulyset = spriteboxheight * 3;
                             numFrames = 4;
-                            spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                            switch (ghoststate)
+                            {
+                                case GhostState.FloatRight:
+                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                    break;
+                                case GhostState.FloatLeft:
+                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                                    break;
+                            }
 
                             for (int i = 0; i < dbGhost.Count; i++)
                             {
@@ -1241,8 +1249,9 @@ namespace UGWProjCode
                         for (int i = 0; i < memories.Count; i++)
                         {
                             if (memories[i].HasCollected == false)
-                            {
-                                spriteBatch.Draw(memories[i].GameTexture, memories[i].ObjRect, Color.White);
+                            {               
+                                paulyset = spriteboxheight * 10;
+                                spriteBatch.Draw(spritesheet, new Vector2(memories[i].ObjRect.X, memories[i].ObjRect.Y), new Rectangle(pauloffset2 + frame2, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                             }
                         }
 
