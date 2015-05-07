@@ -31,7 +31,7 @@ namespace UGWProjCode
         // level attributes
         int level;
         string lvl;
-  
+
         //The lists for the levels. Include all the instanses of objects being read in from the textfile
         //a list containing the names of the textfiles being read in sequentially
         //and a list containing a strain of the level data to be read in
@@ -76,12 +76,12 @@ namespace UGWProjCode
         //block textures
         Texture2D memorytexture;
         Texture2D phaseBlockTexture;
-            //deadly block textures
+        //deadly block textures
         Texture2D physdeadlyObjs;
         Texture2D physDeadlyObj2;
         Texture2D deadlyGhostObj;
         Texture2D deadlyGhostObject2;
-            //other blocks
+        //other blocks
         Texture2D moveBlockTexture;
         Texture2D basicFloat;
         Texture2D basicGround;
@@ -105,7 +105,7 @@ namespace UGWProjCode
 
         //sprite in the ghost state will only be one state, so there does not need to be an enum for it.
         // animation enumerators
-        enum PhysicalState { PaulFaceRight, PaulFaceLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft};
+        enum PhysicalState { PaulFaceRight, PaulFaceLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft };
         PhysicalState paulPCurrent = PhysicalState.PaulFaceRight;//default
         enum GhostState { FloatRight, FloatLeft };
         GhostState ghoststate = GhostState.FloatRight;
@@ -227,7 +227,7 @@ namespace UGWProjCode
             //level names go here(RENAME)
             //lFiles.Add("level101.txt");
             //lFiles.Add("level72.txt");
-           //lFiles.Add("level2.txt");
+            //lFiles.Add("level2.txt");
             //lFiles.Add("level3.txt");
             //lFiles.Add("level4.txt");
             lFiles.Add("level5.txt");
@@ -300,7 +300,7 @@ namespace UGWProjCode
                         playerPos = new Vector2(paulRect.X, paulRect.Y);
                         paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
                         playerSpd = paulPlayer.MoveSpeed;
-                        
+
                     }
 
                     else if (c == 'f')//floating grass blocks
@@ -366,14 +366,14 @@ namespace UGWProjCode
                     else if (c == '{')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES ), paulPlayer.GameTexture, 1, speed, false));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 1, speed, false));
                     }
 
                          //physical deadly enemy (non chargable) starting off to the right
                     else if (c == '}')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES ), paulPlayer.GameTexture, 3, speed, false));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 3, speed, false));
                     }
 
                         //physical deadly enemy (chargable) starting off to the left
@@ -404,9 +404,9 @@ namespace UGWProjCode
                 }
             }
 
-        }           
-           
-   
+        }
+
+
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -436,7 +436,7 @@ namespace UGWProjCode
             basicFloat = Content.Load<Texture2D>("floatgrass.png");
             basicGround = Content.Load<Texture2D>("connectivebottom.png");
             memorytexture = Content.Load<Texture2D>("movableblockgrass.png");
-            genBlocks.Add(new GeneralBlock(toprect,top));
+            genBlocks.Add(new GeneralBlock(toprect, top));
             genBlocks.Add(new GeneralBlock(siderectR, sides));
             genBlocks.Add(new GeneralBlock(siderectL, sides));
             genBlocks.Add(new GeneralBlock(floorrect, floor));
@@ -473,40 +473,88 @@ namespace UGWProjCode
                 if (kboardstate.IsKeyDown(Keys.A) && prevKeyPressed.IsKeyDown(Keys.A))//IF going left and last state was facing left
                 {
                     playerPos.X -= paulPlayer.MoveSpeed;
+                    for (int i = 0; i < moveableBlock.Count; i++)
+                    {
+                        if ((moveableBlock[i].ObjRect.X - paulPlayer.ObjRect.X >= -60) && (moveableBlock[i].ObjRect.X - paulPlayer.ObjRect.X <= 60) && ((moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y >= -50) && (moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y <= 50)) && moveableBlock[i].CanMove == false)
+                        {
+                            playerPos = new Vector2(paulPlayer.ObjRect.X + paulPlayer.MoveSpeed, paulPlayer.ObjRect.Y);
+                            paulPlayer.ObjRect = new Rectangle((int)playerPos.X, paulPlayer.ObjRect.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
+                        }
+
+                    }
                 }
                 if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.D))
                 {
                     playerPos.X += paulPlayer.MoveSpeed;
+                    for (int i = 0; i < moveableBlock.Count; i++)
+                    {
+
+                        if ((paulPlayer.ObjRect.X - moveableBlock[i].ObjRect.X >= -60) && (paulPlayer.ObjRect.X - moveableBlock[i].ObjRect.X <= 60) && ((moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y >= -50) && (moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y <= 50)) && moveableBlock[i].CanMove == false)
+                        {
+                            playerPos = new Vector2(paulPlayer.ObjRect.X - paulPlayer.MoveSpeed, paulPlayer.ObjRect.Y);
+                            paulPlayer.ObjRect = new Rectangle((int)playerPos.X, paulPlayer.ObjRect.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
+                        }
+
+                    }
                 }
                 if (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.D) && hasJumped == false)
                 {
                     paulPCurrent = PhysicalState.PaulWalkRight;
+                    for (int i = 0; i < moveableBlock.Count; i++)
+                    {
+
+                        if ((paulPlayer.ObjRect.X - moveableBlock[i].ObjRect.X >= -60) && (paulPlayer.ObjRect.X - moveableBlock[i].ObjRect.X <= 60) && ((moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y >= -50) && (moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y <= 50)) && moveableBlock[i].CanMove == false)
+                        {
+                            playerPos = new Vector2(paulPlayer.ObjRect.X - paulPlayer.MoveSpeed, paulPlayer.ObjRect.Y);
+                            paulPlayer.ObjRect = new Rectangle((int)playerPos.X, paulPlayer.ObjRect.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
+                        }
+
+                    }
                 }
                 if (kboardstate.IsKeyDown(Keys.A) && prevKeyPressed.IsKeyDown(Keys.A) && hasJumped == false)
                 {
                     paulPCurrent = PhysicalState.PaulWalkLeft;
+                    for (int i = 0; i < moveableBlock.Count; i++)
+                    {
+                        if ((moveableBlock[i].ObjRect.X - paulPlayer.ObjRect.X >= -60) && (moveableBlock[i].ObjRect.X - paulPlayer.ObjRect.X <= 60) && ((moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y >= -50) && (moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y <= 50)) && moveableBlock[i].CanMove == false)
+                        {
+                            playerPos = new Vector2(paulPlayer.ObjRect.X + paulPlayer.MoveSpeed, paulPlayer.ObjRect.Y);
+                            paulPlayer.ObjRect = new Rectangle((int)playerPos.X, paulPlayer.ObjRect.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
+                        }
+
+                    }
                 }
-                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.D) && hasJumped == false)//&& (paulPCurrent == PhysicalState.PaulFaceLeft || paulPCurrent == PhysicalState.PaulWalkLeft)
+                if (hasJumped == false && (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.D)) || (kboardstate.IsKeyDown(Keys.D) && prevKeyPressed.IsKeyDown(Keys.F)))//&& (paulPCurrent == PhysicalState.PaulFaceLeft || paulPCurrent == PhysicalState.PaulWalkLeft)
                 {
                     for (int i = 0; i < moveableBlock.Count; i++)
                     {
-                        if ((paulPlayer.ObjRect.X - moveableBlock[i].ObjRect.X >= -50) && (paulPlayer.ObjRect.X - moveableBlock[i].ObjRect.X <= 50) && ((moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y >= -50) && (moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y <= 50)))
+                        if ((paulPlayer.ObjRect.X - moveableBlock[i].ObjRect.X >= -50) && (paulPlayer.ObjRect.X - moveableBlock[i].ObjRect.X <= 50) && ((moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y >= -50) && (moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y <= 50)) && moveableBlock[i].CanMove == true)
                         {
                             moveableBlock[i].PushingPulling(3, paulPlayer);
                             paulPlayer.MoveSpeed = paulPlayer.SpeedWithBlock;
                             ///moveableBlock[i].ObjRect = new Rectangle(moveableBlock[i].ObjRect.X - 10, moveableBlock[i].ObjRect.Y, moveableBlock[i].ObjRect.Width, moveableBlock[i].ObjRect.Height);
                         }
+                        if ((paulPlayer.ObjRect.X - moveableBlock[i].ObjRect.X >= -60) && (paulPlayer.ObjRect.X - moveableBlock[i].ObjRect.X <= 60) && ((moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y >= -50) && (moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y <= 50)) && moveableBlock[i].CanMove == false)
+                        {
+                            playerPos = new Vector2(paulPlayer.ObjRect.X - paulPlayer.MoveSpeed, paulPlayer.ObjRect.Y);
+                            paulPlayer.ObjRect = new Rectangle((int)playerPos.X, paulPlayer.ObjRect.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
+                        }
 
                     }
                 }
-                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.A) && hasJumped == false)//&& (paulPCurrent == PhysicalState.PaulFaceRight || paulPCurrent == PhysicalState.PaulWalkRight
+                if (hasJumped == false && (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.A)) || (kboardstate.IsKeyDown(Keys.A) && prevKeyPressed.IsKeyDown(Keys.F)))//&& (paulPCurrent == PhysicalState.PaulFaceRight || paulPCurrent == PhysicalState.PaulWalkRight
                 {
                     for (int i = 0; i < moveableBlock.Count; i++)
                     {
-                        if ((moveableBlock[i].ObjRect.X - paulPlayer.ObjRect.X >= -50) && (moveableBlock[i].ObjRect.X - paulPlayer.ObjRect.X <= 50) && ((moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y >= -50) && (moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y <= 50)))
+                        if ((moveableBlock[i].ObjRect.X - paulPlayer.ObjRect.X >= -50) && (moveableBlock[i].ObjRect.X - paulPlayer.ObjRect.X <= 50) && ((moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y >= -50) && (moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y <= 50)) && moveableBlock[i].CanMove == true)
                         {
                             moveableBlock[i].PushingPulling(1, paulPlayer);
                             paulPlayer.MoveSpeed = paulPlayer.SpeedWithBlock;
+                        }
+                        if ((moveableBlock[i].ObjRect.X - paulPlayer.ObjRect.X >= -60) && (moveableBlock[i].ObjRect.X - paulPlayer.ObjRect.X <= 60) && ((moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y >= -50) && (moveableBlock[i].ObjRect.Y - paulPlayer.ObjRect.Y <= 50)) && moveableBlock[i].CanMove == false)
+                        {
+                            playerPos = new Vector2(paulPlayer.ObjRect.X + paulPlayer.MoveSpeed, paulPlayer.ObjRect.Y);
+                            paulPlayer.ObjRect = new Rectangle((int)playerPos.X, paulPlayer.ObjRect.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
                         }
 
                     }
@@ -600,6 +648,19 @@ namespace UGWProjCode
         /// </summary>
         protected void DetectCollison()
         {
+
+            if (paulPlayer.IsDead == true)
+            {
+                for (int i = 0; i < enemyGhosts.Count; i++)
+                {
+                    for (int b = 0; b < moveableBlock.Count; b++)
+                    {
+                        enemyGhosts[i].EnemyCollide(moveableBlock[b].ObjRect, true);
+                        moveableBlock[b].MoveBCollideEnemy(enemyGhosts[i].ObjRect);
+                    }
+                }
+            }
+
             if (playerPos.Y > 720)
             {
                 playerPos.Y = floorrect.Top - paulPlayer.ObjRect.Height;
@@ -630,8 +691,8 @@ namespace UGWProjCode
                 BlockCollison(moveableBlock[b].ObjRect);
                 //for (int g = 0; g < moveableBlock.Count; g++)
                 //{
-                   // moveableBlock[g].CollidingWith(memories[b].ObjRect);
-               // }
+                // moveableBlock[g].CollidingWith(memories[b].ObjRect);
+                // }
             }
             for (int i = 0; i < dbPhysical.Count; i++)
             {
@@ -695,7 +756,7 @@ namespace UGWProjCode
                 }
                 for (int q = 0; q < dbPhysical.Count; q++)
                 {
-                    //enemyPhys[i].EnemyCollide(phaseBlocks[q].ObjRect, false);
+                    enemyPhys[i].EnemyCollide(phaseBlocks[q].ObjRect, false);
                 }
                 for (int r = 0; r < genBlocks.Count; r++)
                 {
@@ -704,6 +765,7 @@ namespace UGWProjCode
                 for (int b = 0; b < moveableBlock.Count; b++)
                 {
                     enemyPhys[i].EnemyCollide(moveableBlock[b].ObjRect, false);
+                    moveableBlock[b].MoveBCollideEnemy(enemyPhys[i].ObjRect);
                 }
             }
         }
@@ -711,11 +773,11 @@ namespace UGWProjCode
 
         public void BlockFalling()
         {
-            for(int i = 0; i < moveableBlock.Count; i++)
+            for (int i = 0; i < moveableBlock.Count; i++)
             {
                 moveableBlock[i].BlockPos = new Vector2(moveableBlock[i].ObjRect.X, moveableBlock[i].ObjRect.Y);
                 moveableBlock[i].ObjRect = new Rectangle((int)moveableBlock[i].BlockPos.X, (int)moveableBlock[i].BlockPos.Y, moveableBlock[i].ObjRect.Width, moveableBlock[i].ObjRect.Height);
-                if(moveableBlock[i].IsFalling == true)
+                if (moveableBlock[i].IsFalling == true)
                 {
                     fallingBVel.Y += 0.23f;
                     moveableBlock[i].BlockPos += fallingBVel;
@@ -789,15 +851,15 @@ namespace UGWProjCode
             phaseBlocks.Clear();
             dbPhysical.Clear();
             enemyGhosts.Clear();
-            enemyPhys.Clear();           
+            enemyPhys.Clear();
             memories.Clear();
             totalMemories = 0;
             moveableBlock.Clear();
-            paulPlayer.MemsColl = 0;            
+            paulPlayer.MemsColl = 0;
             playerPos = new Vector2(paulRect.X, paulRect.Y);
             paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
         }
-        
+
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
@@ -826,7 +888,7 @@ namespace UGWProjCode
                     if (btnHelp.isClicked == true) CurrentGameState = GameState.Help;
                     if (btnCredit.isClicked == true) CurrentGameState = GameState.Credits;
                     if (btnQuit.isClicked == true) Environment.Exit(1);
-                    
+
                     // button reacts when mouse is hovering over it
                     btnPlay.Update(mouse);
                     btnHelp.Update(mouse);
@@ -840,11 +902,11 @@ namespace UGWProjCode
                         btnPlay.isClicked = false;
                         levelCurrent = 0;
 
-                        DrawLevel(levelCurrent);                       
+                        DrawLevel(levelCurrent);
                         playerPos = new Vector2(paulRect.X, paulRect.Y);
                         paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
-                        CurrentGameState = GameState.Playing;                       
-                    }                 
+                        CurrentGameState = GameState.Playing;
+                    }
                     break;
 
                 //the levels and the code for the game itself
@@ -858,7 +920,7 @@ namespace UGWProjCode
                         {
                             ClearingScreen();
                             levelCurrent++;
-                            DrawLevel(levelCurrent);                           
+                            DrawLevel(levelCurrent);
                         }
 
                         // entering pause menu
@@ -925,21 +987,21 @@ namespace UGWProjCode
                     }
                     break;
 
-                    // help screen
+                // help screen
                 case GameState.Help:
                     if (btnBack.isClicked == true) CurrentGameState = GameState.MainMenu;
                     btnBack.Update(mouse);
                     IsMouseVisible = true;
                     break;
 
-                    // credits screen
+                // credits screen
                 case GameState.Credits:
                     if (btnBack.isClicked == true) CurrentGameState = GameState.MainMenu;
                     btnBack.Update(mouse);
                     IsMouseVisible = true;
                     break;
 
-                    // win screen
+                // win screen
                 case GameState.EndScreen:
                     if (btnBackPause.isClicked == true) CurrentGameState = GameState.MainMenu;
                     btnBackPause.Update(mouse);
@@ -1003,10 +1065,10 @@ namespace UGWProjCode
                             spriteBatch.Draw(genBlocks[i].GameTexture, genBlocks[i].ObjRect, Color.White);
                         }
                         pauloffset = (SIZES * frame);
-                        
+
                         // draw when paul is dead
                         if (paulPlayer.IsDead == true)
-                        {    
+                        {
                             //deadly blocks
                             for (int i = 0; i < genBlocks.Count; i++)
                             {
@@ -1014,16 +1076,8 @@ namespace UGWProjCode
                             }
                             paulyset = spriteboxheight * 3;
                             numFrames = 4;
-                            switch(ghoststate)
-                            {
-                                case GhostState.FloatRight:
-                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
-                                    break;
-                                case GhostState.FloatLeft:
-                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
-                                    break;
-                            }
-                            
+                            spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+
                             for (int i = 0; i < dbGhost.Count; i++)
                             {
                                 spriteBatch.Draw(dbGhost[i].GameTexture, dbGhost[i].ObjRect, Color.White);
@@ -1072,7 +1126,7 @@ namespace UGWProjCode
                                 }
 
                             }
-                         
+
                         }
 
                         // draw if paul is alive
@@ -1129,7 +1183,7 @@ namespace UGWProjCode
                                     }
                                 }
                             }
-                            
+
                             //player's sprite animation
                             switch (paulPCurrent)
                             {
@@ -1174,13 +1228,13 @@ namespace UGWProjCode
                         for (int b = 0; b < moveableBlock.Count; b++)
                         {
 
-                            if(moveableBlock[b].IsFalling == true)
+                            if (moveableBlock[b].IsFalling == true)
                             {
                                 spriteBatch.Draw(moveableBlock[b].GameTexture, moveableBlock[b].ObjRect, Color.Red);
                             }
                             else
                             {
-                            spriteBatch.Draw(moveableBlock[b].GameTexture, moveableBlock[b].ObjRect, Color.White);
+                                spriteBatch.Draw(moveableBlock[b].GameTexture, moveableBlock[b].ObjRect, Color.White);
                             }
                         }
                         // memories
@@ -1188,28 +1242,26 @@ namespace UGWProjCode
                         {
                             if (memories[i].HasCollected == false)
                             {
-                                paulyset = spriteboxheight * 12;
-                                spriteBatch.Draw(spritesheet, new Vector2(memories[i].ObjRect.X,memories[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
-
+                                spriteBatch.Draw(memories[i].GameTexture, memories[i].ObjRect, Color.White);
                             }
                         }
 
                     }
                     break;
 
-                    // help screen
+                // help screen
                 case GameState.Help:
                     spriteBatch.Draw(Content.Load<Texture2D>("helpbg"), new Rectangle(0, 0, 1024, 768), Color.White);
                     btnBack.Draw(spriteBatch);
                     break;
 
-                    // credits screen
+                // credits screen
                 case GameState.Credits:
                     spriteBatch.Draw(Content.Load<Texture2D>("creditsbg"), new Rectangle(0, 0, 1024, 768), Color.White);
                     btnBack.Draw(spriteBatch);
                     break;
 
-                    // win screen
+                // win screen
                 case GameState.EndScreen:
                     spriteBatch.Draw(Content.Load<Texture2D>("endscreen"), new Rectangle(0, 0, 1024, 768), Color.White);
                     btnBackPause.Draw(spriteBatch);
