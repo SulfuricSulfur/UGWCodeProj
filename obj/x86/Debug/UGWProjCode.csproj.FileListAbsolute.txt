@@ -438,3 +438,5 @@ C:\Users\Kui\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\gdb1.png
 C:\Users\Kui\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\mainbutton.png
 C:\Users\Kui\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\resumebutton.png
 C:\Users\Kui\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\winscreen.png
+D:\Users\rc7604\UGWCodeProj - Copy\bin\WindowsGL\Debug\Content\endscreen.png
+D:\Users\rc7604\UGWCodeProj - Copy\bin\WindowsGL\Debug\Content\gdb1.png

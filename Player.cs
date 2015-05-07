@@ -17,6 +17,7 @@ namespace UGWProjCode
         private int memsColl;//Memories collected by the player
         private int moveSpd;//player speed default;
         private int spdWithBlock;//the speed of the player while moving the block
+        private bool hasJumped;
 
         //the x and y to parse float to int and use for x and y in rectangle
         private int xPosV;
@@ -45,12 +46,12 @@ namespace UGWProjCode
         }
 
         //constructor
-        public Player(Rectangle playrect, Texture2D playtext, Vector2 playerPos, bool hasJumped)
+        public Player(Rectangle playrect, Texture2D playtext, Vector2 playerPos, bool Jumped)
             : base(false, playrect, playtext)
         {
-            hasJumped = false; //default, no jump
+            hasJumped = Jumped; //default, no jump
             playerPos = new Vector2(this.ObjRect.X, this.ObjRect.Y);//setting the position equal to the vector
-            moveSpd = plyRand.Next(4, 8);//will give a random player speed from 4-7
+            moveSpd = plyRand.Next(4, 6);//will give a random player speed from 4-7
             spdWithBlock = 2;
         }
     }

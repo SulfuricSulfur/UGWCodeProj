@@ -6,10 +6,10 @@ ffffffff!!-dfffffffn
 -------pppppp------n
 --------pppp--~----n
 ---------fffffff---n
-d------------------n
+d-[-x--------------n
 f-fff-----ffff-----n
------f-------f---ffn
--------fff-----v-ffn
--@----------fffpfppn
-xxxxxxx---xpd-----mn
+-----f-------f-v-ffn
+-------fff-------ffn
+-@-------------pfppn
+xxxxxxx-<-xpd--{--mn
 

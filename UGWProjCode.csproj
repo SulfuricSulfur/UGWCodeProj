@@ -43,14 +43,12 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GamePiece.cs" />
     <Compile Include="GeneralBlock.cs" />
-    <Compile Include="Map.cs" />
     <Compile Include="Memories.cs" />
     <Compile Include="MoveBlock.cs" />
     <Compile Include="PhaseBlock.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK">

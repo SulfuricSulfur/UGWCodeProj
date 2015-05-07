@@ -53,7 +53,7 @@ namespace UGWProjCode
         int numFrames2 = 2;
         int pauloffset = 0;
         int paulyset = 0;
-        int spriteboxheight = 72;
+        int spriteboxheight = 50;
         int frame;
         const double timePerFrame = 200;
         const int SIZES = 50;//will be used for the sizes of enemies+objects
@@ -101,6 +101,8 @@ namespace UGWProjCode
         private Vector2 velocity;//the velcotiy of the player jumping/falling
         protected Vector2 playerPos; //the position in relation to the rectangle so it can jump;
 
+        Vector2 fallingBVel;
+
         //sprite in the ghost state will only be one state, so there does not need to be an enum for it.
         // animation enumerators
         enum PhysicalState { PaulFaceRight, PaulFaceLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft};
@@ -135,6 +137,7 @@ namespace UGWProjCode
         bool paused = false;
         Texture2D pauseMenu;
         Rectangle pausedRect;
+
 
         public Game1()
             : base()
@@ -222,11 +225,12 @@ namespace UGWProjCode
             // streamreader for read in levels
             StreamReader lRead;
             //level names go here(RENAME)
-            lFiles.Add("level101.txt");
-            lFiles.Add("level72.txt");
-            lFiles.Add("level2.txt");
-            lFiles.Add("level3.txt");
-            lFiles.Add("level4.txt");
+            //lFiles.Add("level101.txt");
+            //lFiles.Add("level72.txt");
+           //lFiles.Add("level2.txt");
+            //lFiles.Add("level3.txt");
+            //lFiles.Add("level4.txt");
+            lFiles.Add("level5.txt");
 
             // if (lFiles.Length == 0)
             // {
@@ -269,6 +273,7 @@ namespace UGWProjCode
         /// <param name="lNum"></param>
         public void DrawLevel(int lNum)
         {
+            mapX = 0;
             // when you beat all levels currently in files, game ends and win screen appears
             if (lNum >= lFiles.Count)
             {
@@ -291,10 +296,11 @@ namespace UGWProjCode
                     //make this 1 player object
                     if (c == '@')
                     {
-                        paulRect = new Rectangle(mapX, mapY, 48, 60);
+                        paulRect = new Rectangle(mapX, mapY, 48, 48);
                         playerPos = new Vector2(paulRect.X, paulRect.Y);
                         paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
                         playerSpd = paulPlayer.MoveSpeed;
+                        
                     }
 
                     else if (c == 'f')//floating grass blocks
@@ -360,28 +366,28 @@ namespace UGWProjCode
                     else if (c == '{')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY - 10, SIZES, SIZES + 10), paulPlayer.GameTexture, 1, speed, false));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES ), paulPlayer.GameTexture, 1, speed, false));
                     }
 
                          //physical deadly enemy (non chargable) starting off to the right
                     else if (c == '}')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY - 10, SIZES, SIZES + 10), paulPlayer.GameTexture, 3, speed, false));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES ), paulPlayer.GameTexture, 3, speed, false));
                     }
 
                         //physical deadly enemy (chargable) starting off to the left
                     else if (c == '[')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY - 10, SIZES, SIZES + 10), paulPlayer.GameTexture, 1, speed, true));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 1, speed, true));
                     }
 
                         //physical deadly enemy (chargable) starting off to the right
                     else if (c == ']')
                     {
                         int speed = rnd.Next(1, 6);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY - 10, SIZES, SIZES + 10), paulPlayer.GameTexture, 3, speed, true));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 3, speed, true));
                     }
 
                     else if (c == 'p')
@@ -480,7 +486,7 @@ namespace UGWProjCode
                 {
                     paulPCurrent = PhysicalState.PaulWalkLeft;
                 }
-                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.D))//&& (paulPCurrent == PhysicalState.PaulFaceLeft || paulPCurrent == PhysicalState.PaulWalkLeft)
+                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.D) && hasJumped == false)//&& (paulPCurrent == PhysicalState.PaulFaceLeft || paulPCurrent == PhysicalState.PaulWalkLeft)
                 {
                     for (int i = 0; i < moveableBlock.Count; i++)
                     {
@@ -493,7 +499,7 @@ namespace UGWProjCode
 
                     }
                 }
-                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.A))//&& (paulPCurrent == PhysicalState.PaulFaceRight || paulPCurrent == PhysicalState.PaulWalkRight
+                if (kboardstate.IsKeyDown(Keys.F) && prevKeyPressed.IsKeyDown(Keys.A) && hasJumped == false)//&& (paulPCurrent == PhysicalState.PaulFaceRight || paulPCurrent == PhysicalState.PaulWalkRight
                 {
                     for (int i = 0; i < moveableBlock.Count; i++)
                     {
@@ -622,10 +628,10 @@ namespace UGWProjCode
             for (int b = 0; b < moveableBlock.Count; b++)
             {
                 BlockCollison(moveableBlock[b].ObjRect);
-                for (int g = 0; g < moveableBlock.Count; g++)
-                {
-                    moveableBlock[g].CollidingWith(memories[b].ObjRect);
-                }
+                //for (int g = 0; g < moveableBlock.Count; g++)
+                //{
+                   // moveableBlock[g].CollidingWith(memories[b].ObjRect);
+               // }
             }
             for (int i = 0; i < dbPhysical.Count; i++)
             {
@@ -703,6 +709,20 @@ namespace UGWProjCode
         }
 
 
+        public void BlockFalling()
+        {
+            for(int i = 0; i < moveableBlock.Count; i++)
+            {
+                moveableBlock[i].BlockPos = new Vector2(moveableBlock[i].ObjRect.X, moveableBlock[i].ObjRect.Y);
+                moveableBlock[i].ObjRect = new Rectangle((int)moveableBlock[i].BlockPos.X, (int)moveableBlock[i].BlockPos.Y, moveableBlock[i].ObjRect.Width, moveableBlock[i].ObjRect.Height);
+                if(moveableBlock[i].IsFalling == true)
+                {
+                    fallingBVel.Y += 0.23f;
+                    moveableBlock[i].BlockPos += fallingBVel;
+                }
+            }
+        }
+
         /// <summary>
         /// Checks to see if the top, bottom, or side collides with the player
         /// takes in the rectangle of a block object(general,phase,deadly)
@@ -762,19 +782,20 @@ namespace UGWProjCode
         /// </summary>
         public void ClearingScreen()
         {
-            paulPlayer.ObjRect = new Rectangle(400, 400, 50, 50);
-            playerPos = new Vector2(paulRect.X, paulRect.Y);
-            paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
+
             dbGhost.Clear();
             dbPhysical.Clear();
             genBlocks.Clear();
             phaseBlocks.Clear();
             dbPhysical.Clear();
             enemyGhosts.Clear();
-            enemyPhys.Clear();
-            totalMemories = 0;
+            enemyPhys.Clear();           
             memories.Clear();
-            paulPlayer.MemsColl = 0;
+            totalMemories = 0;
+            moveableBlock.Clear();
+            paulPlayer.MemsColl = 0;            
+            playerPos = new Vector2(paulRect.X, paulRect.Y);
+            paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
         }
         
         /// <summary>
@@ -818,9 +839,10 @@ namespace UGWProjCode
                     {
                         btnPlay.isClicked = false;
                         levelCurrent = 0;
+
+                        DrawLevel(levelCurrent);                       
                         playerPos = new Vector2(paulRect.X, paulRect.Y);
                         paulPlayer = new Player(paulRect, paulPlayer.GameTexture, playerPos, false);
-                        DrawLevel(levelCurrent);
                         CurrentGameState = GameState.Playing;                       
                     }                 
                     break;
@@ -928,12 +950,14 @@ namespace UGWProjCode
             // call other methods into update
             ProcessInput();
             DetectCollison();
+            BlockFalling();
             framesElapsed = (int)(gameTime.TotalGameTime.TotalMilliseconds / timePerFrame);
             frame = framesElapsed % numFrames;
             frame2 = framesElapsed % numFrames2;
 
             base.Update(gameTime);
         }
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -978,7 +1002,7 @@ namespace UGWProjCode
                         {
                             spriteBatch.Draw(genBlocks[i].GameTexture, genBlocks[i].ObjRect, Color.White);
                         }
-                        pauloffset = (54 * frame);
+                        pauloffset = (SIZES * frame);
                         
                         // draw when paul is dead
                         if (paulPlayer.IsDead == true)
@@ -990,8 +1014,8 @@ namespace UGWProjCode
                             }
                             paulyset = spriteboxheight * 3;
                             numFrames = 4;
-                            spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
-           
+                            spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                            
                             for (int i = 0; i < dbGhost.Count; i++)
                             {
                                 spriteBatch.Draw(dbGhost[i].GameTexture, dbGhost[i].ObjRect, Color.White);
@@ -1011,13 +1035,13 @@ namespace UGWProjCode
                                     if (enemyGhosts[i].CanCharge)
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[3]);
-                                        spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
                                     }
                                     else
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[3]);
-                                        spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                                     }
                                 }
                                 if (enemyGhosts[i].MovingDirection == 3)
@@ -1025,18 +1049,18 @@ namespace UGWProjCode
                                     if (enemyGhosts[i].CanCharge)
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[3]);
-                                        spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                     }
                                     else
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[3]);
-                                        spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                     }
                                 }
                                 if (enemyGhosts[i].MovingDirection == 0 || enemyGhosts[i].MovingDirection == 2) //south and north same animation
                                 {
                                     paulyset = spriteboxheight * int.Parse(textures[4]);
-                                    spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                    spriteBatch.Draw(spritesheet, new Vector2(enemyGhosts[i].ObjRect.X, enemyGhosts[i].ObjRect.Y), new Rectangle(pauloffset, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                                 }
 
                             }
@@ -1067,19 +1091,19 @@ namespace UGWProjCode
                                 {
                                     frame2 = 0;
                                 }
-                                pauloffset2 = (54 * frame2);
+                                pauloffset2 = (SIZES * frame2);
                                 if (enemyPhys[i].MovingDirection == 1)
                                 {
                                     if (enemyPhys[i].CanCharge)
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[12]);
-                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset2 + frame2, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset2 + frame2, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
                                     }
                                     else
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[6]);
-                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset2 + frame2, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset2 + frame2, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                                     }
                                 }
                                 if (enemyPhys[i].MovingDirection == 3)
@@ -1087,13 +1111,13 @@ namespace UGWProjCode
                                     if (enemyPhys[i].CanCharge)
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[12]);
-                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset2 + frame2, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset2 + frame2, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
 
                                     }
                                     else
                                     {
                                         paulyset = spriteboxheight * int.Parse(textures[6]);
-                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset2 + frame2, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                                        spriteBatch.Draw(spritesheet, new Vector2(enemyPhys[i].ObjRect.X, enemyPhys[i].ObjRect.Y), new Rectangle(pauloffset2 + frame2, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                     }
                                 }
                             }
@@ -1104,33 +1128,33 @@ namespace UGWProjCode
                                 case PhysicalState.PaulWalkRight:
                                     numFrames = 5;
                                     paulyset = 0;
-                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                                     break;
                                 case PhysicalState.PaulWalkLeft:
                                     numFrames = 5;
                                     paulyset = 0;
-                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                     break;
 
                                 case PhysicalState.PaulFaceLeft:
                                     numFrames = 4;
                                     paulyset = spriteboxheight * 4;
-                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                     break;
                                 case PhysicalState.PaulFaceRight:
                                     numFrames = 4;
                                     paulyset = spriteboxheight * 4;
-                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
                                     break;
                                 case PhysicalState.PaulJumpLeft:
                                     paulyset = spriteboxheight * 1;
                                     numFrames = 3;
-                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
+                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
                                     break;
                                 case PhysicalState.PaulJumpRight:
                                     paulyset = spriteboxheight * 1;
                                     numFrames = 3;
-                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, 54, 72), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+                                    spriteBatch.Draw(spritesheet, new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y), new Rectangle(pauloffset + frame, paulyset, SIZES, SIZES), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
                                     break;
                                 default:
@@ -1138,7 +1162,19 @@ namespace UGWProjCode
                             }
 
                         }
-                        
+
+                        for (int b = 0; b < moveableBlock.Count; b++)
+                        {
+
+                            if(moveableBlock[b].IsFalling == true)
+                            {
+                                spriteBatch.Draw(moveableBlock[b].GameTexture, moveableBlock[b].ObjRect, Color.Red);
+                            }
+                            else
+                            {
+                            spriteBatch.Draw(moveableBlock[b].GameTexture, moveableBlock[b].ObjRect, Color.White);
+                            }
+                        }
                         // memories
                         for (int i = 0; i < memories.Count; i++)
                         {
@@ -1147,10 +1183,7 @@ namespace UGWProjCode
                                 spriteBatch.Draw(memories[i].GameTexture, memories[i].ObjRect, Color.White);
                             }
                         }
-                        for (int b = 0; b < moveableBlock.Count; b++)
-                        {
-                            spriteBatch.Draw(moveableBlock[b].GameTexture, moveableBlock[b].ObjRect, Color.White);
-                        }
+
                     }
                     break;
 
