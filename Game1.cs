@@ -225,12 +225,9 @@ namespace UGWProjCode
             // streamreader for read in levels
             StreamReader lRead;
             //level names go here(RENAME)
-            //lFiles.Add("level101.txt");
-            //lFiles.Add("level72.txt");
-            //lFiles.Add("level2.txt");
-            //lFiles.Add("level3.txt");
-            //lFiles.Add("level4.txt");
+            lFiles.Add("level101.txt");
             lFiles.Add("level5.txt");
+            lFiles.Add("level6.txt");
 
             // if (lFiles.Length == 0)
             // {
