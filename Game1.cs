@@ -76,13 +76,13 @@ namespace UGWProjCode
         //block textures
         Texture2D memorytexture;
         Texture2D phaseBlockTexture;
+        Texture2D physicalPBlock;
         //deadly block textures
         Texture2D physdeadlyObjs;
         Texture2D physDeadlyObj2;
         Texture2D deadlyGhostObj;
         Texture2D deadlyGhostObject2;
         //other blocks
-        Texture2D moveBlockTexture;
         Texture2D basicFloat;
         Texture2D basicGround;
 
@@ -226,8 +226,9 @@ namespace UGWProjCode
             StreamReader lRead;
             //level names go here(RENAME)
             lFiles.Add("level101.txt");
-            lFiles.Add("level5.txt");
-            lFiles.Add("level6.txt");
+            lFiles.Add("level2.txt");
+            lFiles.Add("level3.txt");
+            lFiles.Add("level4.txt");
 
             // if (lFiles.Length == 0)
             // {
@@ -310,7 +311,7 @@ namespace UGWProjCode
                     }
                     else if (c == 'B')//The physical phase blocks
                     {
-                        physicalPhaseB.Add(new PhaseBlock(new Rectangle(mapX, mapY, SIZES, SIZES), phaseBlockTexture));
+                        physicalPhaseB.Add(new PhaseBlock(new Rectangle(mapX, mapY, SIZES, SIZES), physicalPBlock));
                     }
 
                     else if (c == 'x')//ground solid blocks
@@ -321,7 +322,7 @@ namespace UGWProjCode
                         dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, SIZES, SIZES), deadlyGhostObj));
 
                     else if (c == '!')
-                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, SIZES, SIZES), deadlyGhostObj)); //will have a different texture
+                        dbGhost.Add(new DeadlyBlock(new Rectangle(mapX, mapY, SIZES, SIZES), deadlyGhostObject2)); //will have a different texture
 
                     else if (c == 'd')
                         dbPhysical.Add(new DeadlyBlock(new Rectangle(mapX, mapY, SIZES, SIZES), physdeadlyObjs));
@@ -334,56 +335,56 @@ namespace UGWProjCode
                         //up and down ghost - starting up
                     else if (c == '^')
                     {
-                        int speed = rnd.Next(1, 6);
+                        int speed = rnd.Next(1, 5);
                         enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 2, speed, false));
                     }
 
                         //up and down ghost, starting down
                     else if (c == 'v')
                     {
-                        int speed = rnd.Next(1, 6);
+                        int speed = rnd.Next(1, 5);
                         enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 0, speed, false));
                     }
 
                         //physical deadly enemy (non chargable) starting off to the left
                     else if (c == '<')
                     {
-                        int speed = rnd.Next(1, 6);
+                        int speed = rnd.Next(1, 5);
                         enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 1, speed, false));
                     }
 
                     //physical deadly enemy (non chargable) starting off to the right
                     if (c == '>')
                     {
-                        int speed = rnd.Next(1, 6);
+                        int speed = rnd.Next(1, 5);
                         enemyGhosts.Add(new Enemy(true, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 3, speed, false));
                     }
 
                         //physical deadly enemy (non chargable) starting off to the left
                     else if (c == '{')
                     {
-                        int speed = rnd.Next(1, 6);
+                        int speed = rnd.Next(1, 5);
                         enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 1, speed, false));
                     }
 
                          //physical deadly enemy (non chargable) starting off to the right
                     else if (c == '}')
                     {
-                        int speed = rnd.Next(1, 6);
+                        int speed = rnd.Next(1, 5);
                         enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 3, speed, false));
                     }
 
                         //physical deadly enemy (chargable) starting off to the left
                     else if (c == '[')
                     {
-                        int speed = rnd.Next(1, 6);
+                        int speed = rnd.Next(1, 5);
                         enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 1, speed, true));
                     }
 
                         //physical deadly enemy (chargable) starting off to the right
                     else if (c == ']')
                     {
-                        int speed = rnd.Next(1, 6);
+                        int speed = rnd.Next(1, 5);
                         enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 3, speed, true));
                     }
 
@@ -421,7 +422,6 @@ namespace UGWProjCode
             sides = Content.Load<Texture2D>(textures[1]);
             top = Content.Load<Texture2D>(textures[2]);
             phaseBlockTexture = Content.Load<Texture2D>(textures[10]);
-            moveBlockTexture = Content.Load<Texture2D>(textures[9]);
 
             // loading player and interactable objects to player
             paulRect = new Rectangle(300, 300, paulPhysical.Width, paulPhysical.Height);
@@ -429,10 +429,12 @@ namespace UGWProjCode
             physdeadlyObjs = Content.Load<Texture2D>("DeadlyBlockPhys.png");
             physDeadlyObj2 = Content.Load<Texture2D>("DeadlyBlockPhys2.png");
             deadlyGhostObj = Content.Load<Texture2D>("DeadlyBlockGhost.png");
+            deadlyGhostObject2 = Content.Load<Texture2D>("DeadlyBlockGhost2.png");
             paulGhost = Content.Load<Texture2D>("paulfloat.png");
             basicFloat = Content.Load<Texture2D>("floatgrass.png");
             basicGround = Content.Load<Texture2D>("connectivebottom.png");
             memorytexture = Content.Load<Texture2D>("movableblockgrass.png");
+            physicalPBlock = Content.Load<Texture2D>("TransBlockPhysGrass.png");
             genBlocks.Add(new GeneralBlock(toprect, top));
             genBlocks.Add(new GeneralBlock(siderectR, sides));
             genBlocks.Add(new GeneralBlock(siderectL, sides));
@@ -745,6 +747,7 @@ namespace UGWProjCode
             enemyGhosts.Clear();
             enemyPhys.Clear();
             memories.Clear();
+            physicalPhaseB.Clear();
             totalMemories = 0;
             paulPlayer.MemsColl = 0;
             playerPos = new Vector2(paulRect.X, paulRect.Y);

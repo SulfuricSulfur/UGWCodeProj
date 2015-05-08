@@ -51,7 +51,7 @@ namespace UGWProjCode
         {
             hasJumped = Jumped; //default, no jump
             playerPos = new Vector2(this.ObjRect.X, this.ObjRect.Y);//setting the position equal to the vector
-            moveSpd = plyRand.Next(4, 6);//will give a random player speed from 4-7
+            moveSpd = 4;//sets the player speed as 4
             spdWithBlock = 2;
         }
     }
