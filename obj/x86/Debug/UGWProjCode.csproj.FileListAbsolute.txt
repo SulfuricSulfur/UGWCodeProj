@@ -419,7 +419,6 @@ D:\Users\rc7604\UGWCodeProj - Copy\bin\WindowsGL\Debug\Content\winscreen.png
 D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\mainbutton.png
 D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\resumebutton.png
 D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\winscreen.png
-D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\gdb1.png
 D:\Users\zrm2647\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\endscreen.png
 D:\Users\zrm2647\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\gdb1.png
 D:\Users\zrm2647\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\mainbutton.png
@@ -453,3 +452,4 @@ C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\quitbutton.png
 C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\restartbutton.png
 C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\resumebutton.png
 C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\winscreen.png
+D:\Users\rc7604\UGWCodeProj\bin\WindowsGL\Debug\Content\mainMenu.png

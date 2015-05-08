@@ -199,11 +199,11 @@ namespace UGWProjCode
             // setting button positions
             btnPlay.setPosition(new Vector2(448, 300));
             btnHelp.setPosition(new Vector2(448, 400));
-            btnCredit.setPosition(new Vector2(448, 500));
+            btnCredit.setPosition(new Vector2(448, 500)); //credits
             btnQuit.setPosition(new Vector2(448, 600));
             btnBack.setPosition(new Vector2(148, 600));
-            btnBackPause.setPosition(new Vector2(148, 500));
-            btnRestart.setPosition(new Vector2(448, 450));
+            btnBackPause.setPosition(new Vector2(448, 550)); //the main menu button in the pause menu
+            btnRestart.setPosition(new Vector2(448, 450)); //restart button in the pause button
             btnResume.setPosition(new Vector2(448, 350));
 
             // pause menu
@@ -927,7 +927,7 @@ namespace UGWProjCode
                 // main menu
                 case GameState.MainMenu:
                     // draw buttons and menu background
-                    spriteBatch.Draw(Content.Load<Texture2D>("mainbg"), new Rectangle(0, 0, 1024, 768), Color.White);
+                    spriteBatch.Draw(Content.Load<Texture2D>("mainMenu"), new Rectangle(0, 0, 1024, 768), Color.White);
                     btnPlay.Draw(spriteBatch);
                     btnHelp.Draw(spriteBatch);
                     btnCredit.Draw(spriteBatch);

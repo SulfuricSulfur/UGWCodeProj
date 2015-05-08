@@ -118,6 +118,9 @@
     <Content Include="Content\mainbutton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\mainMenu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\movableblockgrass.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
