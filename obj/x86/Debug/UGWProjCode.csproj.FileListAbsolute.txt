@@ -439,3 +439,17 @@ C:\Users\Kui\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\mainbutton
 C:\Users\Kui\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\resumebutton.png
 C:\Users\Kui\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\winscreen.png
 D:\Users\rc7604\UGWCodeProj - Copy\bin\WindowsGL\Debug\Content\endscreen.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\backbutton.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\creditsbg.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\creditsbutton.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\endscreen.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\helpbg.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\helpbutton.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\mainbg.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\mainbutton.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\pausebg.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\playbutton.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\quitbutton.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\restartbutton.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\resumebutton.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\winscreen.png
