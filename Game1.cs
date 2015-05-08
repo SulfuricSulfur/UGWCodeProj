@@ -224,12 +224,17 @@ namespace UGWProjCode
         {
             // streamreader for read in levels
             StreamReader lRead;
+            string[] fileNames = Directory.GetFiles("Levels");
             try//if the level doesnt exist then it will auto advance onto the level after that
             {
-                lFiles.Add("level101.txt");
-                lFiles.Add("level2.txt");
-                lFiles.Add("level3.txt");
-                lFiles.Add("level4.txt");               
+                foreach(string names in fileNames)
+                {
+                    lFiles.Add(names);
+                }
+               // lFiles.Add("level101.txt");
+               // lFiles.Add("level2.txt");
+               // lFiles.Add("level3.txt");
+               // lFiles.Add("level4.txt");               
             }
             catch (Exception ex)
             {
