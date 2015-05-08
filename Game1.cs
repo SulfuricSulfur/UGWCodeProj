@@ -398,15 +398,14 @@ namespace UGWProjCode
                         //physical deadly enemy (chargable) starting off to the left
                     else if (c == '[')
                     {
-                        int speed = rnd.Next(1, 5);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 1, speed, true));
+
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 1, 3, true));
                     }
 
                         //physical deadly enemy (chargable) starting off to the right
                     else if (c == ']')
                     {
-                        int speed = rnd.Next(1, 5);
-                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 3, speed, true));
+                        enemyPhys.Add(new Enemy(false, new Rectangle(mapX, mapY, SIZES, SIZES), paulPlayer.GameTexture, 3, 3, true));
                     }
 
                     else if (c == 'p')

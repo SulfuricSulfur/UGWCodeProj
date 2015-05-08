@@ -30,6 +30,8 @@ namespace UGWProjCode
         private bool chargingState; //for the 1 charging enemy, it will determin if it is currently charging so
         //there can be different animations depending on if the enemy is walking or running
 
+        private bool closeToBlock; //determins if there is a block within a certain range so the enemy can't charge
+
         // properties
         public int MovingDirection
         {
@@ -60,6 +62,12 @@ namespace UGWProjCode
             set { chargingState = value; }
         }
 
+        public bool CloseToBlock
+        {
+            get { return closeToBlock; }
+            set { closeToBlock = value; }
+        }
+
         //constructor
         public Enemy(Boolean deadstatus, Rectangle enemyrect, Texture2D enemytext, int moveDir, int enemySpd, bool chargeable)
             : base(deadstatus, enemyrect, enemytext)
@@ -68,6 +76,7 @@ namespace UGWProjCode
             enemyMoveSpd = enemySpd;
             enemyPos = new Vector2(ObjRect.X, ObjRect.Y);
             canCharge = chargeable;
+            closeToBlock = false;
         }
 
         //kill method
@@ -113,6 +122,19 @@ namespace UGWProjCode
             }
         }
 
+        public void BlockInFront(Rectangle otherrect)
+        {
+            if ((otherrect.Right - ObjRect.Left >= -70 && otherrect.Right - ObjRect.Left < 80) && ((otherrect.Bottom) - (ObjRect.Top) <= 60 && (otherrect.Bottom) - (ObjRect.Top) >= -60) || (ObjRect.Right - otherrect.Left >= -70 && ObjRect.Right - otherrect.Left < 80) && ((otherrect.Bottom) - (ObjRect.Top) <= 60 && (otherrect.Bottom) - (ObjRect.Top) >= -60))
+            {
+                closeToBlock = true;
+            }
+            else
+            {
+                closeToBlock = false;
+            }
+
+        }
+
         /// <summary>
         /// The enemy moves. If dead, the enemy will move up and down or side to side (depending on what direction first starts out with)
         /// if allive, the enemy can only move side to side
@@ -153,11 +175,20 @@ namespace UGWProjCode
                 if (movingDirection == 1)
                 {
                     //charging to the left
-                    if (canCharge == true && enemyPos.X - plyr.ObjRect.X <= 250 && enemyPos.X - plyr.ObjRect.X > -2 && (enemyPos.Y - plyr.ObjRect.Y <= 80 && enemyPos.Y - plyr.ObjRect.Y >= -80))//only 1 type of enemy can charge
+                    if (canCharge == true && closeToBlock == false && plyr.ObjRect.Right - ObjRect.Left >= -150 && plyr.ObjRect.Right - ObjRect.Left < 20 && ((plyr.ObjRect.Bottom) - (ObjRect.Top) <= 80 && (plyr.ObjRect.Bottom) - (ObjRect.Top) >= -80))//only 1 type of enemy can charge
                     {
-                        velocity.X = 10;
-                        enemyPos += velocity;
-                        chargingState = true;
+                        if (velocity.X > -8)
+                        {
+                            velocity.X += -1;
+                            enemyPos += velocity;
+                            chargingState = true;
+                        }
+                        else if (velocity.X <= -8)
+                        {
+                            velocity.X = -8;
+                            enemyPos += velocity;
+                            chargingState = true;
+                        }
 
                     }
                     //moving normally
@@ -170,12 +201,21 @@ namespace UGWProjCode
                 }
                 if (movingDirection == 3)
                 {    //charging to the right
-                    if (canCharge == true && enemyPos.X - plyr.ObjRect.X < 2 && enemyPos.X - plyr.ObjRect.X >= -250 && (enemyPos.Y - plyr.ObjRect.Y <= 80 && enemyPos.Y - plyr.ObjRect.Y >= -80)) //only 1 type of enemy can charge
+                    if (canCharge == true && closeToBlock == false && ObjRect.Right - plyr.ObjRect.Left >= -150 && ObjRect.Right - plyr.ObjRect.Left < 20 && ((plyr.ObjRect.Bottom) - (ObjRect.Top) <= 80 && (plyr.ObjRect.Bottom) - (ObjRect.Top) >= -80)) //only 1 type of enemy can charge
                     {
 
-                        velocity.X =10;
-                        enemyPos += velocity;
-                        chargingState = true;
+                        if (velocity.X < 8)
+                        {
+                            velocity.X += 1;
+                            enemyPos += velocity;
+                            chargingState = true;
+                        }
+                        else if (velocity.X >= 8)
+                        {
+                            velocity.X = 8;
+                            enemyPos += velocity;
+                            chargingState = true;
+                        }
 
                     }
                     //moving normally
@@ -189,7 +229,7 @@ namespace UGWProjCode
                 ObjRect = new Rectangle((int)enemyPos.X, (int)enemyPos.Y, ObjRect.Width, ObjRect.Height);
             }
         }
-        
+
         //test collision method
         /// <summary>
         /// takes in the rectangle of an object and if it is alive or dead
@@ -228,7 +268,7 @@ namespace UGWProjCode
                     if ((otherRect.Left - this.ObjRect.Right) >= -10 && (otherRect.Left - this.ObjRect.Right) < 0 && movingDirection == 3)//left side of the block collision
                     {
                         movingDirection = 1;
-                        if(chargingState == true)
+                        if (chargingState == true)
                         {
                             movingDirection = 1;
                         }
