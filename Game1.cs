@@ -224,23 +224,32 @@ namespace UGWProjCode
         {
             // streamreader for read in levels
             StreamReader lRead;
-            //level names go here(RENAME)
-            lFiles.Add("level101.txt");
-            lFiles.Add("level2.txt");
-            lFiles.Add("level3.txt");
-            lFiles.Add("level4.txt");
+            try//if the level doesnt exist then it will auto advance onto the level after that
+            {
+                lFiles.Add("level101.txt");
+                lFiles.Add("level2.txt");
+                lFiles.Add("level3.txt");
+                lFiles.Add("level4.txt");               
+            }
+            catch (Exception ex)
+            {
+                if (levelCurrent == lFiles.Count)
+                {
+                    CurrentGameState = GameState.EndScreen;
+                }
+                else
+                {
+                    levelCurrent++;
+                }
+            }
 
-            // if (lFiles.Length == 0)
-            // {
-            //      Write "no levels found" somewhere
-            // }
 
             // loop each line into game
-            foreach (string l in lFiles)
+            for (int i = 0; i < lFiles.Count; i++)
             {
                 try
                 {
-                    lRead = new StreamReader(l);
+                    lRead = new StreamReader(lFiles[i]);
                     lvl = " "; //empty string
                     string lvlIn = " "; //String being read
                     //string lCheck = " "; Tells when reader should stop reading. So far have not seen use for it, but keep it just in case.
@@ -258,7 +267,8 @@ namespace UGWProjCode
                 }
                 catch (IOException)
                 {
-                    Console.WriteLine(l + " was not found");
+                    //Console.WriteLine(l + " was not found");
+                    lFiles.Remove(lFiles[i]);
                 }
             }
         }
@@ -279,6 +289,11 @@ namespace UGWProjCode
                 levelCurrent = 0;
 
             }
+            else if (lFiles.Count == 0)
+            {
+                CurrentGameState = GameState.EndScreen;
+            }
+
             else
             {
                 mapY = 42;
@@ -289,7 +304,8 @@ namespace UGWProjCode
                 Random rnd = new Random();
                 //Check for characters
                 //Check for characters
-                foreach (char c in levelDisplay[lNum].ToCharArray())//this is a temporay thing. Textures will change
+                char[] levelLetters = levelDisplay[lNum].ToCharArray();
+                foreach (char c in levelLetters)//this is a temporay thing. Textures will change
                 {
                     //make this 1 player object
                     if (c == '@')
