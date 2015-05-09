@@ -9,6 +9,6 @@ ffffffffffffffBBBBBn
 --------B-----f----n
 --------B--------ffn
 --------xxx--------n
--------xx---f--f---n
+-------xx---ff-f---n
 -----xxxx----------n
 ~-@pppppp-x-----[--n
