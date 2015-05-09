@@ -177,15 +177,15 @@ namespace UGWProjCode
                     //charging to the left
                     if (canCharge == true && closeToBlock == false && plyr.ObjRect.Right - ObjRect.Left >= -150 && plyr.ObjRect.Right - ObjRect.Left < 20 && ((plyr.ObjRect.Bottom) - (ObjRect.Top) <= 80 && (plyr.ObjRect.Bottom) - (ObjRect.Top) >= -80))//only 1 type of enemy can charge
                     {
-                        if (velocity.X > -8)
+                        if (velocity.X > -10)
                         {
                             velocity.X += -1;
                             enemyPos += velocity;
                             chargingState = true;
                         }
-                        else if (velocity.X <= -8)
+                        else if (velocity.X <= -10)
                         {
-                            velocity.X = -8;
+                            velocity.X = -10;
                             enemyPos += velocity;
                             chargingState = true;
                         }
@@ -204,15 +204,15 @@ namespace UGWProjCode
                     if (canCharge == true && closeToBlock == false && ObjRect.Right - plyr.ObjRect.Left >= -150 && ObjRect.Right - plyr.ObjRect.Left < 20 && ((plyr.ObjRect.Bottom) - (ObjRect.Top) <= 80 && (plyr.ObjRect.Bottom) - (ObjRect.Top) >= -80)) //only 1 type of enemy can charge
                     {
 
-                        if (velocity.X < 8)
+                        if (velocity.X < 10)
                         {
                             velocity.X += 1;
                             enemyPos += velocity;
                             chargingState = true;
                         }
-                        else if (velocity.X >= 8)
+                        else if (velocity.X >= 10)
                         {
-                            velocity.X = 8;
+                            velocity.X = 10;
                             enemyPos += velocity;
                             chargingState = true;
                         }

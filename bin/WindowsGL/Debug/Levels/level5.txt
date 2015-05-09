@@ -1,0 +1,14 @@
+m-B----p-DD-B---p-mn
+BB----pBBBpppp---ppn
+-----pB------Bp----n
+p----B--------B---Bn
+---pB------<---Bp--n
+ffffBBBBpppBBBBffffn
+m---f--B---B--f----n
+---f---B-@-B---f~--n
+--f----ffpff----f--n
+------f-----f------n
+f----fx-----xf-----n
+----fxx--m--xxf----n
+--p---xfffffx----f-n
+----[-------------mn

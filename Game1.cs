@@ -231,10 +231,7 @@ namespace UGWProjCode
                 {
                     lFiles.Add(names);
                 }
-               // lFiles.Add("level101.txt");
-               // lFiles.Add("level2.txt");
-               // lFiles.Add("level3.txt");
-               // lFiles.Add("level4.txt");               
+   
             }
             catch (Exception ex)
             {
@@ -637,7 +634,10 @@ namespace UGWProjCode
             }
             for (int i = 0; i < phaseBlocks.Count; i++)
             {
-
+                for (int b = 0; b < enemyGhosts.Count; b++)
+                {
+                    enemyGhosts[b].EnemyCollide(phaseBlocks[i].ObjRect, true);
+                }
                 if (!paulPlayer.IsDead)
                 {
                     BlockCollison(phaseBlocks[i].ObjRect);
@@ -712,7 +712,7 @@ namespace UGWProjCode
             if (paulPlayer.ObjRect.Intersects(blockRec))
             {
                 //If on top, will reset has jumped
-                if (blockRec.Top - paulPlayer.ObjRect.Bottom >= -10 && blockRec.Top - paulPlayer.ObjRect.Bottom < 0 && blockRec.Left + 10 <= paulPlayer.ObjRect.Right && blockRec.Right - 10 >= paulPlayer.ObjRect.X)
+                if (blockRec.Top - paulPlayer.ObjRect.Bottom >= -15 && blockRec.Top - paulPlayer.ObjRect.Bottom < 0 && blockRec.Left + 15 <= paulPlayer.ObjRect.Right && blockRec.Right - 15 >= paulPlayer.ObjRect.X)
                 {
                     paulPlayer.ObjRect = new Rectangle((int)playerPos.X, blockRec.Top - paulPlayer.ObjRect.Height, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
                     playerPos += velocity;
@@ -721,21 +721,21 @@ namespace UGWProjCode
                     velocity.Y = 0f;
                 }
                 //Checks left side of block
-                else if ((blockRec.Left - paulPlayer.ObjRect.Right) >= -10 && (blockRec.Left - paulPlayer.ObjRect.Right) < 0)
+                else if ((blockRec.Left - paulPlayer.ObjRect.Right) >= -15 && (blockRec.Left - paulPlayer.ObjRect.Right) < 0)
                 {
                     paulPlayer.ObjRect = new Rectangle(blockRec.Left - paulPlayer.ObjRect.Width, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
                     playerPos += velocity;
                     playerPos = new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y);
                 }
                 //Checks right side of block
-                else if ((paulPlayer.ObjRect.Left - blockRec.Right) >= -10 && (paulPlayer.ObjRect.Left - blockRec.Right) < 0)
+                else if ((paulPlayer.ObjRect.Left - blockRec.Right) >= -15 && (paulPlayer.ObjRect.Left - blockRec.Right) < 0)
                 {
                     paulPlayer.ObjRect = new Rectangle(blockRec.Right, (int)playerPos.Y, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
                     playerPos += velocity;
                     playerPos = new Vector2(paulPlayer.ObjRect.X, paulPlayer.ObjRect.Y);
                 }
                 //Checks under side of block
-                else if (paulPlayer.ObjRect.Top - blockRec.Bottom >= -10 && paulPlayer.ObjRect.Top - blockRec.Bottom < 0)
+                else if (paulPlayer.ObjRect.Top - blockRec.Bottom >= -15 && paulPlayer.ObjRect.Top - blockRec.Bottom < 0)
                 {
                     paulPlayer.ObjRect = new Rectangle((int)playerPos.X, blockRec.Bottom, paulPlayer.ObjRect.Width, paulPlayer.ObjRect.Height);
                     playerPos += velocity;
