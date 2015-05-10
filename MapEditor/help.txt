@@ -1,4 +1,7 @@
-Note: Provided that each object is size 50x50, you should be able to fit 20 objects on one line, with 14 lines in general.
+Note: Provided that each object is size 50x50, you should be able to fit 19 objects on one line, with 14 lines in general. 
+
+//DO NOT DELETE ANY 'n'
+//THAT TELLS THE READER TO MOVE TO THE NEXT 
 
 
 Legend:
@@ -8,7 +11,7 @@ Legend:
 Note: Provided that each object is size 50x50, you should be able to fit 20 objects on one line, with 14 lines in general.
 
 
-Legend:
+Key:
 
 //General//
 
@@ -19,14 +22,14 @@ m - Memories
 
 x - General  floor blocks
 f - general floating blocks
-B - movable blocks
+
 
 ~ - Deadly block 1 (Ghost)
 ! - Deadly block 2(Ghost)
 d - Deadly block 1 (Physical)
 D - Deadly block 2 (Physical)
-p - Phase blocks
-
+B - Physical Phase blocks
+p - Ghost Phase Blocks
 
 //Enemies//
 ^ - Ghost enemy Up/Down (Starts Up)
