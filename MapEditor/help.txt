@@ -1,7 +1,7 @@
 Note: Provided that each object is size 50x50, you should be able to fit 19 objects on one line, with 14 lines in general. 
 
 //DO NOT DELETE ANY 'n'
-//THAT TELLS THE READER TO MOVE TO THE NEXT 
+//THAT TELLS THE READER TO MOVE TO THE NEXT LINE
 
 
 Legend:
