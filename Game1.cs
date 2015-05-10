@@ -101,8 +101,6 @@ namespace UGWProjCode
         private Vector2 velocity;//the velcotiy of the player jumping/falling
         protected Vector2 playerPos; //the position in relation to the rectangle so it can jump;
 
-        Vector2 fallingBVel;
-
         //sprite in the ghost state will only be one state, so there does not need to be an enum for it.
         // animation enumerators
         enum PhysicalState { PaulFaceRight, PaulFaceLeft, PaulWalkRight, PaulWalkLeft, PaulJumpRight, PaulJumpLeft };

@@ -122,18 +122,6 @@ namespace UGWProjCode
             }
         }
 
-        public void BlockInFront(Rectangle otherrect)
-        {
-            if ((otherrect.Right - ObjRect.Left >= -70 && otherrect.Right - ObjRect.Left < 80) && ((otherrect.Bottom) - (ObjRect.Top) <= 60 && (otherrect.Bottom) - (ObjRect.Top) >= -60) || (ObjRect.Right - otherrect.Left >= -70 && ObjRect.Right - otherrect.Left < 80) && ((otherrect.Bottom) - (ObjRect.Top) <= 60 && (otherrect.Bottom) - (ObjRect.Top) >= -60))
-            {
-                closeToBlock = true;
-            }
-            else
-            {
-                closeToBlock = false;
-            }
-
-        }
 
         /// <summary>
         /// The enemy moves. If dead, the enemy will move up and down or side to side (depending on what direction first starts out with)
@@ -175,7 +163,7 @@ namespace UGWProjCode
                 if (movingDirection == 1)
                 {
                     //charging to the left
-                    if (canCharge == true && closeToBlock == false && plyr.ObjRect.Right - ObjRect.Left >= -150 && plyr.ObjRect.Right - ObjRect.Left < 20 && ((plyr.ObjRect.Bottom) - (ObjRect.Top) <= 80 && (plyr.ObjRect.Bottom) - (ObjRect.Top) >= -80))//only 1 type of enemy can charge
+                    if (canCharge == true && plyr.ObjRect.Right - ObjRect.Left >= -150 && plyr.ObjRect.Right - ObjRect.Left < 20 && ((plyr.ObjRect.Bottom) - (ObjRect.Top) <= 80 && (plyr.ObjRect.Bottom) - (ObjRect.Top) >= -80))//only 1 type of enemy can charge
                     {
                         if (velocity.X > -10)
                         {
@@ -201,7 +189,7 @@ namespace UGWProjCode
                 }
                 if (movingDirection == 3)
                 {    //charging to the right
-                    if (canCharge == true && closeToBlock == false && ObjRect.Right - plyr.ObjRect.Left >= -150 && ObjRect.Right - plyr.ObjRect.Left < 20 && ((plyr.ObjRect.Bottom) - (ObjRect.Top) <= 80 && (plyr.ObjRect.Bottom) - (ObjRect.Top) >= -80)) //only 1 type of enemy can charge
+                    if (canCharge == true && ObjRect.Right - plyr.ObjRect.Left >= -150 && ObjRect.Right - plyr.ObjRect.Left < 20 && ((plyr.ObjRect.Bottom) - (ObjRect.Top) <= 80 && (plyr.ObjRect.Bottom) - (ObjRect.Top) >= -80)) //only 1 type of enemy can charge
                     {
 
                         if (velocity.X < 10)

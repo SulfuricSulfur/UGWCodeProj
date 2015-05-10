@@ -19,9 +19,6 @@ namespace UGWProjCode
         private int spdWithBlock;//the speed of the player while moving the block
         private bool hasJumped;
 
-        //the x and y to parse float to int and use for x and y in rectangle
-        private int xPosV;
-        private int yPosV;
 
         // random objecy
         Random plyRand = new Random();
