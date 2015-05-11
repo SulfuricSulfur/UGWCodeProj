@@ -85,6 +85,9 @@ namespace UGWProjCode
         //other blocks
         Texture2D basicFloat;
         Texture2D basicGround;
+        //background
+        Texture2D background;
+        Color bg = Color.White;
 
         //this clss will be changed as we get more things done
         //these are the objects
@@ -450,6 +453,7 @@ namespace UGWProjCode
             basicGround = Content.Load<Texture2D>("connectivebottom.png");
             memorytexture = Content.Load<Texture2D>("movableblockgrass.png");
             physicalPBlock = Content.Load<Texture2D>("TransBlockPhysGrass.png");
+            background = Content.Load<Texture2D>("spooky scary background w trees.png");
             genBlocks.Add(new GeneralBlock(toprect, top));
             genBlocks.Add(new GeneralBlock(siderectR, sides));
             genBlocks.Add(new GeneralBlock(siderectL, sides));
@@ -942,6 +946,9 @@ namespace UGWProjCode
             GraphicsDevice.Clear(Color.DarkMagenta);
             spriteBatch.Begin();
 
+            //background
+            spriteBatch.Draw(background, new Rectangle(0, 0, background.Width, background.Height), bg);
+
             // gamestates
             switch (CurrentGameState)
             {
@@ -985,6 +992,8 @@ namespace UGWProjCode
                             // draw when paul is dead
                             if (paulPlayer.IsDead == true)
                             {
+                                bg = Color.Red;
+
                                 //deadly blocks
                                 for (int i = 0; i < genBlocks.Count; i++)
                                 {
@@ -1056,6 +1065,8 @@ namespace UGWProjCode
                             // draw if paul is alive
                             else if (paulPlayer.IsDead == false)
                             {
+                                bg = Color.White;
+
                                 for (int i = 0; i < dbPhysical.Count; i++)
                                 {
                                     spriteBatch.Draw(dbPhysical[i].GameTexture, dbPhysical[i].ObjRect, Color.White);

@@ -151,6 +151,12 @@
     <Content Include="Content\resumebutton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\spooky scary background w trees.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\spooky scary background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\stoneborder.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
