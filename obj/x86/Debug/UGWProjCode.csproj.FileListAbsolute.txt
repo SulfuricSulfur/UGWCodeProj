@@ -502,3 +502,7 @@ D:\Users\rxs2833\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\resume
 D:\Users\rxs2833\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\spooky scary background w trees.png
 D:\Users\rxs2833\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\spooky scary background.png
 D:\Users\rxs2833\Documents\GitHub\UGWCodeProj\bin\WindowsGL\Debug\Content\winscreen.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\mainMenu.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\possibleWinScreen.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\spooky scary background w trees.png
+C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\spooky scary background.png
