@@ -1,0 +1,76 @@
+d:\users\njs6145\documents\visual studio 2013\Projects\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+D:\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+D:\MapEditor\MapEditor\bin\Debug\MapEditor.exe
+D:\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
+D:\MapEditor\MapEditor\obj\Debug\MapEditor.csprojResolveAssemblyReference.cache
+D:\MapEditor\MapEditor\obj\Debug\MapEditor.Form1.resources
+D:\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
+D:\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache
+D:\MapEditor\MapEditor\obj\Debug\MapEditor.exe
+D:\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
+F:\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+F:\MapEditor\MapEditor\obj\Debug\MapEditor.exe
+F:\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
+J:\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+J:\MapEditor\MapEditor\obj\Debug\MapEditor.exe
+J:\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
+K:\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+K:\MapEditor\MapEditor\obj\Debug\MapEditor.exe
+K:\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
+K:\MapEditor\MapEditor\bin\Debug\MapEditor.exe
+K:\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
+K:\MapEditor\MapEditor\obj\Debug\MapEditor.csprojResolveAssemblyReference.cache
+K:\MapEditor\MapEditor\obj\Debug\MapEditor.Form1.resources
+K:\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
+K:\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache
+J:\MapEditor\MapEditor\bin\Debug\MapEditor.exe
+J:\MapEditor\MapEditor\obj\Debug\MapEditor.csprojResolveAssemblyReference.cache
+J:\MapEditor\MapEditor\obj\Debug\MapEditor.Form1.resources
+J:\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
+J:\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache
+J:\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
+F:\MapEditor\MapEditor\bin\Debug\MapEditor.exe
+F:\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
+F:\MapEditor\MapEditor\obj\Debug\MapEditor.csprojResolveAssemblyReference.cache
+F:\MapEditor\MapEditor\obj\Debug\MapEditor.Form1.resources
+F:\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
+F:\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache
+D:\Users\njs6145\Desktop\UGWCodeProj-copy\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+D:\Users\njs6145\Desktop\UGWCodeProj-copy\MapEditor\MapEditor\obj\Debug\MapEditor.exe
+D:\Users\njs6145\Desktop\UGWCodeProj-copy\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
+J:\UGWCodeProj-copy2\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+J:\UGWCodeProj-copy2\MapEditor\MapEditor\obj\Debug\MapEditor.exe
+J:\UGWCodeProj-copy2\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
+J:\UGWCodeProj-copy2\MapEditor\MapEditor\bin\Debug\MapEditor.exe
+J:\UGWCodeProj-copy2\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
+J:\UGWCodeProj-copy2\MapEditor\MapEditor\obj\Debug\MapEditor.csprojResolveAssemblyReference.cache
+J:\UGWCodeProj-copy2\MapEditor\MapEditor\obj\Debug\MapEditor.Form1.resources
+J:\UGWCodeProj-copy2\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
+J:\UGWCodeProj-copy2\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache
+J:\UGWCodeProj\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+J:\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.exe
+J:\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
+J:\UGWCodeProj\MapEditor\MapEditor\bin\Debug\MapEditor.exe
+J:\UGWCodeProj\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
+J:\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.csprojResolveAssemblyReference.cache
+J:\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.Form1.resources
+J:\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
+J:\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.exe
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\bin\Debug\MapEditor.exe
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.csprojResolveAssemblyReference.cache
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.Form1.resources
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
+D:\Users\rc7604\UGWCodeProj\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache
+D:\Users\rc7604\UGWCodeProj - Copy\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+D:\Users\rc7604\UGWCodeProj - Copy\MapEditor\MapEditor\obj\Debug\MapEditor.exe
+D:\Users\rc7604\UGWCodeProj - Copy\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
+D:\Users\rc7604\UGWCodeProj - Copy\MapEditor\MapEditor\bin\Debug\MapEditor.exe
+D:\Users\rc7604\UGWCodeProj - Copy\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
+D:\Users\rc7604\UGWCodeProj - Copy\MapEditor\MapEditor\obj\Debug\MapEditor.csprojResolveAssemblyReference.cache
+D:\Users\rc7604\UGWCodeProj - Copy\MapEditor\MapEditor\obj\Debug\MapEditor.Form1.resources
+D:\Users\rc7604\UGWCodeProj - Copy\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
+D:\Users\rc7604\UGWCodeProj - Copy\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache
