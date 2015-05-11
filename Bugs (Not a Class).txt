@@ -1,6 +1,0 @@
-(Please delete a bug from this list if it has been fixed)
-
--Problem with paul walk cycle.
--Pressing the jump button make paul jump one height, but holding it makes him jump higher (Unless that's a mechanic?)
--Enemies phasing through blocks during charge.(It might be related to the transition between worlds)
--At some random point that hasn't been figured out yet, player speed will be permaneantly set to 'slightly faster' and animation works fine.
