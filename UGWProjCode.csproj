@@ -139,6 +139,9 @@
     <Content Include="Content\playbutton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\possibleWinScreen.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\quitbutton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1177,7 +1177,7 @@ namespace UGWProjCode
 
                 // win screen
                 case GameState.EndScreen:
-                    spriteBatch.Draw(Content.Load<Texture2D>("endscreen"), new Rectangle(0, 0, 1024, 768), Color.White);
+                    spriteBatch.Draw(Content.Load<Texture2D>("possibleWinScreen"), new Rectangle(0, 0, 1024, 768), Color.White);
                     btnBackPause.Draw(spriteBatch);
                     break;
             }
