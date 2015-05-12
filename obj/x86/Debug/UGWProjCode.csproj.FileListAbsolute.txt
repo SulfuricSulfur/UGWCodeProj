@@ -506,3 +506,6 @@ C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\mainMenu.png
 C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\possibleWinScreen.png
 C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\spooky scary background w trees.png
 C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\spooky scary background.png
+D:\UGWCodeProj\bin\WindowsGL\Debug\Content\possibleWinScreen.png
+D:\UGWCodeProj\bin\WindowsGL\Debug\Content\spooky scary background w trees.png
+D:\UGWCodeProj\bin\WindowsGL\Debug\Content\spooky scary background.png

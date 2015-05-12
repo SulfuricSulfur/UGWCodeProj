@@ -2,7 +2,7 @@
 --f--p---f---p--f--n
 -fBBBBppBfBppBBBBf-n
 --B------B------B--n
-f-B>-----B-----<B-fn
+f-p>-----B-----<p-fn
 fBpppfffffffffpppBfn
 -------------------n
 ------~--@---D-----n
