@@ -509,3 +509,5 @@ C:\Users\Eljia\Desktop\UGWCodeProj\bin\WindowsGL\Debug\Content\spooky scary back
 D:\UGWCodeProj\bin\WindowsGL\Debug\Content\possibleWinScreen.png
 D:\UGWCodeProj\bin\WindowsGL\Debug\Content\spooky scary background w trees.png
 D:\UGWCodeProj\bin\WindowsGL\Debug\Content\spooky scary background.png
+C:\Users\Nathan\Documents\GitHub\UGWCodeProj\obj\x86\Debug\UGWProjCode.exe
+C:\Users\Nathan\Documents\GitHub\UGWCodeProj\obj\x86\Debug\UGWProjCode.pdb

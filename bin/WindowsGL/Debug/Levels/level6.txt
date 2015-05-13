@@ -8,7 +8,7 @@ fBpppfffffffffpppBfn
 ------~--@---D-----n
 fpBBBfffffffffBBBpfn
 --B------p------B--n
---p{-----p-----}p--n
+--p{-----p------p--n
 -fppppBBBxBBBppppf-n
 --f--B---x---B--f--n
 f-!fB!-mpxpm-!Bf!-fn
