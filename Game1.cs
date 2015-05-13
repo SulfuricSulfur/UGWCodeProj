@@ -202,7 +202,7 @@ namespace UGWProjCode
             btnHelp.setPosition(new Vector2(448, 400));
             btnCredit.setPosition(new Vector2(448, 500)); //credits
             btnQuit.setPosition(new Vector2(448, 600));
-            btnBack.setPosition(new Vector2(148, 600));
+            btnBack.setPosition(new Vector2(100, 700));
             btnBackPause.setPosition(new Vector2(448, 550)); //the main menu button in the pause menu
             btnRestart.setPosition(new Vector2(448, 450)); //restart button in the pause button
             btnResume.setPosition(new Vector2(448, 350));
@@ -1176,13 +1176,13 @@ namespace UGWProjCode
 
                 // help screen
                 case GameState.Help:
-                    spriteBatch.Draw(Content.Load<Texture2D>("helpbg"), new Rectangle(0, 0, 1024, 768), Color.White);
+                    spriteBatch.Draw(Content.Load<Texture2D>("helpmenu"), new Rectangle(0, 0, 1024, 768), Color.White);
                     btnBack.Draw(spriteBatch);
                     break;
 
                 // credits screen
                 case GameState.Credits:
-                    spriteBatch.Draw(Content.Load<Texture2D>("creditsbg"), new Rectangle(0, 0, 1024, 768), Color.White);
+                    spriteBatch.Draw(Content.Load<Texture2D>("creditsmenu"), new Rectangle(0, 0, 1024, 768), Color.White);
                     btnBack.Draw(spriteBatch);
                     break;
 

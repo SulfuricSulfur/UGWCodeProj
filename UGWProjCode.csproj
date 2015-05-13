@@ -82,6 +82,9 @@
     <Content Include="Content\creditsbutton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\creditsmenu.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\DeadlyBlockGhost.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -110,6 +113,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\helpbutton.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\helpmenu.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\mainbg.png">
