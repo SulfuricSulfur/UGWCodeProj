@@ -4,8 +4,8 @@ BB----pBBBpppp---ppn
 p----B--------B---Bn
 ---pB------<---Bp--n
 ffffBBBBpppBBBBffffn
-m---f--B------f----n
----f---B-@-----f~--n
+m---f--B---B--f----n
+---f---B-@-B---f~--n
 --f----ffpff----f--n
 ------f-----f------n
 f----fx-----xf-----n

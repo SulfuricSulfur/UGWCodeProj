@@ -4,11 +4,11 @@ BBBBBBBB--x--------n
 --v------^x--------n
 ----------x--p-----n
 BB--BBBBBBfBBffffffn
--------------d-----n
+----------d--------n
 ffffffffffffffBBBBBn
 --------B-----f----n
 --------B--------ffn
---------xxx--------n
+--------xxx-----f--n
 -------xx---ff-f---n
 -----xxxx----------n
 ~-@pppppp-x-----[--n

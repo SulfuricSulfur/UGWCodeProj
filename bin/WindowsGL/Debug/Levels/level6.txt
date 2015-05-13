@@ -1,6 +1,6 @@
 --Dfp--mBfBm--pfD--n
 --f--p---f---p--f--n
--fBBBBppBfBppBBBBf-n
+-fBBBpppBfBpppBBBf-n
 --B------B------B--n
 f-p>-----B-----<p-fn
 fBpppfffffffffpppBfn
@@ -8,7 +8,7 @@ fBpppfffffffffpppBfn
 ------~--@---D-----n
 fpBBBfffffffffBBBpfn
 --B------p------B--n
---p{-----p------p--n
--fppppBBBxBBBppppf-n
+--p{-----p-----}p--n
+-fpppBBBBxBBBBpppf-n
 --f--B---x---B--f--n
 f-!fB!-mpxpm-!Bf!-fn
